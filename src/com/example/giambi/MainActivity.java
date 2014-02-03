@@ -58,7 +58,6 @@ public class MainActivity extends Activity {
     }
 
     protected void jumpToRegister() {
-        // TODO 自动生成的方法存根
         
     }
 }

@@ -5,6 +5,8 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
@@ -23,6 +25,15 @@ public class LoginActivity extends Activity {
         MultiAutoCompleteTextView username =
                 (MultiAutoCompleteTextView) this.findViewById(R.id.login_username);
         TextView password = (TextView) this.findViewById(R.id.login_password);
+        login.setOnClickListener(new OnClickListener(){
+
+    		@Override
+    		public void onClick(View arg0) {
+    			// Verify user input, and if valid, perform login action
+    			
+    		}
+        	
+        });
     }
 
     /**
