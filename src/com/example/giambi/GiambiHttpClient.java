@@ -9,9 +9,6 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.mortbay.util.ajax.JSON;
-
-import com.google.gwt.http.client.URL;
 
 import android.os.AsyncTask;
 import android.util.Log;
