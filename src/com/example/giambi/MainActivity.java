@@ -58,6 +58,14 @@ public class MainActivity extends Activity {
     }
 
     protected void jumpToRegister() {
+<<<<<<< HEAD
         
+=======
+    	Intent intent = new Intent();
+        intent.setClass(this, RegisterActivity.class);
+        startActivity(intent);
+
+        overridePendingTransition(R.anim.in_from_right, R.anim.zoom_out);
+>>>>>>> f08a71bce8557c71c2f3408a2e5550c904da3935
     }
 }

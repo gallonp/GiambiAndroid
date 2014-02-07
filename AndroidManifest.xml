@@ -6,7 +6,12 @@
 
     <uses-sdk
         android:minSdkVersion="14"
+<<<<<<< HEAD
         android:targetSdkVersion="18" />
+=======
+        android:targetSdkVersion="19" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+>>>>>>> f08a71bce8557c71c2f3408a2e5550c904da3935
 
     <application
         android:allowBackup="true"
@@ -30,6 +35,18 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.giambi.MainActivity" />
         </activity>
+<<<<<<< HEAD
+=======
+        <activity android:name="com.example.giambi.RegisterActivity" 
+            
+            android:parentActivityName="com.example.giambi.MainActivity" >
+                      
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.giambi.MainActivity" />
+        </activity>
+        
+>>>>>>> f08a71bce8557c71c2f3408a2e5550c904da3935
     </application>
 
 </manifest>
