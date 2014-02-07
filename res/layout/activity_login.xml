@@ -57,8 +57,6 @@
         android:text="Login"
         android:textColor="@android:color/white" />
 
-<<<<<<< HEAD
-=======
     <EditText
         android:id="@+id/logResult"
         android:layout_width="match_parent"
@@ -66,5 +64,4 @@
         android:ems="10"
         android:inputType="textMultiLine" />
 
->>>>>>> f08a71bce8557c71c2f3408a2e5550c904da3935
 </LinearLayout>
