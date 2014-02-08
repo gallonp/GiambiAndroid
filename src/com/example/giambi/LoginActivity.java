@@ -13,6 +13,8 @@ import org.json.simple.JSONObject;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.DialogFragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -47,39 +49,46 @@ public class LoginActivity extends Activity {
         public void onClick(View v) {
             String name = username.getText().toString();
             String pwd = password.getText().toString();
-            String authResult = authenticate(name, pwd);
+            String authResult = "";
+            // Checks the validity of the username&password
+            if (Util.checkLogin(name, pwd)) {
+                authResult = authenticate(name, pwd);
+            } else {
+                Log.i("Login Error", "Invalid username or password");
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                Bundle bundle = new Bundle();
+                
+                switch (Util.checkUserName(name)){
+                case Util.USERNAME_EMPTY:
+                    bundle.putString("message", getString(R.string.dialog_message_username_empty));
+                    break;
+                case Util.USERNAME_LENGTH:
+                    bundle.putString("message", getString(R.string.dialog_message_username_length));
+                    break;
+                case Util.USERNAME_NOT_EMAIL:
+                    bundle.putString("message", getString(R.string.dialog_message_username_not_email));
+                    break;
+                default:
+                    switch (Util.checkPassword(pwd)){
+                    case Util.PASSWORD_EMPTY:
+                        bundle.putString("message", getString(R.string.dialog_message_password_empty)); 
+                        break;
+                    case Util.PASSWORD_LENGTH:
+                        bundle.putString("message", getString(R.string.dialog_message_password_length));
+                        break;
+                    case Util.PASSWORD_EASY:
+                        bundle.putString("message", getString(R.string.dialog_message_password_easy));
+                        break;
+                    }
+                }
+                DialogFragment dialog = new InvalidUsernameOrPasswordDialogFragment();
+                dialog.setArguments(bundle);
+                dialog.show(ft, "dialog");
+            }
             TextView tv = (TextView) findViewById(R.id.logResult);
             tv.setText(authResult);
-            // Button login = (Button)v;
-            // login.setText(pwd);
-
         }
     };
-
-    /**
-     * @param username
-     * @return
-     */
-    private boolean checkUserName(String username) {
-        return false;
-    }
-
-    /**
-     * @param password
-     * @return
-     */
-    private boolean checkPassword(String password) {
-        return false;
-    }
-
-    /**
-     * @param username
-     * @param password
-     * @return
-     */
-    private boolean checkLogin(String username, String password) {
-        return false;
-    }
 
     @SuppressWarnings("unchecked")
     private String authenticate(String username, String password) {
@@ -92,27 +101,25 @@ public class LoginActivity extends Activity {
         jsonObj.put("password", password);
         List<NameValuePair> postParams = new ArrayList<NameValuePair>();
         postParams.add(new BasicNameValuePair("json", jsonObj.toString()));
-        UrlEncodedFormEntity entity;
+        UrlEncodedFormEntity entity = null;
         Log.v("authenticate", "JSON ready");
         try {
             entity = new UrlEncodedFormEntity(postParams, "UTF-8");
+            request.setEntity(entity);
+            String content = "";
+            try {
+                content = Util.HttpContentReader(GiambiHttpClient
+                        .getResponse(request).getEntity().getContent());
+            } catch (IllegalStateException e) {
+                content = e.getMessage();
+            } catch (IOException e) {
+                content = e.getMessage();
+            }
+            return content;
         } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
-            Log.e("EncodedForm", e.toString());
-            entity = null;
+            Log.e("EncodedFormError", e.toString());
+            return "";
         }
-
-        request.setEntity(entity);
-        String content = "";
-        try {
-            content = Util.HttpContentReader(GiambiHttpClient
-                    .getResponse(request).getEntity().getContent());
-        } catch (IllegalStateException e) {
-            content = e.getMessage();
-        } catch (IOException e) {
-            content = e.getMessage();
-        }
-        return content;
     }
 
     /**

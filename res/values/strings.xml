@@ -10,5 +10,12 @@
     <string name="confirmPassword">Confirm Password</string>
     <string name="register">Register</string>
     <string name="registerPageIcon">Register page icon</string>
-
+    <string name="dialog_OK">OK</string>
+    <string name="dialog_message_username_empty">Invalid username. Username can not be empty.</string>
+    <string name="dialog_message_username_length">Invalid username. Username needs to be longer than 6 spaces.</string>
+    <string name="dialog_message_username_not_email">Invalid username. Username needs to be a valid email.</string>
+    <string name="dialog_message_password_empty">Invalid password. Password can not be empty.</string>
+    <string name="dialog_message_password_length">Invalid password. Password needs to be longer than 8 spaces.</string>
+    <string name="dialog_message_password_easy">Invalid password. Password can not be all numbers.</string>
+    
 </resources>

@@ -54,7 +54,6 @@ public class MainActivity extends Activity {
         Intent intent = new Intent();
         intent.setClass(this, LoginActivity.class);
         startActivity(intent);
-
         overridePendingTransition(R.anim.in_from_right, R.anim.zoom_out);
     }
 
