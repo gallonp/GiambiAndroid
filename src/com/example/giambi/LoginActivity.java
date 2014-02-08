@@ -58,6 +58,7 @@ public class LoginActivity extends Activity {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 Bundle bundle = new Bundle();
                 
+                //Check which kind of error the username has
                 switch (Util.checkUserName(name)){
                 case Util.USERNAME_EMPTY:
                     bundle.putString("message", getString(R.string.dialog_message_username_empty));
