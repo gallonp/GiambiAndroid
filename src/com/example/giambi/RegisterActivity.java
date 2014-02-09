@@ -89,7 +89,7 @@ public class RegisterActivity extends Activity {
         // URL url = new URL("")
         // should be HttpGet
         HttpPost request = new HttpPost(
-                "http://giambi-server-2340.appspot.com/registerLogin");
+                "http://giambi-server-2340.appspot.com/register");
         JSONObject jsonObj = new JSONObject();
         jsonObj.put("username", username);
         jsonObj.put("password", password);
