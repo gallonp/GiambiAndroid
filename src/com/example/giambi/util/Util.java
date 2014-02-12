@@ -1,9 +1,11 @@
-package com.example.giambi;
+package com.example.giambi.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
+import com.example.giambi.model.LoginAccount;
 
 import android.util.Log;
 
@@ -82,7 +84,7 @@ public class Util {
      * @param password
      * @return
      */
-    public static boolean checkLogin(String username, String password) {
-        return (checkUserName(username) == 0) && (checkPassword(password) == 0);
+    public static boolean checkLogin(LoginAccount loginAccount) {
+        return (checkUserName(loginAccount.getUsername()) == 0) && (checkPassword(loginAccount.getPassword()) == 0);
     }
 }
