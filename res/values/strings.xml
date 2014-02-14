@@ -17,5 +17,6 @@
     <string name="dialog_message_password_empty">Invalid password. Password can not be empty.</string>
     <string name="dialog_message_password_length">Invalid password. Password needs to be longer than 8 spaces.</string>
     <string name="dialog_message_password_easy">Invalid password. Password can not be all numbers.</string>
+    <string name="dialog_message_password_not_match">Please confirm your passwords. Both have to match</string>
     
 </resources>

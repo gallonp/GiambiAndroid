@@ -102,6 +102,9 @@ public class RegisterActivity extends Activity implements RegisterView{
             case Util.PASSWORD_EASY:
                 bundle.putString("message", getString(R.string.dialog_message_password_easy));
                 break;
+            case Util.PASSWORD_NOT_MATCH:
+            	 bundle.putString("message", getString(R.string.dialog_message_password_not_match));
+                 break;
             }
         }
 		

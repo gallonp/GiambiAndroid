@@ -30,9 +30,9 @@ public class RegisterPresenter {
 					// check two passwords;
 					if (v.getPassword1().equalsIgnoreCase(v.getPassword2())) {
 						authResult = account.register();
-						v.setResonpseText("Register Succeeded!!!");
+						v.setResonpseText(authResult);
 					} else {
-						v.setResonpseText("Confirm passwords should be the same!");
+						v.setDialogMessage(0, Util.PASSWORD_NOT_MATCH);
 					}
 				} else {
 					int usernameErrorCode = Util.checkUserName(account
