@@ -55,11 +55,10 @@
         android:text="@string/register"
         android:textColor="@android:color/white" />
 
-    <EditText
+    <TextView
         android:id="@+id/registerResult"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textMultiLine" />
+        android:ems="10" />
 
 </LinearLayout>

@@ -74,8 +74,10 @@ public class LoginAccount {
 	public String authenticate() throws AuthenticateException {
 		String encodedUsername = encodeString(username);
 		String encodedPassword = encodeString(password);
+//		HttpPost request = new HttpPost(
+//				"http://giambi-server-2340.appspot.com/login");
 		HttpPost request = new HttpPost(
-				"http://giambi-server-2340.appspot.com/login");
+                "http://10.0.2.2:8888/register");
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("username", encodedUsername);
 		jsonObj.put("password", encodedPassword);
