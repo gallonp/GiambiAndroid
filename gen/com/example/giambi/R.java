@@ -49,25 +49,28 @@ public final class R {
         public static final int welcome_login=0x7f0a0006;
     }
     public static final class layout {
-        public static final int activity_login=0x7f030000;
-        public static final int activity_welcom_page=0x7f030001;
-        public static final int register=0x7f030002;
+        public static final int account_page=0x7f030000;
+        public static final int activity_login=0x7f030001;
+        public static final int activity_welcom_page=0x7f030002;
+        public static final int register=0x7f030003;
     }
     public static final class menu {
         public static final int login=0x7f090000;
         public static final int welcom_page=0x7f090001;
     }
     public static final class string {
+        public static final int account=0x7f070009;
         public static final int action_settings=0x7f070001;
         public static final int app_name=0x7f070000;
         public static final int confirmPassword=0x7f070006;
-        public static final int dialog_OK=0x7f070009;
-        public static final int dialog_message_password_easy=0x7f07000f;
-        public static final int dialog_message_password_empty=0x7f07000d;
-        public static final int dialog_message_password_length=0x7f07000e;
-        public static final int dialog_message_username_empty=0x7f07000a;
-        public static final int dialog_message_username_length=0x7f07000b;
-        public static final int dialog_message_username_not_email=0x7f07000c;
+        public static final int dialog_OK=0x7f07000a;
+        public static final int dialog_message_password_easy=0x7f070010;
+        public static final int dialog_message_password_empty=0x7f07000e;
+        public static final int dialog_message_password_length=0x7f07000f;
+        public static final int dialog_message_password_not_match=0x7f070011;
+        public static final int dialog_message_username_empty=0x7f07000b;
+        public static final int dialog_message_username_length=0x7f07000c;
+        public static final int dialog_message_username_not_email=0x7f07000d;
         public static final int emailAddress=0x7f070004;
         public static final int hello_world=0x7f070002;
         public static final int password=0x7f070005;
@@ -80,11 +83,7 @@ public final class R {
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     
-
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        
+ Application theme. 
 
         Base application theme for API 11+. This theme completely replaces
         AppBaseTheme from res/values/styles.xml on API 11+ devices.
@@ -98,9 +97,10 @@ public final class R {
  API 14 theme customizations can go here. 
          */
         public static final int AppBaseTheme=0x7f080000;
-        /**  Application theme. 
- All customizations that are NOT specific to a particular API-level can go here. 
+        /**  API 14 theme customizations can go here. 
+ API 14 theme customizations can go here. 
+ API 14 theme customizations can go here. 
          */
-        public static final int AppTheme=0x7f080001;
+        public static final int AppFullscreenTheme=0x7f080001;
     }
 }

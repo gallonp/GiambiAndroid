@@ -1,16 +1,5 @@
 package com.example.giambi;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.simple.JSONObject;
-
 import com.example.giambi.model.LoginAccount;
 import com.example.giambi.presenter.RegisterPresenter;
 import com.example.giambi.util.Util;
@@ -20,8 +9,6 @@ import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
@@ -45,7 +32,7 @@ public class RegisterActivity extends Activity implements RegisterView{
         password1 = (TextView) this.findViewById(R.id.registerPassword1);
         password2 = (TextView) this.findViewById(R.id.registerPassword2);
         resultText = (TextView) findViewById(R.id.registerResult);
-       registerPresenter = new RegisterPresenter(this);
+        registerPresenter = new RegisterPresenter(this);
     }
 
 //   
@@ -110,37 +97,3 @@ public class RegisterActivity extends Activity implements RegisterView{
 		
 	}
 }
-
-//@SuppressWarnings("unchecked")
-//private String register(String username, String password) {
-//  // URL url = new URL("")
-//  // should be HttpGet
-//  HttpPost request = new HttpPost(
-//          "http://giambi-server-2340.appspot.com/register");
-//  JSONObject jsonObj = new JSONObject();
-//  jsonObj.put("username", username);
-//  jsonObj.put("password", password);
-//  List<NameValuePair> postParams = new ArrayList<NameValuePair>();
-//  postParams.add(new BasicNameValuePair("json", jsonObj.toString()));
-//  UrlEncodedFormEntity entity;
-//  Log.v("authenticate", "JSON ready");
-//  try {
-//      entity = new UrlEncodedFormEntity(postParams, "UTF-8");
-//  } catch (UnsupportedEncodingException e) {
-//      // TODO Auto-generated catch block
-//      Log.e("EncodedForm", e.toString());
-//      entity = null;
-//  }
-//  request.setEntity(entity);
-//  String content = "";
-//  try {
-//      content = Util.HttpContentReader(GiambiHttpClient
-//              .getResponse(request).getEntity().getContent());
-//  } catch (IllegalStateException e) {
-//      content = e.getMessage();
-//  } catch (IOException e) {
-//      content = e.getMessage();
-//  }
-//  return content;
-//}
-

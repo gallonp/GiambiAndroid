@@ -28,7 +28,7 @@ public class RegisterPresenter {
 			try {
 				if (Util.checkLogin(account)) {
 					// check two passwords;
-					if (v.getPassword1().equalsIgnoreCase(v.getPassword2())) {
+					if (v.getPassword1().equals(v.getPassword2())) {
 						authResult = account.register();
 						v.setResonpseText(authResult);
 					} else {

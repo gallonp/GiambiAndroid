@@ -12,7 +12,6 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.simple.JSONObject;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.giambi.GiambiHttpClient;
@@ -35,8 +34,10 @@ public class LoginAccount {
 	public String register() throws RegisterException {
 		String encodedUsername = encodeString(username);
 		String encodedPassword = encodeString(password);
+//		HttpPost request = new HttpPost(
+//				"http://giambi-server-2340.appspot.com/register");
 		HttpPost request = new HttpPost(
-				"http://giambi-server-2340.appspot.com/register");
+                "http://10.0.2.2:8888/register");
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("username", encodedUsername);
 		jsonObj.put("password", encodedPassword);
@@ -104,30 +105,7 @@ public class LoginAccount {
 				throw new AuthenticateException("Unknown Error");
 			} else {
 				return content;
-//				throw new AuthenticateException(content);
 			}
-//		}
-		//
-		// String content = "";
-		// try {
-		// content = Util.HttpContentReader((GiambiHttpClient.getResponse(
-		// request).getEntity().getContent()));
-
-		// JSONParser parser = new JSONParser();
-		// JSONObject parsedResponse;
-		// try {
-		// parsedResponse = (JSONObject) parser.parse(content);
-		// String cookie = (String) parsedResponse.get("cookie");
-		// if (cookie != null) {
-		// this.cookie = cookie;
-		// return true;
-		// } else {
-		// throw new AuthenticateException("Empty cookie!");
-		// }
-		// } catch (ParseException e) {
-		// Log.e("Parse response", e.getMessage());
-		// throw new AuthenticateException(content);
-		// }
 	}
 
 	private UrlEncodedFormEntity jsonToEntity(JSONObject obj){

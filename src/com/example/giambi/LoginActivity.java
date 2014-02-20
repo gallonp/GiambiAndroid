@@ -1,22 +1,5 @@
 package com.example.giambi;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpParams;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
-
-import com.example.giambi.model.LoginAccount;
 import com.example.giambi.presenter.LoginPresenter;
 import com.example.giambi.util.Util;
 import com.example.giambi.view.LoginView;
@@ -28,10 +11,8 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 
 public class LoginActivity extends Activity implements LoginView {
@@ -47,7 +28,7 @@ public class LoginActivity extends Activity implements LoginView {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		// Show the Up button in the action bar.
-		setupActionBar();
+//		setupActionBar();
 		login = (Button) this.findViewById(R.id.login_button);
 		username = (TextView) this.findViewById(R.id.login_username);
 		password = (TextView) this.findViewById(R.id.login_password);
@@ -130,81 +111,4 @@ public class LoginActivity extends Activity implements LoginView {
 		dialog.show(ft, "dialog");
 	}
 
-	// @SuppressWarnings("unchecked")
-	// private String authenticate(String username, String password) {
-	// // URL url = new URL("")
-	// // should be HttpGet
-	// String encodedUsername = "";
-	// String encodedPassword = "";
-	// try {
-	// encodedUsername = URLEncoder.encode(username, "UTF-8");
-	// encodedPassword = URLEncoder.encode(password, "UTF-8");
-	// Log.v("coded username", encodedUsername);
-	// Log.v("coded password", encodedPassword);
-	//
-	// } catch (UnsupportedEncodingException e1) {
-	// // TODO Auto-generated catch block
-	// e1.printStackTrace();
-	// }
-	// HttpPost request = new HttpPost(
-	// "http://giambi-server-2340.appspot.com/login");
-	// JSONObject jsonObj = new JSONObject();
-	// jsonObj.put("username", encodedUsername);
-	// jsonObj.put("password", encodedPassword);
-	// // HttpParams params = new BasicHttpParams();
-	// // params.setParameter("json",jsonObj.toJSONString());
-	// // request.setParams(params);
-	// List<NameValuePair> postParams = new ArrayList<NameValuePair>();
-	// postParams.add(new BasicNameValuePair("json", jsonObj.toString()));
-	// UrlEncodedFormEntity entity;
-	// Log.v("authenticate", "JSON ready");
-	// try {
-	// entity = new UrlEncodedFormEntity(postParams, "UTF-8");
-	// } catch (UnsupportedEncodingException e) {
-	// Log.e("EncodedForm", e.toString());
-	// entity = null;
-	// }
-	// request.setEntity(entity);
-	// // JSONObject parsedObj = (JSONObject)
-	// // JSONValue.parse(request.getParams().getParameter("json").toString());
-	// //
-	// Log.v("request params",request.getParams().getParameter("json").toString());
-	// // Log.v("json parsed obj",(String)parsedObj.get("username"));
-	// // String content = "";
-	// String content = "";
-	// try {
-	// content = Util.HttpContentReader((GiambiHttpClient.getResponse(
-	// request).getEntity().getContent()));
-	// } catch (IllegalStateException e) {
-	// // TODO Auto-generated catch block
-	// Log.e("IllegalStateException", e.getMessage());
-	// e.printStackTrace();
-	// } catch (IOException e) {
-	// // TODO Auto-generated catch block
-	// Log.e("IOException", e.getMessage());
-	// e.printStackTrace();
-	// }
-	// return content;
-	// // List<NameValuePair> postParams = new ArrayList<NameValuePair>();
-	// // postParams.add(new BasicNameValuePair("json", jsonObj.toString()));
-	// // UrlEncodedFormEntity entity = null;
-	// // Log.v("authenticate", "JSON ready");
-	// // try {
-	// // entity = new UrlEncodedFormEntity(postParams, "UTF-8");
-	// // //request.setEntity(entity);
-	// // String content = "";
-	// // try {
-	// // content = Util.HttpContentReader(GiambiHttpClient
-	// // .getResponse(request).getEntity().getContent());
-	// // } catch (IllegalStateException e) {
-	// // content = e.getMessage();
-	// // } catch (IOException e) {
-	// // content = e.getMessage();
-	// // }
-	// // return content;
-	// // } catch (UnsupportedEncodingException e) {
-	// // Log.e("EncodedFormError", e.toString());
-	// // return "";
-	// // }
-	// }
 }
