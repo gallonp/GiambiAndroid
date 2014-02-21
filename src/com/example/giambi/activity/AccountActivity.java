@@ -1,12 +1,7 @@
-package com.example.giambi;
+package com.example.giambi.activity;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import android.app.ActionBar;
@@ -26,6 +21,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.giambi.R;
 import com.example.giambi.model.BankAccount;
 import com.example.giambi.model.LoginAccount;
 import com.example.giambi.presenter.AccountPresenter;
@@ -80,12 +76,6 @@ public class AccountActivity extends Activity implements AccountView {
         listView.setOnItemClickListener(l);
     }
 
-    private void addOnOptionsItemSelected(OnMenuItemClickListener listener) {
-        for (MenuItem item : menuItems) {
-            item.setOnMenuItemClickListener(listener);
-        }
-    }
-
     @Override
     public String getUsername() {
         return loginAcc.getUsername();
@@ -113,6 +103,10 @@ public class AccountActivity extends Activity implements AccountView {
         protected TextView date;
     }
 
+    /**
+     * Adapter for ListView.
+     * @author cwl
+     */
     public class MyAdapter extends BaseAdapter{
 
         private LayoutInflater mInflater;
@@ -164,4 +158,12 @@ public class AccountActivity extends Activity implements AccountView {
             return convertView;
         }
     }
+
+
+    private void addOnOptionsItemSelected(OnMenuItemClickListener listener) {
+        for (MenuItem item : menuItems) {
+            item.setOnMenuItemClickListener(listener);
+        }
+    }
+
 }

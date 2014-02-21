@@ -1,5 +1,8 @@
 package com.example.giambi;
 
+import com.example.giambi.activity.LoginActivity;
+import com.example.giambi.activity.RegisterActivity;
+
 import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.Activity;

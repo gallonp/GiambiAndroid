@@ -8,7 +8,10 @@ import java.util.regex.Pattern;
 
 import com.example.giambi.model.LoginAccount;
 
+import android.content.Context;
 import android.util.Log;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 public class Util {
     public static final int USERNAME_EMPTY = 1;
@@ -96,5 +99,16 @@ public class Util {
     		return true;
     	}
         return (checkUserName(username) == 0) && (checkPassword(password) == 0);
+    }
+
+    public static void imeSwitch(View v, boolean isFocus) {
+        InputMethodManager imm =
+                (InputMethodManager) v.getContext()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        if(isFocus) {
+            imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+        } else {
+            imm.hideSoftInputFromWindow(v.getWindowToken(),0);
+        }
     }
 }

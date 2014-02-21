@@ -1,5 +1,7 @@
-package com.example.giambi;
+package com.example.giambi.activity;
 
+import com.example.giambi.InvalidUsernameOrPasswordDialogFragment;
+import com.example.giambi.R;
 import com.example.giambi.model.LoginAccount;
 import com.example.giambi.presenter.LoginPresenter;
 import com.example.giambi.util.Util;
@@ -11,8 +13,10 @@ import android.app.DialogFragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
@@ -35,11 +39,13 @@ public class LoginActivity extends Activity implements LoginView {
 		username = (TextView) this.findViewById(R.id.login_username);
 		password = (TextView) this.findViewById(R.id.login_password);
 		output = (TextView) findViewById(R.id.logResult);
+		username.requestFocus();
+        onFocusChange(username.isFocused());
 		loginPresenter = new LoginPresenter(this);
 		
 	}
 
-	/**
+    /**
 	 * Set up the {@link android.app.ActionBar}.
 	 */
 	private void setupActionBar() {
@@ -121,5 +127,17 @@ public class LoginActivity extends Activity implements LoginView {
 		dialog.setArguments(bundle);
 		dialog.show(ft, "dialog");
 	}
+
+    private void onFocusChange(boolean hasFocus) {
+        final boolean isFocus = hasFocus;
+        
+        (new Handler()).postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                com.example.giambi.util.Util.imeSwitch((View) username, isFocus);  //Switch IME
+            }
+        }, 100);
+    }
 
 }

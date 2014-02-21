@@ -16,6 +16,11 @@
     <string name="register">Register</string>
     <string name="registerPageIcon">Register page icon</string>
     <string name="account">Account</string>
+    <string name="account_name">Account Name</string>
+    <string name="bank_name">Bank Name</string>
+    <string name="account_number">Account Num</string>
+    <string name="current_balance">Current Balance</string>
+    <string name="add">Add</string>
     <string name="dialog_OK">OK</string>
     <string name="dialog_message_username_empty">Invalid username. Username can not be empty.</string>
     <string name="dialog_message_username_length">Invalid username. Username needs to be longer than 6 spaces.</string>

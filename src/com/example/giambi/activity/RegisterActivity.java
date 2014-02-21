@@ -1,5 +1,10 @@
-package com.example.giambi;
+package com.example.giambi.activity;
 
+import com.example.giambi.InvalidUsernameOrPasswordDialogFragment;
+import com.example.giambi.R;
+import com.example.giambi.R.id;
+import com.example.giambi.R.layout;
+import com.example.giambi.R.string;
 import com.example.giambi.model.LoginAccount;
 import com.example.giambi.presenter.RegisterPresenter;
 import com.example.giambi.util.Util;

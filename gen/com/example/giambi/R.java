@@ -35,27 +35,35 @@ public final class R {
         public static final int ic_launcher=0x7f020003;
     }
     public static final class id {
+        public static final int accAccNumInput=0x7f0a000e;
+        public static final int accAliasInput=0x7f0a000b;
+        public static final int accBalanceInput=0x7f0a0010;
+        public static final int accBankInput=0x7f0a000c;
+        public static final int accountAddButton=0x7f0a0011;
         public static final int account_list=0x7f0a0000;
-        public static final int action_exit=0x7f0a0017;
-        public static final int bAccount_alias=0x7f0a000f;
-        public static final int bAccount_bName=0x7f0a0010;
-        public static final int bAccount_balance=0x7f0a0011;
-        public static final int bAccount_date=0x7f0a0012;
-        public static final int create_new_item=0x7f0a0015;
+        public static final int action_exit=0x7f0a001f;
+        public static final int addAccText1=0x7f0a000a;
+        public static final int bAccount_alias=0x7f0a0017;
+        public static final int bAccount_bName=0x7f0a0018;
+        public static final int bAccount_balance=0x7f0a0019;
+        public static final int bAccount_date=0x7f0a001a;
+        public static final int create_new_item=0x7f0a001d;
         public static final int logResult=0x7f0a0005;
         public static final int login_button=0x7f0a0004;
         public static final int login_password=0x7f0a0003;
         public static final int login_username=0x7f0a0002;
-        public static final int logout=0x7f0a0016;
-        public static final int refresh=0x7f0a0013;
-        public static final int registerButton=0x7f0a000d;
-        public static final int registerPassword1=0x7f0a000b;
-        public static final int registerPassword2=0x7f0a000c;
-        public static final int registerResult=0x7f0a000e;
-        public static final int register_icon=0x7f0a000a;
-        public static final int search=0x7f0a0014;
+        public static final int logout=0x7f0a001e;
+        public static final int refresh=0x7f0a001b;
+        public static final int registerButton=0x7f0a0015;
+        public static final int registerPassword1=0x7f0a0013;
+        public static final int registerPassword2=0x7f0a0014;
+        public static final int registerResult=0x7f0a0016;
+        public static final int register_icon=0x7f0a0012;
+        public static final int search=0x7f0a001c;
         public static final int textView1=0x7f0a0006;
         public static final int textView2=0x7f0a0009;
+        public static final int textView3=0x7f0a000d;
+        public static final int textView4=0x7f0a000f;
         public static final int welcome_Register=0x7f0a0008;
         public static final int welcome_icon=0x7f0a0001;
         public static final int welcome_login=0x7f0a0007;
@@ -64,8 +72,9 @@ public final class R {
         public static final int account_page=0x7f030000;
         public static final int activity_login=0x7f030001;
         public static final int activity_welcom_page=0x7f030002;
-        public static final int register=0x7f030003;
-        public static final int vlist=0x7f030004;
+        public static final int new_account_dialog=0x7f030003;
+        public static final int register=0x7f030004;
+        public static final int vlist=0x7f030005;
     }
     public static final class menu {
         public static final int general_menu_options=0x7f090000;
@@ -73,22 +82,27 @@ public final class R {
     }
     public static final class string {
         public static final int account=0x7f07000e;
+        public static final int account_name=0x7f07000f;
+        public static final int account_number=0x7f070011;
         public static final int action_create_new_item=0x7f070006;
         public static final int action_exit=0x7f070002;
         public static final int action_logout=0x7f070003;
         public static final int action_refresh=0x7f070004;
         public static final int action_search=0x7f070005;
         public static final int action_settings=0x7f070001;
+        public static final int add=0x7f070013;
         public static final int app_name=0x7f070000;
+        public static final int bank_name=0x7f070010;
         public static final int confirmPassword=0x7f07000b;
-        public static final int dialog_OK=0x7f07000f;
-        public static final int dialog_message_password_easy=0x7f070015;
-        public static final int dialog_message_password_empty=0x7f070013;
-        public static final int dialog_message_password_length=0x7f070014;
-        public static final int dialog_message_password_not_match=0x7f070016;
-        public static final int dialog_message_username_empty=0x7f070010;
-        public static final int dialog_message_username_length=0x7f070011;
-        public static final int dialog_message_username_not_email=0x7f070012;
+        public static final int current_balance=0x7f070012;
+        public static final int dialog_OK=0x7f070014;
+        public static final int dialog_message_password_easy=0x7f07001a;
+        public static final int dialog_message_password_empty=0x7f070018;
+        public static final int dialog_message_password_length=0x7f070019;
+        public static final int dialog_message_password_not_match=0x7f07001b;
+        public static final int dialog_message_username_empty=0x7f070015;
+        public static final int dialog_message_username_length=0x7f070016;
+        public static final int dialog_message_username_not_email=0x7f070017;
         public static final int emailAddress=0x7f070009;
         public static final int hello_world=0x7f070007;
         public static final int password=0x7f07000a;

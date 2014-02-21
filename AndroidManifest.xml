@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.giambi.LoginActivity"
+            android:name="com.example.giambi.activity.LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/AppFullscreenTheme"
             android:parentActivityName="com.example.giambi.MainActivity" >
@@ -33,7 +33,7 @@
                 android:value="com.example.giambi.MainActivity" />
         </activity>
         <activity
-            android:name="com.example.giambi.RegisterActivity"
+            android:name="com.example.giambi.activity.RegisterActivity"
             android:label="@string/register"
             android:parentActivityName="com.example.giambi.MainActivity" >
             <meta-data
@@ -41,9 +41,9 @@
                 android:value="com.example.giambi.MainActivity" />
         </activity>
         <activity
-            android:name="com.example.giambi.AccountActivity"
-            android:parentActivityName="com.example.giambi.LoginActivity"
-            android:label="@string/account" >
+            android:name="com.example.giambi.activity.AccountActivity"
+            android:label="@string/account"
+            android:parentActivityName="com.example.giambi.activity.RegisterActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.giambi.LoginActivity" />
