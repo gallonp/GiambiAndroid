@@ -3,8 +3,11 @@
  */
 package com.example.giambi.view;
 
-import android.view.MenuItem.OnMenuItemClickListener;
-import android.view.View.OnClickListener;
+import java.util.List;
+import java.util.Map;
+
+import com.example.giambi.model.BankAccount;
+
 import android.widget.AdapterView.OnItemClickListener;
 
 /**
@@ -12,8 +15,14 @@ import android.widget.AdapterView.OnItemClickListener;
  */
 public interface AccountView {
 
-    void addOnListItemClick(OnClickListener l);
+    String getUsername();
 
-    void addOnOptionsItemSelected(OnMenuItemClickListener listener);
+    List<BankAccount> getAccounts();
+
+    List<Map<String, Object>> getListData();
+
+    void setListData(List<Map<String, Object>> list);
+
+    void addOnListItemClick(OnItemClickListener onListItemClickListener);
 
 }

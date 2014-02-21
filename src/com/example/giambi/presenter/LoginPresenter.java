@@ -28,6 +28,7 @@ public class LoginPresenter {
 				if (Util.checkLogin(account)) {
 					authResult = account.authenticate();
 					v.setResonpseText(authResult);
+					v.startOverview(account);
 					// pass account to new activity;
 				} else {
 					int usernameErrorCode = Util.checkUserName(account

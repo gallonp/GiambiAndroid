@@ -12,14 +12,19 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.simple.JSONObject;
+
+import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.example.giambi.GiambiHttpClient;
 import com.example.giambi.util.AuthenticateException;
 import com.example.giambi.util.RegisterException;
 import com.example.giambi.util.Util;
+import com.example.giambi.view.LoginView;
 
-public class LoginAccount {
+public class LoginAccount implements Parcelable{
 
 	private String username;
 	private String password;
@@ -28,6 +33,11 @@ public class LoginAccount {
 	public LoginAccount(String username, String password) {
 		this.username = username;
 		this.password = password;
+	}
+
+	public LoginAccount(Parcel source) {
+	    this.username = source.readString();
+	    this.password = source.readString();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -148,4 +158,30 @@ public class LoginAccount {
 		return password;
 	}
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(username);
+        dest.writeString(password);
+    }
+
+    //Interface that must be implemented and provided 
+    //as a public CREATOR field that generates instances of your Parcelable class from a Parcel.
+    public final static Parcelable.Creator<LoginAccount> CREATOR =
+        new Parcelable.Creator<LoginAccount>() {
+
+            @Override
+            public LoginAccount createFromParcel(Parcel source) {
+                return new LoginAccount(source);
+            }
+
+            @Override
+            public LoginAccount[] newArray(int size) {
+                return new LoginAccount[size];
+            }
+        };
 }

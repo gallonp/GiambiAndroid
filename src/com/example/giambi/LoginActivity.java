@@ -1,5 +1,6 @@
 package com.example.giambi;
 
+import com.example.giambi.model.LoginAccount;
 import com.example.giambi.presenter.LoginPresenter;
 import com.example.giambi.util.Util;
 import com.example.giambi.view.LoginView;
@@ -8,6 +9,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -70,6 +72,15 @@ public class LoginActivity extends Activity implements LoginView {
 	@Override
 	public void setResonpseText(String response) {
 		output.setText(response);
+	}
+
+	@Override
+	public void startOverview(LoginAccount account) {
+	    Intent i = new Intent(this, AccountActivity.class);
+	    Log.v(ACCOUNT_SERVICE, "Intent initialize complete.");
+	    i.putExtra("LoginAccount", account);
+	    Log.v(ACCOUNT_SERVICE, "parcel delivered");
+	    startActivity(i);
 	}
 
 	@Override

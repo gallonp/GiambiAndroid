@@ -36,20 +36,24 @@ public final class R {
     }
     public static final class id {
         public static final int account_list=0x7f0a0000;
-        public static final int action_exit=0x7f0a0013;
-        public static final int create_new_item=0x7f0a0011;
+        public static final int action_exit=0x7f0a0017;
+        public static final int bAccount_alias=0x7f0a000f;
+        public static final int bAccount_bName=0x7f0a0010;
+        public static final int bAccount_balance=0x7f0a0011;
+        public static final int bAccount_date=0x7f0a0012;
+        public static final int create_new_item=0x7f0a0015;
         public static final int logResult=0x7f0a0005;
         public static final int login_button=0x7f0a0004;
         public static final int login_password=0x7f0a0003;
         public static final int login_username=0x7f0a0002;
-        public static final int logout=0x7f0a0012;
-        public static final int refresh=0x7f0a000f;
+        public static final int logout=0x7f0a0016;
+        public static final int refresh=0x7f0a0013;
         public static final int registerButton=0x7f0a000d;
         public static final int registerPassword1=0x7f0a000b;
         public static final int registerPassword2=0x7f0a000c;
         public static final int registerResult=0x7f0a000e;
         public static final int register_icon=0x7f0a000a;
-        public static final int search=0x7f0a0010;
+        public static final int search=0x7f0a0014;
         public static final int textView1=0x7f0a0006;
         public static final int textView2=0x7f0a0009;
         public static final int welcome_Register=0x7f0a0008;
@@ -61,6 +65,7 @@ public final class R {
         public static final int activity_login=0x7f030001;
         public static final int activity_welcom_page=0x7f030002;
         public static final int register=0x7f030003;
+        public static final int vlist=0x7f030004;
     }
     public static final class menu {
         public static final int general_menu_options=0x7f090000;
