@@ -1,33 +1,36 @@
 package com.example.giambi.activity;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Context;
+import android.app.DialogFragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-
+import com.example.giambi.InvalidUsernameOrPasswordDialogFragment;
+import com.example.giambi.NewBankAccountDialogFragment;
+import com.example.giambi.NewBankAccountDialogFragment.EditDialogListener;
 import com.example.giambi.R;
 import com.example.giambi.model.BankAccount;
 import com.example.giambi.model.LoginAccount;
 import com.example.giambi.presenter.AccountPresenter;
+import com.example.giambi.presenter.AccountPresenter.MyAdapter;
+import com.example.giambi.util.Util;
 import com.example.giambi.view.AccountView;
 
-public class AccountActivity extends Activity implements AccountView {
+public class AccountActivity extends Activity 
+    implements AccountView, EditDialogListener {
 
     private ListView listView;
     private AccountPresenter accountP;
@@ -35,7 +38,9 @@ public class AccountActivity extends Activity implements AccountView {
     private MenuItem[] menuItems = new MenuItem[4];
     private LoginAccount loginAcc;
     private List<BankAccount> bankAccounts = new LinkedList<BankAccount>();
-    private List<Map<String, Object>> listData;
+    private List<Map<String, Object>> listData = new ArrayList<Map<String, Object>>();
+    private DialogFragment dialog;
+    private MyAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +50,9 @@ public class AccountActivity extends Activity implements AccountView {
         actionBar = this.getActionBar();
         setupActionBar();
         accountP = new AccountPresenter(this);
-        LoginAccount loginAcc = (LoginAccount) getIntent().getParcelableExtra("LoginAccount");
+        loginAcc = (LoginAccount) getIntent().getParcelableExtra("LoginAccount");
         Log.i(ACTIVITY_SERVICE, "Account Acitivity initialize complete.");
-        MyAdapter adapter = new MyAdapter(this);
+        adapter = accountP.new MyAdapter(this);
         listView.setAdapter(adapter);
         Log.i(ACTIVITY_SERVICE, "BankAccount info acquired complete.");
     }
@@ -96,74 +101,67 @@ public class AccountActivity extends Activity implements AccountView {
         this.listData = list;
     }
 
-    protected final class ViewHolder{
-        protected TextView alias;
-        protected TextView bankName;
-        protected TextView balance;
-        protected TextView date;
+    @Override
+    public void showAddAccDialog() {
+        Log.i("DialogFragment", "show new dialog fragment");
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+//        Bundle bundle = new Bundle();
+        dialog = new NewBankAccountDialogFragment();
+
+//        dialog.setArguments(bundle);
+        dialog.show(ft, "dialog");
     }
 
     /**
-     * Adapter for ListView.
-     * @author cwl
+     * Callback of AccountPresenter to set up menu item listeners.
+     * @param listener menu item click listener
      */
-    public class MyAdapter extends BaseAdapter{
-
-        private LayoutInflater mInflater;
-
-        public MyAdapter(Context context){
-            this.mInflater = LayoutInflater.from(context);
-        }
-
-        @Override
-        public int getCount() {
-            return listData.size();
-        }
- 
-        @Override
-        public Object getItem(int arg0) {
-            return listData.get(arg0);
-        }
- 
-        @Override
-        public long getItemId(int arg0) {
-            return Long.parseLong((String) listData.get(arg0).get("ID"));
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            ViewHolder holder = null;
-            if (convertView == null) {
-
-                holder=new ViewHolder(); 
-
-                convertView = mInflater.inflate(R.layout.vlist, null);
-                holder.alias = (TextView)convertView.findViewById(R.id.bAccount_alias);
-                holder.bankName = (TextView)convertView.findViewById(R.id.bAccount_bName);
-                holder.balance = (TextView)convertView.findViewById(R.id.bAccount_balance);
-                holder.date = (TextView)convertView.findViewById(R.id.bAccount_date);
-                convertView.setTag(holder);
-
-            }else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-
-
-            holder.alias.setText((String)listData.get(position).get("Alias"));
-            holder.bankName.setText((String)listData.get(position).get("BankName"));
-            holder.balance.setText((String)listData.get(position).get("Balance"));
-            holder.date.setText((String)listData.get(position).get("Date"));
-
-            return convertView;
-        }
-    }
-
-
     private void addOnOptionsItemSelected(OnMenuItemClickListener listener) {
         for (MenuItem item : menuItems) {
             item.setOnMenuItemClickListener(listener);
         }
+    }
+
+    @Override
+    public void updateResult(String[] inputText) {
+        if (Util.isNumeric(inputText[2])) {
+            try {
+                new BigDecimal(inputText[3]);
+            } catch (Exception e) {
+                if (dialog != null) dialog.dismiss();
+                setDialogMessage(Util.INVALID_BALANCE);
+                System.out.println(e.getMessage());
+                return;
+            }
+        } else {
+            if (dialog != null) dialog.dismiss();
+            setDialogMessage(Util.INVALID_ACCOUNT_NUMBER);
+            return;
+        }
+        bankAccounts.add(new BankAccount(inputText[0], inputText[1], inputText[2], inputText[3]));
+        accountP.updateListData();
+        System.out.println(listData.size());
+
+        adapter.notifyDataSetChanged();
+    }
+
+    public void setDialogMessage(int errorCode) {
+        Log.e("BankAccountCreateError", "Invalid information.");
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Bundle bundle = new Bundle();
+        switch (errorCode) {
+        case Util.INVALID_ACCOUNT_NUMBER:
+            bundle.putString("message",
+                    getString(R.string.dialog_message_invalid_account_number));
+            break;
+        case Util.INVALID_BALANCE:
+            bundle.putString("message",
+                    getString(R.string.dialog_message_invalid_balance));
+            break;
+        }
+        DialogFragment dialog = new InvalidUsernameOrPasswordDialogFragment();
+        dialog.setArguments(bundle);
+        dialog.show(ft, "dialog");
     }
 
 }

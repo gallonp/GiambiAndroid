@@ -2,7 +2,7 @@ package com.example.giambi.model;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.regex.Pattern;
+import com.example.giambi.util.Util;
 
 import android.util.Log;
 
@@ -11,7 +11,7 @@ import android.util.Log;
  * @author cwl
  *
  */
-public class BankAccount {
+public final class BankAccount {
 
     private String alias;
     private String bankName;
@@ -19,16 +19,11 @@ public class BankAccount {
     private String accountNum;
 
     public BankAccount(String alias, String bankName, String accountNum, String balance) {
-        super();
-        this.setAlias(alias);
-        this.setBankName(bankName);
-        this.setAccountNum(accountNum);
-        if (isNumeric(accountNum)) {
-            this.setAccountNum(accountNum);
-        } else {
-            Log.e("omBankAccountCreate", "Invalid Account Number");
-        }
-        this.setBalance(new BigDecimal(balance));
+        setAlias(alias);
+        setBankName(bankName);
+        setAccountNum(accountNum);
+        setAccountNum(accountNum);
+        setBalance(new BigDecimal(balance));
     }
 
     public boolean add(List<BankAccount> list) {
@@ -45,11 +40,6 @@ public class BankAccount {
         list.remove(this);
         return true;
     }
-
-    private static boolean isNumeric(String str){ 
-        Pattern pattern = Pattern.compile("[0-9]*"); 
-        return pattern.matcher(str).matches();    
-     }
 
     public String getAlias() {
         return alias;

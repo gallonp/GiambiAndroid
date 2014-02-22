@@ -42,16 +42,15 @@ public class LoginActivity extends Activity implements LoginView {
 		username.requestFocus();
         onFocusChange(username.isFocused());
 		loginPresenter = new LoginPresenter(this);
-		
 	}
 
-    /**
-	 * Set up the {@link android.app.ActionBar}.
-	 */
-	private void setupActionBar() {
-		ActionBar actionBar = this.getActionBar();
-		actionBar.hide();
-	}
+//    /**
+//	 * Set up the {@link android.app.ActionBar}.
+//	 */
+//	private void setupActionBar() {
+//		ActionBar actionBar = this.getActionBar();
+//		actionBar.hide();
+//	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

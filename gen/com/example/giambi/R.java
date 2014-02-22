@@ -96,6 +96,8 @@ public final class R {
         public static final int confirmPassword=0x7f07000b;
         public static final int current_balance=0x7f070012;
         public static final int dialog_OK=0x7f070014;
+        public static final int dialog_message_invalid_account_number=0x7f07001c;
+        public static final int dialog_message_invalid_balance=0x7f07001d;
         public static final int dialog_message_password_easy=0x7f07001a;
         public static final int dialog_message_password_empty=0x7f070018;
         public static final int dialog_message_password_length=0x7f070019;

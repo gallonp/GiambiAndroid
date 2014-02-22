@@ -23,6 +23,9 @@ public class Util {
     public static final int PASSWORD_EASY = 6;
     public static final int PASSWORD_NOT_MATCH = 7;
 
+    public static final int INVALID_ACCOUNT_NUMBER = 8;
+    public static final int INVALID_BALANCE = 9;
+
     private static final Pattern rfc2822 = Pattern.compile(
             "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$"
     );
@@ -111,4 +114,11 @@ public class Util {
             imm.hideSoftInputFromWindow(v.getWindowToken(),0);
         }
     }
+
+
+    public static boolean isNumeric(String str){ 
+        Pattern pattern = Pattern.compile("[0-9]*"); 
+        return pattern.matcher(str).matches();    
+     }
+
 }

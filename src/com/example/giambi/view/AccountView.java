@@ -25,4 +25,6 @@ public interface AccountView {
 
     void addOnListItemClick(OnItemClickListener onListItemClickListener);
 
+    void showAddAccDialog();
+
 }
