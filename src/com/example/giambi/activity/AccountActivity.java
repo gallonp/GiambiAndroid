@@ -48,10 +48,14 @@ public class AccountActivity extends Activity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.account_page);
+        loginAcc = (LoginAccount) getIntent().getParcelableExtra("LoginAccount");
         listView = (ListView) this.findViewById(R.id.account_list);
         actionBar = this.getActionBar();
         setupActionBar();
+
         accountP = new AccountPresenter(this);
+        adapter = accountP.new MyAdapter(this);
+        listView.setAdapter(adapter);
         
         Log.i(ACTIVITY_SERVICE, "BankAccount info acquired complete.");
     }
@@ -137,9 +141,8 @@ public class AccountActivity extends Activity implements
             setDialogMessage(Util.INVALID_ACCOUNT_NUMBER);
             return;
         }
-        bankAccounts.add(new BankAccount(inputText[0], inputText[1], inputText[2], inputText[3]));
+        bankAccounts.add(new BankAccount(loginAcc, inputText[0], inputText[1], inputText[2], inputText[3]));
         accountP.updateListData();
-        System.out.println(listData.size());
 
         adapter.notifyDataSetChanged();
     }
@@ -162,26 +165,35 @@ public class AccountActivity extends Activity implements
         dialog.setArguments(bundle);
         dialog.show(ft, "dialog");
     }
-    
-    private class MyAsyncTask extends AsyncTask{
 
-        @Override
-        protected Object doInBackground(Object... arg0) {
-            // TODO Auto-generated method stub
-            return null;
-        }
+//    private class MyAsyncTask extends AsyncTask{
+//
+//        @Override
+//        protected Object doInBackground(Object... arg0) {
+//            // TODO Auto-generated method stub
+//            return null;
+//        }
+//
+//        @SuppressWarnings("unchecked")
+//        @Override
+//        protected void onPostExecute(Object result) {
+//            // TODO Auto-generated method stub
+//            super.onPostExecute(result);
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            // TODO Auto-generated method stub
+//            super.onPreExecute();
+//        }
+//    }
 
-        @Override
-        protected void onPostExecute(Object result) {
-            // TODO Auto-generated method stub
-            super.onPostExecute(result);
+    public void makeTestList() {
+        if (bankAccounts.size() == 0) {
+            bankAccounts.add(new BankAccount(loginAcc, "JOINT", "MAMI", "901938278", "12938.90"));
+            bankAccounts.add(new BankAccount(loginAcc, "unfinished", "KTK", "34022934798", "1"));
+            bankAccounts.add(new BankAccount(loginAcc, "One", "ALTIMA", "0112389872", "5.002"));
         }
-
-        @Override
-        protected void onPreExecute() {
-            // TODO Auto-generated method stub
-            super.onPreExecute();
-        }
-        
     }
+
 }

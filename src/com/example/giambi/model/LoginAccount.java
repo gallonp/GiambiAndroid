@@ -42,8 +42,8 @@ public class LoginAccount implements Parcelable{
 
 	@SuppressWarnings("unchecked")
 	public String register() throws RegisterException {
-		String encodedUsername = encodeString(username);
-		String encodedPassword = encodeString(password);
+		String encodedUsername = Util.encodeString(username);
+		String encodedPassword = Util.encodeString(password);
 //		HttpPost request = new HttpPost(
 //				"http://giambi-server-2340.appspot.com/register");
 		HttpPost request = new HttpPost(
@@ -51,7 +51,7 @@ public class LoginAccount implements Parcelable{
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("username", encodedUsername);
 		jsonObj.put("password", encodedPassword);
-		request.setEntity(jsonToEntity(jsonObj));
+		request.setEntity(Util.jsonToEntity(jsonObj));
 		HttpResponse response = GiambiHttpClient.getResponse(request);
 		String responseCookie = "";//response.getHeaders("Cookie")[0].getValue();
 		String content = "";
@@ -82,17 +82,17 @@ public class LoginAccount implements Parcelable{
 	
 	@SuppressWarnings("unchecked")
 	public String authenticate() throws AuthenticateException {
-		String encodedUsername = encodeString(username);
-		String encodedPassword = encodeString(password);
+		String encodedUsername = Util.encodeString(username);
+		String encodedPassword = Util.encodeString(password);
 //		HttpPost request = new HttpPost(
 //				"http://giambi-server-2340.appspot.com/login");
 		HttpPost request = new HttpPost(
-                "http://10.0.2.2:8888/register");
+                "http://10.0.2.2:8888/login");
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("username", encodedUsername);
 		jsonObj.put("password", encodedPassword);
 		jsonObj.put("cookie", this.cookie);
-		request.setEntity(jsonToEntity(jsonObj));
+		request.setEntity(Util.jsonToEntity(jsonObj));
 		// JSONObject parsedObj = (JSONObject)
 		// JSONValue.parse(request.getParams().getParameter("json").toString());
 		// Log.v("request params",request.getParams().getParameter("json").toString());
@@ -120,32 +120,6 @@ public class LoginAccount implements Parcelable{
 			}
 	}
 
-	private UrlEncodedFormEntity jsonToEntity(JSONObject obj){
-		List<NameValuePair> postParams = new ArrayList<NameValuePair>();
-		postParams.add(new BasicNameValuePair("json", obj.toString()));
-		UrlEncodedFormEntity entity;
-		Log.v("authenticate", "JSON ready");
-		try {
-			entity = new UrlEncodedFormEntity(postParams, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			Log.e("EncodedForm", e.toString());
-			entity = null;
-		}
-		return entity;
-	}
-	
-	private String encodeString(String str){
-		String encodedString="";
-		try {
-			encodedString = URLEncoder.encode(str, "UTF-8");
-			Log.v("coded username", encodedString);
-		} catch (UnsupportedEncodingException e1) {
-			Log.v("URLEoder", "UnsupportedEncodingException:" + e1.getMessage());
-		}		
-		return encodedString;
-	}
-	
-	
 	public String getCookie() {
 		return cookie;
 	}

@@ -27,4 +27,6 @@ public interface AccountView {
 
     void showAddAccDialog();
 
+    void makeTestList();
+
 }

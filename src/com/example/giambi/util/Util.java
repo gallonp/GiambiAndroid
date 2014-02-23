@@ -4,7 +4,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.simple.JSONObject;
 
 import com.example.giambi.model.LoginAccount;
 
@@ -115,10 +124,33 @@ public class Util {
         }
     }
 
-
     public static boolean isNumeric(String str){ 
         Pattern pattern = Pattern.compile("[0-9]*"); 
         return pattern.matcher(str).matches();    
      }
 
+    public static UrlEncodedFormEntity jsonToEntity(JSONObject obj){
+        List<NameValuePair> postParams = new ArrayList<NameValuePair>();
+        postParams.add(new BasicNameValuePair("json", obj.toString()));
+        UrlEncodedFormEntity entity;
+        Log.v("authenticate", "JSON ready");
+        try {
+            entity = new UrlEncodedFormEntity(postParams, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            Log.e("EncodedForm", e.toString());
+            entity = null;
+        }
+        return entity;
+    }
+    
+    public static String encodeString(String str){
+        String encodedString="";
+        try {
+            encodedString = URLEncoder.encode(str, "UTF-8");
+            Log.v("coded username", encodedString);
+        } catch (UnsupportedEncodingException e1) {
+            Log.v("URLEoder", "UnsupportedEncodingException:" + e1.getMessage());
+        }       
+        return encodedString;
+    }
 }
