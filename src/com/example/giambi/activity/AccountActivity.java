@@ -10,6 +10,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.FragmentTransaction;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -18,6 +19,7 @@ import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+
 import com.example.giambi.InvalidUsernameOrPasswordDialogFragment;
 import com.example.giambi.NewBankAccountDialogFragment;
 import com.example.giambi.NewBankAccountDialogFragment.EditDialogListener;
@@ -29,8 +31,8 @@ import com.example.giambi.presenter.AccountPresenter.MyAdapter;
 import com.example.giambi.util.Util;
 import com.example.giambi.view.AccountView;
 
-public class AccountActivity extends Activity 
-    implements AccountView, EditDialogListener {
+public class AccountActivity extends Activity implements 
+     AccountView, EditDialogListener{
 
     private ListView listView;
     private AccountPresenter accountP;
@@ -50,10 +52,7 @@ public class AccountActivity extends Activity
         actionBar = this.getActionBar();
         setupActionBar();
         accountP = new AccountPresenter(this);
-        loginAcc = (LoginAccount) getIntent().getParcelableExtra("LoginAccount");
-        Log.i(ACTIVITY_SERVICE, "Account Acitivity initialize complete.");
-        adapter = accountP.new MyAdapter(this);
-        listView.setAdapter(adapter);
+        
         Log.i(ACTIVITY_SERVICE, "BankAccount info acquired complete.");
     }
 
@@ -163,5 +162,26 @@ public class AccountActivity extends Activity
         dialog.setArguments(bundle);
         dialog.show(ft, "dialog");
     }
+    
+    private class MyAsyncTask extends AsyncTask{
 
+        @Override
+        protected Object doInBackground(Object... arg0) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object result) {
+            // TODO Auto-generated method stub
+            super.onPostExecute(result);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            // TODO Auto-generated method stub
+            super.onPreExecute();
+        }
+        
+    }
 }
