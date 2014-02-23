@@ -47,7 +47,7 @@ public class AccountPresenter {
 //        v.setListData(getData());
         getData(v.getListData());
         v.addOnListItemClick(this.onListItemClickListener);
-        Log.v("AccountPresenter", "Listeners set uo complete.");
+        Log.v("AccountPresenter", "Listeners set up complete.");
     }
 
     public OnMenuItemClickListener getOnMenuItemClickListener() {
@@ -61,7 +61,7 @@ public class AccountPresenter {
     }
 
     private void getData(List<Map<String, Object>> list) {
-        makeTestList();
+        v.makeTestList();
         list.clear();
         
 //        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
@@ -83,6 +83,8 @@ public class AccountPresenter {
             list.add(map);
         }
 
+        System.out.println("bankAccounts array:" + v.getAccounts().size());
+        System.out.println("listData array:" + v.getListData().size());
 //        return list;
     }
 
@@ -118,14 +120,6 @@ public class AccountPresenter {
                 }
         
     };
-
-    private void makeTestList() {
-        if (bankAccounts.size() == 0) {
-            bankAccounts.add(new BankAccount("JOINT", "MAMI", "901938278", "12938.90"));
-            bankAccounts.add(new BankAccount("unfinished", "KTK", "34022934798", "1"));
-            bankAccounts.add(new BankAccount("One", "ALTIMA", "0112389872", "5.002"));
-        }
-    }
 
     private final class ViewHolder{
         protected TextView alias;
