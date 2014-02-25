@@ -23,6 +23,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.example.giambi.R;
 import com.example.giambi.model.BankAccount;
+import com.example.giambi.util.AuthenticateException;
 import com.example.giambi.view.AccountView;
 
 /**
@@ -33,7 +34,6 @@ import com.example.giambi.view.AccountView;
 public class AccountPresenter {
 
     private AccountView v;
-    private List<BankAccount> bankAccounts;
     private NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(Locale.US);
     private BigDecimal balance;
 
@@ -43,9 +43,8 @@ public class AccountPresenter {
     public AccountPresenter(AccountView view) {
         this.v = view;
         currencyFormat.setMinimumFractionDigits(2);
-        bankAccounts = v.getAccounts();
 //        v.setListData(getData());
-        getData(v.getListData());
+        getData(v.getAccounts(), v.getListData());
         v.addOnListItemClick(this.onListItemClickListener);
         Log.v("AccountPresenter", "Listeners set up complete.");
     }
@@ -55,17 +54,26 @@ public class AccountPresenter {
     }
 
     public void updateListData() {
-        bankAccounts = v.getAccounts();
 //        v.setListData(getData(v.getListData()));
-        getData(v.getListData());
+        System.out.println("bankListlength : " + v.getAccounts().size());
+        getData(v.getAccounts(), v.getListData());
+        v.getAdapter().notifyDataSetChanged();
     }
 
-    private void getData(List<Map<String, Object>> list) {
-        v.makeTestList();
+    private void getData(List<BankAccount> bankAccounts, List<Map<String, Object>> list) {
+//        v.makeTestList();
+
+        // Update back-end BankAccount array
+        try {
+            BankAccount.getAccouts(v.getLoginAcc(), bankAccounts);
+        } catch (AuthenticateException e) {
+            Log.e("onGetData", e.getMessage());
+        }
+
+        // Clear ListView data list
         list.clear();
-        
-//        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
- 
+
+        // Add entries to ListView data list
         Map<String, Object> map;
 
         for (int i = 0; i < bankAccounts.size(); ++i) {
@@ -85,7 +93,6 @@ public class AccountPresenter {
 
         System.out.println("bankAccounts array:" + v.getAccounts().size());
         System.out.println("listData array:" + v.getListData().size());
-//        return list;
     }
 
     private OnItemClickListener onListItemClickListener = new OnItemClickListener() {
@@ -105,6 +112,8 @@ public class AccountPresenter {
                 public boolean onMenuItemClick(MenuItem item) {
                     String itemTitle = item.getTitle().toString();
                     if (itemTitle.equals("Refresh")) {
+                        getData(v.getAccounts(), v.getListData());
+                        v.getAdapter().notifyDataSetChanged();
                         Log.i("MenuItem", "1");
                     } else if (itemTitle.equals("Search")) {
                         Log.i("MenuItem", "2");

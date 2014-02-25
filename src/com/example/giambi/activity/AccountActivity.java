@@ -28,6 +28,7 @@ import com.example.giambi.model.BankAccount;
 import com.example.giambi.model.LoginAccount;
 import com.example.giambi.presenter.AccountPresenter;
 import com.example.giambi.presenter.AccountPresenter.MyAdapter;
+import com.example.giambi.util.RegisterException;
 import com.example.giambi.util.Util;
 import com.example.giambi.view.AccountView;
 
@@ -40,7 +41,7 @@ public class AccountActivity extends Activity implements
     private MenuItem[] menuItems = new MenuItem[4];
     private LoginAccount loginAcc;
     private List<BankAccount> bankAccounts = new LinkedList<BankAccount>();
-    private List<Map<String, Object>> listData = new ArrayList<Map<String, Object>>();
+    private List<Map<String, Object>> listData = new LinkedList<Map<String, Object>>();
     private DialogFragment dialog;
     private MyAdapter adapter;
 
@@ -95,13 +96,18 @@ public class AccountActivity extends Activity implements
     }
 
     @Override
+    public LoginAccount getLoginAcc() {
+        return this.loginAcc;
+    }
+
+    @Override
     public List<Map<String, Object>> getListData() {
         return this.listData;
     }
 
     @Override
-    public void setListData(List<Map<String, Object>> list) {
-        this.listData = list;
+    public MyAdapter getAdapter() {
+        return adapter;
     }
 
     @Override
@@ -125,6 +131,9 @@ public class AccountActivity extends Activity implements
         }
     }
 
+    /**
+     * Update the accounts in listView.
+     */
     @Override
     public void updateResult(String[] inputText) {
         if (Util.isNumeric(inputText[2])) {
@@ -133,7 +142,7 @@ public class AccountActivity extends Activity implements
             } catch (Exception e) {
                 if (dialog != null) dialog.dismiss();
                 setDialogMessage(Util.INVALID_BALANCE);
-                System.out.println(e.getMessage());
+                Log.i("onAddBankAccount", e.getMessage());
                 return;
             }
         } else {
@@ -141,10 +150,15 @@ public class AccountActivity extends Activity implements
             setDialogMessage(Util.INVALID_ACCOUNT_NUMBER);
             return;
         }
-        bankAccounts.add(new BankAccount(loginAcc, inputText[0], inputText[1], inputText[2], inputText[3]));
-        accountP.updateListData();
+        BankAccount newAcc = new BankAccount(loginAcc, inputText[0], inputText[1], inputText[2], inputText[3]);
+//        bankAccounts.add(newAcc);
+        try {
+            newAcc.addToServer();
+        } catch (RegisterException e) {
+            Log.i("onAddBankAccount", e.getMessage());
+        }
 
-        adapter.notifyDataSetChanged();
+        accountP.updateListData();
     }
 
     public void setDialogMessage(int errorCode) {

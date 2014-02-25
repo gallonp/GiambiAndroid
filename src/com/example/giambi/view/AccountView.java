@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.giambi.model.BankAccount;
+import com.example.giambi.model.LoginAccount;
+import com.example.giambi.presenter.AccountPresenter.MyAdapter;
 
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -21,12 +23,14 @@ public interface AccountView {
 
     List<Map<String, Object>> getListData();
 
-    void setListData(List<Map<String, Object>> list);
-
     void addOnListItemClick(OnItemClickListener onListItemClickListener);
 
     void showAddAccDialog();
 
     void makeTestList();
+
+    LoginAccount getLoginAcc();
+
+    MyAdapter getAdapter();
 
 }
