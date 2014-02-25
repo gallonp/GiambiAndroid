@@ -150,6 +150,7 @@ public final class BankAccount {
 
             // Add accounts to bankAccounts list
             list.clear();
+            if (content.equals("No accounts.")) return;
             if (jsonArr.size() != 0) {
                 for (int i = 0; i < jsonArr.size(); ++i) {
                     Map<String, String> accountInfo =
