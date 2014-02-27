@@ -1,19 +1,10 @@
 package com.example.giambi.model;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.simple.JSONObject;
 
-import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
@@ -22,7 +13,6 @@ import com.example.giambi.GiambiHttpClient;
 import com.example.giambi.util.AuthenticateException;
 import com.example.giambi.util.RegisterException;
 import com.example.giambi.util.Util;
-import com.example.giambi.view.LoginView;
 
 public class LoginAccount implements Parcelable{
 
@@ -47,7 +37,7 @@ public class LoginAccount implements Parcelable{
 //		HttpPost request = new HttpPost(
 //				"http://giambi-server-2340.appspot.com/register");
 		HttpPost request = new HttpPost(
-                "http://10.0.2.2:8888/register");
+                "http://10.0.3.2:10888/register");
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("username", encodedUsername);
 		jsonObj.put("password", encodedPassword);
@@ -87,7 +77,7 @@ public class LoginAccount implements Parcelable{
 //		HttpPost request = new HttpPost(
 //				"http://giambi-server-2340.appspot.com/login");
 		HttpPost request = new HttpPost(
-                "http://10.0.2.2:8888/login");
+                "http://10.0.3.2:10888/login");
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("username", encodedUsername);
 		jsonObj.put("password", encodedPassword);
