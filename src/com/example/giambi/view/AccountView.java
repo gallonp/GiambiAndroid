@@ -32,5 +32,7 @@ public interface AccountView {
     LoginAccount getLoginAcc();
 
     MyAdapter getAdapter();
+    
+    String getUsernameFromPreference();
 
 }

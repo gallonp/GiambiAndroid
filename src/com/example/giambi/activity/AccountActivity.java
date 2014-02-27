@@ -10,6 +10,8 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -209,5 +211,13 @@ public class AccountActivity extends Activity implements
             bankAccounts.add(new BankAccount(loginAcc, "One", "ALTIMA", "0112389872", "5.002"));
         }
     }
+
+	@Override
+	public String getUsernameFromPreference() {
+		SharedPreferences prefs = this.getSharedPreferences(
+			      "com.example.app", Context.MODE_PRIVATE);
+		String username = prefs.getString("USERNAME_GIAMBI", null);
+		return username;
+	}
 
 }
