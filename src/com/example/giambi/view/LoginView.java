@@ -16,4 +16,6 @@ public interface LoginView {
 	void setDialogMessage(int usernameErrorCode, int passwordErrorCode);
 
     void startOverview(LoginAccount account);
+    
+    void SetUser(String username);
 }

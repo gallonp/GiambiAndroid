@@ -33,7 +33,7 @@ public class GiambiHttpClient {
             	}
             	for (Cookie cookie : cookieStore.getCookies()){
             		req.addHeader(cookie.getName(),cookie.getValue());
-            		Log.v("cookie",cookie.getExpiryDate().toLocaleString());
+            		Log.v("cookie",cookie.getName()+"="+cookie.getValue());
             	}
             	for (Header header:req.getAllHeaders()){
             		Log.v("Headers after cookies added",header.getName()+","+header.getValue());

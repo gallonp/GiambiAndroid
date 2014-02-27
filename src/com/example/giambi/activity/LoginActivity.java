@@ -11,7 +11,9 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -138,5 +140,16 @@ public class LoginActivity extends Activity implements LoginView {
             }
         }, 100);
     }
+
+	@Override
+	public void SetUser(String username) {
+		SharedPreferences prefs = this.getSharedPreferences(
+			      "com.example.app", Context.MODE_PRIVATE);
+		String name = prefs.getString("USERNAME_GIAMBI", null);
+		if (name !=null ){
+			prefs.edit().remove("USERNAME_GIAMBI");
+		}
+		prefs.edit().putString("USERNAME_GIAMBI", username);
+	}
 
 }

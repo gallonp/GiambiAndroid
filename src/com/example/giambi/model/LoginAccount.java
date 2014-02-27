@@ -18,7 +18,6 @@ public class LoginAccount implements Parcelable{
 
 	private String username;
 	private String password;
-	private String cookie;
 
 	public LoginAccount(String username, String password) {
 		this.username = username;
@@ -43,12 +42,7 @@ public class LoginAccount implements Parcelable{
 		jsonObj.put("password", encodedPassword);
 		request.setEntity(Util.jsonToEntity(jsonObj));
 		HttpResponse response = GiambiHttpClient.getResponse(request);
-		String responseCookie = "";//response.getHeaders("Cookie")[0].getValue();
 		String content = "";
-//		if (responseCookie = "") {
-			this.cookie = responseCookie;
-//			return true;
-//		} else {
 			try {
 				content = Util.HttpContentReader(response.getEntity()
 						.getContent());
@@ -81,7 +75,6 @@ public class LoginAccount implements Parcelable{
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("username", encodedUsername);
 		jsonObj.put("password", encodedPassword);
-		jsonObj.put("cookie", this.cookie);
 		request.setEntity(Util.jsonToEntity(jsonObj));
 		// JSONObject parsedObj = (JSONObject)
 		// JSONValue.parse(request.getParams().getParameter("json").toString());
@@ -108,10 +101,6 @@ public class LoginAccount implements Parcelable{
 			} else {
 				return content;
 			}
-	}
-
-	public String getCookie() {
-		return cookie;
 	}
 
 	public String getUsername() {
