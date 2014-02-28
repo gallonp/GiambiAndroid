@@ -1,9 +1,17 @@
 package com.example.giambi;
 
+import java.math.BigDecimal;
+
+import com.example.giambi.model.BankAccount;
+import com.example.giambi.util.CreateAccountException;
+import com.example.giambi.util.Util;
+import com.example.giambi.view.AccountView;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,15 +20,12 @@ import android.widget.EditText;
 
 public class NewBankAccountDialogFragment extends DialogFragment {
 
-    public interface EditDialogListener {
-        void updateResult(String[] inputText);
-    }
-
     private EditText[] inputBoxs = new EditText[4];
     private Button addButton;
+    private AccountView v;
+//    private AccountView v = (AccountView) getView();
 
     public NewBankAccountDialogFragment() {
-        //Do something here
     }
 
 
@@ -29,14 +34,12 @@ public class NewBankAccountDialogFragment extends DialogFragment {
      */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-
+        v = (AccountView) this.getActivity();
+//        v = (AccountView) this.getActivity().getWindow().getDecorView().findViewById(android.R.id.content);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.new_account_dialog, null);
         builder.setTitle("Add a new account").setView(view);
-//        AlertDialog dialog = builder.create();
-//        dialog.show();
-//        dialog.setView(view);
 
         inputBoxs[0] = (EditText) view.findViewById(R.id.accAliasInput);
         inputBoxs[1] = (EditText) view.findViewById(R.id.accBankInput);
@@ -61,16 +64,42 @@ public class NewBankAccountDialogFragment extends DialogFragment {
 
         @Override
         public void onClick(View v) {
-            EditDialogListener activity = (EditDialogListener) getActivity();
             String[] params = new String[4];
             for (int i = 0; i < 4; ++i) {
                 params[i] = inputBoxs[i].getText().toString();
             }
-            activity.updateResult(params);
 
-            dismiss();
+            updateResult(params);
         }
 
     };
 
+    public void updateResult(String[] inputText) {
+        if (Util.isNumeric(inputText[2])) {
+            try {
+                new BigDecimal(inputText[3]);
+            } catch (Exception e) {
+                this.dismiss();
+                v.setDialogMessage(Util.INVALID_BALANCE);
+                Log.i("onAddBankAccount", e.getMessage());
+                return;
+            }
+        } else {
+            this.dismiss();
+            v.setDialogMessage(Util.INVALID_ACCOUNT_NUMBER);
+            return;
+        }
+        System.out.println(((Boolean) (v.getUsername() == null)).toString() + ((Boolean) (inputText[0] == null)).toString()
+                + ((Boolean) (inputText[1] == null)).toString() + ((Boolean) (inputText[2] == null)).toString()
+                + ((Boolean) (inputText[3] == null)).toString());
+        BankAccount newAcc = new BankAccount(v.getUsername(), inputText[0], inputText[1], inputText[2], inputText[3]);
+        try {
+            newAcc.addToServer();
+        } catch (CreateAccountException e) {
+            Log.i("onAddBankAccount", e.getMessage());
+        }
+
+        this.dismiss();
+        v.flushListView();
+    }
 }

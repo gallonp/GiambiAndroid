@@ -14,7 +14,7 @@ import com.example.giambi.util.AuthenticateException;
 import com.example.giambi.util.RegisterException;
 import com.example.giambi.util.Util;
 
-public class LoginAccount implements Parcelable{
+public class LoginAccount {
 
 	private String username;
 	private String password;
@@ -36,7 +36,7 @@ public class LoginAccount implements Parcelable{
 //		HttpPost request = new HttpPost(
 //				"http://giambi-server-2340.appspot.com/register");
 		HttpPost request = new HttpPost(
-                "http://10.0.3.2:10888/register");
+                "http://10.0.2.2:8888/register");
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("username", encodedUsername);
 		jsonObj.put("password", encodedPassword);
@@ -64,14 +64,14 @@ public class LoginAccount implements Parcelable{
 	
 
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "unused" })
 	public String authenticate() throws AuthenticateException {
 		String encodedUsername = Util.encodeString(username);
 		String encodedPassword = Util.encodeString(password);
 //		HttpPost request = new HttpPost(
 //				"http://giambi-server-2340.appspot.com/login");
 		HttpPost request = new HttpPost(
-                "http://10.0.3.2:10888/login");
+                "http://10.0.2.2:8888/login");
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("username", encodedUsername);
 		jsonObj.put("password", encodedPassword);
@@ -111,30 +111,4 @@ public class LoginAccount implements Parcelable{
 		return password;
 	}
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(username);
-        dest.writeString(password);
-    }
-
-    //Interface that must be implemented and provided 
-    //as a public CREATOR field that generates instances of your Parcelable class from a Parcel.
-    public final static Parcelable.Creator<LoginAccount> CREATOR =
-        new Parcelable.Creator<LoginAccount>() {
-
-            @Override
-            public LoginAccount createFromParcel(Parcel source) {
-                return new LoginAccount(source);
-            }
-
-            @Override
-            public LoginAccount[] newArray(int size) {
-                return new LoginAccount[size];
-            }
-        };
 }

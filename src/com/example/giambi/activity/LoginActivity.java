@@ -7,7 +7,6 @@ import com.example.giambi.presenter.LoginPresenter;
 import com.example.giambi.util.Util;
 import com.example.giambi.view.LoginView;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.FragmentTransaction;
@@ -35,8 +34,7 @@ public class LoginActivity extends Activity implements LoginView {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-		// Show the Up button in the action bar.
-//		setupActionBar();
+
 		login = (Button) this.findViewById(R.id.login_button);
 		username = (TextView) this.findViewById(R.id.login_username);
 		password = (TextView) this.findViewById(R.id.login_password);
@@ -45,14 +43,6 @@ public class LoginActivity extends Activity implements LoginView {
         onFocusChange(username.isFocused());
 		loginPresenter = new LoginPresenter(this);
 	}
-
-//    /**
-//	 * Set up the {@link android.app.ActionBar}.
-//	 */
-//	private void setupActionBar() {
-//		ActionBar actionBar = this.getActionBar();
-//		actionBar.hide();
-//	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -85,8 +75,6 @@ public class LoginActivity extends Activity implements LoginView {
 	public void startOverview(LoginAccount account) {
 	    Intent i = new Intent(this, AccountActivity.class);
 	    Log.v(ACCOUNT_SERVICE, "Intent initialize complete.");
-	    i.putExtra("LoginAccount", account);
-	    Log.v(ACCOUNT_SERVICE, "parcel delivered");
 	    startActivity(i);
 	}
 
@@ -147,9 +135,11 @@ public class LoginActivity extends Activity implements LoginView {
 			      "com.example.app", Context.MODE_PRIVATE);
 		String name = prefs.getString("USERNAME_GIAMBI", null);
 		if (name !=null ){
-			prefs.edit().remove("USERNAME_GIAMBI");
+			prefs.edit().remove("USERNAME_GIAMBI").commit();
 		}
-		prefs.edit().putString("USERNAME_GIAMBI", username);
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putString("USERNAME_GIAMBI", username);
+		editor.commit();
 	}
 
 }

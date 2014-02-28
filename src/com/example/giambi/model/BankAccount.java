@@ -2,7 +2,6 @@ package com.example.giambi.model;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,8 +13,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.example.giambi.GiambiHttpClient;
-import com.example.giambi.util.AuthenticateException;
-import com.example.giambi.util.RegisterException;
+import com.example.giambi.util.CreateAccountException;
+import com.example.giambi.util.GetAccountException;
 import com.example.giambi.util.Util;
 
 import android.util.Log;
@@ -35,9 +34,9 @@ public final class BankAccount {
 	private String bankName;
 	private BigDecimal balance;
 	private String accountNum;
-	private LoginAccount loginAcc;
+	private String loginAcc;
 
-	public BankAccount(LoginAccount loginAcc, String alias, String bankName,
+	public BankAccount(String loginAcc, String alias, String bankName,
 			String accountNum, String balance) {
 		this.loginAcc = loginAcc;
 		setAlias(alias);
@@ -54,8 +53,8 @@ public final class BankAccount {
 	// }
 
 	@SuppressWarnings("unchecked")
-	public String addToServer() throws RegisterException {
-		String encodedLoginAcc = Util.encodeString(loginAcc.getUsername());
+	public String addToServer() throws CreateAccountException {
+		String encodedLoginAcc = Util.encodeString(loginAcc);
 		String encodedAlias = Util.encodeString(alias);
 		String encodedBankName = Util.encodeString(bankName);
 		String encodedBalance = Util.encodeString(balance.toString());
@@ -80,36 +79,30 @@ public final class BankAccount {
 			Log.e("IOException", e.getMessage());
 		}
 		if (content == null) {
-			throw new RegisterException("Unknown Error");
+			throw new CreateAccountException("Unknown Error");
 		} else {
 			return content;
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	public static void getAccouts(LoginAccount loginAcc, List<BankAccount> list)
-			throws AuthenticateException {
-		String encodedLoginAcc = Util.encodeString(loginAcc.getUsername());
-		// String encodedAlias = Util.encodeString(alias);
-		// String encodedBankName = Util.encodeString(bankName);
-		// String encodedBalance = Util.encodeString(balance.toString());
-		// String encodedAccNum = Util.encodeString(accountNum);
-		// HttpPost request = new HttpPost(
-		// "http://giambi-server-2340.appspot.com/login");
+	/**
+	 * Get Bank Accounts from server.
+	 * @param loginAcc
+	 * @param list
+	 * @return -2 if cookie expired; -1 if an exception exists; 0 if complete normally
+	 * @throws GetAccountException
+	 */
+	@SuppressWarnings({ "unchecked", "unused" })
+	public static int getAccouts(String loginAcc, List<BankAccount> list)
+			throws GetAccountException {
+		String encodedLoginAcc = Util.encodeString(loginAcc);
+
 		HttpPost request = new HttpPost("http://10.0.2.2:8888/getaccount");
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("userAccount", encodedLoginAcc);
-		// jsonObj.put("bankAccountName", encodedAlias);
-		// jsonObj.put("bankName", encodedBankName);
-		// jsonObj.put("balance", encodedBalance);
-		// jsonObj.put("bankAccountNumber", encodedAccNum);
-		// jsonObj.put("cookie", this.cookie);
+
 		request.setEntity(Util.jsonToEntity(jsonObj));
-		// JSONObject parsedObj = (JSONObject)
-		// JSONValue.parse(request.getParams().getParameter("json").toString());
-		// Log.v("request params",request.getParams().getParameter("json").toString());
-		// Log.v("json parsed obj",(String)parsedObj.get("username"));
-		// String content = "";
+
 		HttpResponse response = GiambiHttpClient.getResponse(request);
 		String responseCookie = "";// response.getHeaders("Cookie")[0].getValue();
 		String content = "";
@@ -122,11 +115,15 @@ public final class BankAccount {
 			System.out.println(content);
 		} catch (IllegalStateException e) {
 			Log.e("IllegalStateException", e.getMessage());
+			return -1;
 		} catch (IOException e) {
 			Log.e("IOException", e.getMessage());
+			return -1;
 		}
 		if (content == null) {
-			throw new AuthenticateException("Unknown Error");
+			throw new GetAccountException("Unknown Error");
+		} else if (content == "invalid cookie") {
+		    return -2;
 		}
 		JSONArray jsonArr = null;
 		JSONParser jPaser = new JSONParser();
@@ -134,14 +131,13 @@ public final class BankAccount {
 			jsonArr = (JSONArray) jPaser.parse(content);
 		} catch (ParseException e) {
 			Log.i("onJSONArrayCreate", "Error on casting");
-			System.out.println(e.toString());
-			// System.out.println(e.getMessage());
+			return -1;
 		}
 
 		// Add accounts to bankAccounts list
 		list.clear();
 		if (content.equals("No accounts."))
-			return;
+			return 0;
 		if (jsonArr.size() != 0) {
 			for (int i = 0; i < jsonArr.size(); ++i) {
 				Map<String, String> accountInfo = (Map<String, String>) jsonArr
@@ -151,9 +147,9 @@ public final class BankAccount {
 						accountInfo.get(FIELDS[1]), accountInfo.get(FIELDS[3]));
 				list.add(newAccount);
 			}
-			// System.out.println(jsonArr.get(0));
-			System.out.println("list length: " + list.size());
+			return 0;
 		}
+        return -1;
 	}
 
 	public boolean del(List<BankAccount> list) {

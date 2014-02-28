@@ -1,29 +1,12 @@
 package com.example.giambi.presenter;
 
-import java.math.BigDecimal;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import android.content.Context;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.MenuItem.OnMenuItemClickListener;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
-import com.example.giambi.R;
-import com.example.giambi.model.BankAccount;
-import com.example.giambi.util.AuthenticateException;
 import com.example.giambi.view.AccountView;
 
 /**
@@ -34,17 +17,14 @@ import com.example.giambi.view.AccountView;
 public class AccountPresenter {
 
     private AccountView v;
-    private NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(Locale.US);
-    private BigDecimal balance;
 
     /**
      * Constructor.
      */
     public AccountPresenter(AccountView view) {
         this.v = view;
-        currencyFormat.setMinimumFractionDigits(2);
-//        v.setListData(getData());
-        getData(v.getAccounts(), v.getListData());
+
+        v.flushListView();
         v.addOnListItemClick(this.onListItemClickListener);
         Log.v("AccountPresenter", "Listeners set up complete.");
     }
@@ -53,48 +33,9 @@ public class AccountPresenter {
         return this.onMenuItemClickListener;
     }
 
-    public void updateListData() {
-//        v.setListData(getData(v.getListData()));
-        System.out.println("bankListlength : " + v.getAccounts().size());
-        getData(v.getAccounts(), v.getListData());
-        v.getAdapter().notifyDataSetChanged();
-    }
-
-    private void getData(List<BankAccount> bankAccounts, List<Map<String, Object>> list) {
-//        v.makeTestList();
-
-        // Update back-end BankAccount array
-        try {
-            BankAccount.getAccouts(v.getLoginAcc(), bankAccounts);
-        } catch (AuthenticateException e) {
-            Log.e("onGetData", e.getMessage());
-        }
-
-        // Clear ListView data list
-        list.clear();
-
-        // Add entries to ListView data list
-        Map<String, Object> map;
-
-        for (int i = 0; i < bankAccounts.size(); ++i) {
-            map = new HashMap<String, Object>();
-            balance = bankAccounts.get(i).getBalance().setScale(2, BigDecimal.ROUND_HALF_EVEN);
-
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.US);//设置日期格式
-            String date = df.format(new Date());//new Date()为获取当前系统时间
-
-            map.put("ID", ((Integer) i).toString());
-            map.put("Alias", bankAccounts.get(i).getAlias());
-            map.put("BankName", bankAccounts.get(i).getBankName());
-            map.put("Balance", currencyFormat.format(balance));
-            map.put("Date", date);
-            list.add(map);
-        }
-
-        System.out.println("bankAccounts array:" + v.getAccounts().size());
-        System.out.println("listData array:" + v.getListData().size());
-    }
-
+    /**
+     * Listener for listView item click
+     */
     private OnItemClickListener onListItemClickListener = new OnItemClickListener() {
 
         @Override
@@ -105,6 +46,9 @@ public class AccountPresenter {
         }
     };
 
+    /**
+     * Listener for Menu Item click
+     */
     private OnMenuItemClickListener onMenuItemClickListener =
             new OnMenuItemClickListener() {
 
@@ -112,8 +56,7 @@ public class AccountPresenter {
                 public boolean onMenuItemClick(MenuItem item) {
                     String itemTitle = item.getTitle().toString();
                     if (itemTitle.equals("Refresh")) {
-                        getData(v.getAccounts(), v.getListData());
-                        v.getAdapter().notifyDataSetChanged();
+                        v.flushListView();
                         Log.i("MenuItem", "1");
                     } else if (itemTitle.equals("Search")) {
                         Log.i("MenuItem", "2");
@@ -127,72 +70,7 @@ public class AccountPresenter {
                     }
                     return false;
                 }
-        
+
     };
-
-    private final class ViewHolder{
-        protected TextView alias;
-        protected TextView bankName;
-        protected TextView balance;
-        protected TextView date;
-    }
-
-    /**
-     * Adapter for ListView.
-     * @author cwl
-     */
-    public class MyAdapter extends BaseAdapter{
-
-        private LayoutInflater mInflater;
-        private List<Map<String, Object>> listData;
-
-        public MyAdapter(Context context){
-            listData = v.getListData();
-            this.mInflater = LayoutInflater.from(context);
-        }
-
-        @Override
-        public int getCount() {
-            return listData.size();
-        }
- 
-        @Override
-        public Object getItem(int arg0) {
-            return listData.get(arg0);
-        }
- 
-        @Override
-        public long getItemId(int arg0) {
-            return Long.parseLong((String) listData.get(arg0).get("ID"));
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            ViewHolder holder = null;
-            if (convertView == null) {
-
-                holder=new ViewHolder(); 
-
-                convertView = mInflater.inflate(R.layout.vlist, null);
-                holder.alias = (TextView)convertView.findViewById(R.id.bAccount_alias);
-                holder.bankName = (TextView)convertView.findViewById(R.id.bAccount_bName);
-                holder.balance = (TextView)convertView.findViewById(R.id.bAccount_balance);
-                holder.date = (TextView)convertView.findViewById(R.id.bAccount_date);
-                convertView.setTag(holder);
-
-            }else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-
-
-            holder.alias.setText((String)listData.get(position).get("Alias"));
-            holder.bankName.setText((String)listData.get(position).get("BankName"));
-            holder.balance.setText((String)listData.get(position).get("Balance"));
-            holder.date.setText((String)listData.get(position).get("Date"));
-
-            return convertView;
-        }
-    }
 
 }
