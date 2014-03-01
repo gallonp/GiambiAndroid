@@ -61,14 +61,14 @@ public class AccountActivity extends Activity implements AccountView {
         loginAccName = getUsernameFromPreference();
         listView = (ListView) this.findViewById(R.id.account_list);
         actionBar = this.getActionBar();
+        accountP = new AccountPresenter(this);
         adapter = new MyAdapter(this);
         listView.setAdapter(adapter);
+        flushListView();
         adapter.notifyDataSetChanged();
         currencyFormat.setMinimumFractionDigits(2);
 
         setupActionBar();
-
-        accountP = new AccountPresenter(this);
 
         Log.i(ACTIVITY_SERVICE, "BankAccount info acquired complete.");
     }
@@ -158,17 +158,7 @@ public class AccountActivity extends Activity implements AccountView {
     private void getData(List<BankAccount> bankAccounts, List<Map<String, Object>> list) {
 
         // Update back-end BankAccount array
-        try {
-            int result = BankAccount.getAccouts(loginAccName, bankAccounts);
-            if (result == -2) {
-                Intent intent = new Intent();
-                intent.setClass(this, MainActivity.class);
-                startActivity(intent);
-                this.finish();
-            }
-        } catch (GetAccountException e) {
-            Log.e("onGetData", e.getMessage());
-        }
+        accountP.getAccounts(loginAccName, bankAccounts);
 
         // Clear ListView data list
         list.clear();
@@ -192,8 +182,8 @@ public class AccountActivity extends Activity implements AccountView {
             list.add(map);
         }
 
-        System.out.println("bankAccounts array:" + bankAccounts.size());
-        System.out.println("listData array:" + list.size());
+//        System.out.println("bankAccounts array:" + bankAccounts.size());
+//        System.out.println("listData array:" + list.size());
     }
 
     /**

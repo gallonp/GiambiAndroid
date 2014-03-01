@@ -1,5 +1,8 @@
 package com.example.giambi.presenter;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -7,7 +10,13 @@ import android.view.MenuItem.OnMenuItemClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
+import com.example.giambi.MainActivity;
+import com.example.giambi.activity.LoginActivity;
+import com.example.giambi.model.BankAccount;
+import com.example.giambi.util.GetAccountException;
 import com.example.giambi.view.AccountView;
+
+import java.util.List;
 
 /**
  * Presenter for account activity.
@@ -24,7 +33,6 @@ public class AccountPresenter {
     public AccountPresenter(AccountView view) {
         this.v = view;
 
-        v.flushListView();
         v.addOnListItemClick(this.onListItemClickListener);
         Log.v("AccountPresenter", "Listeners set up complete.");
     }
@@ -33,6 +41,20 @@ public class AccountPresenter {
         return this.onMenuItemClickListener;
     }
 
+    public void getAccounts(String loginAccName,
+                            List<BankAccount> bankAccounts) {
+        try {
+            int result = BankAccount.getAccouts(loginAccName, bankAccounts);
+            if (result == -2) {
+                Intent intent = new Intent();
+                intent.setClass((Context) v, LoginActivity.class);
+                ((Context) v).startActivity(intent);
+                ((Activity) v).finish();
+            }
+        } catch (GetAccountException e) {
+            Log.e("onGetData", e.getMessage());
+        }
+    }
     /**
      * Listener for listView item click
      */
