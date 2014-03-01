@@ -100,8 +100,7 @@ public class Util {
     }
 
     /**
-     * @param username
-     * @param password
+     * @param loginAccount
      * @return
      */
     public static boolean checkLogin(LoginAccount loginAccount) {
