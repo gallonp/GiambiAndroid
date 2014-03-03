@@ -27,6 +27,8 @@ public class AccountPresenter {
 
     private AccountView v;
 
+    
+    private List<BankAccount> bankAccounts;
     /**
      * Constructor.
      */
@@ -61,10 +63,10 @@ public class AccountPresenter {
     private OnItemClickListener onListItemClickListener = new OnItemClickListener() {
 
         @Override
-        public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-                long arg3) {
-            // TODO 自动生成的方法存根
-            
+        public void onItemClick(AdapterView<?> parent, View view, int position,
+                long id) {
+//        	get the current clicked account number
+//            v.startTransactionPage(accountNumber)
         }
     };
 
@@ -94,5 +96,9 @@ public class AccountPresenter {
                 }
 
     };
+    
 
+
+    
+    
 }

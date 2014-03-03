@@ -35,7 +35,7 @@ public class LoginPresenter {
                 if (Util.checkLogin(account)) {
                     authResult = account.authenticate();
                     v.setResonpseText(authResult);
-                    if (authResult.equals("Login succeeded!")) {
+                    if (authResult.contains("Login succeeded!")) {
                         v.SetUser(account.getUsername());
                         v.startOverview(account);
                     } else {

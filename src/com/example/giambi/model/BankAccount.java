@@ -61,7 +61,7 @@ public final class BankAccount {
 		String encodedAccNum = Util.encodeString(accountNum);
 		// HttpPost request = new HttpPost(
 		// "http://giambi-server-2340.appspot.com/register");
-		HttpPost request = new HttpPost("http://10.0.2.2:8888/createaccount");
+		HttpPost request = new HttpPost("http://10.0.3.2:8888/createaccount");
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("userAccount", encodedLoginAcc);
 		jsonObj.put("bankAccountName", encodedAlias);
@@ -97,7 +97,7 @@ public final class BankAccount {
 			throws GetAccountException {
 		String encodedLoginAcc = Util.encodeString(loginAcc);
 
-		HttpPost request = new HttpPost("http://10.0.2.2:8888/getaccount");
+		HttpPost request = new HttpPost("http://10.0.3.2:8888/getaccount");
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("userAccount", encodedLoginAcc);
 

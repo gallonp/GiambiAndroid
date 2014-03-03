@@ -171,8 +171,8 @@ public class AccountActivity extends Activity implements AccountView {
             map = new HashMap<String, Object>();
             balance = bankAccounts.get(i).getBalance().setScale(2, BigDecimal.ROUND_HALF_EVEN);
 
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.US);//设置日期格式
-            String date = df.format(new Date());//new Date()为获取当前系统时间
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+            String date = df.format(new Date());
 
             map.put("ID", ((Integer) i).toString());
             map.put("Alias", bankAccounts.get(i).getAlias());
@@ -254,6 +254,15 @@ public class AccountActivity extends Activity implements AccountView {
             return convertView;
         }
     }
+
+	@Override
+	public void startTransactionPage(String accountNumber) {
+	    Intent i = new Intent(this, TransactionActivity.class);
+	    Bundle bundle = new Bundle();
+	    bundle.putString("AccountNumber", accountNumber);
+	    i.putExtras(bundle);
+	    startActivity(i);
+	}
 
 
 //  private class MyAsyncTask extends AsyncTask{

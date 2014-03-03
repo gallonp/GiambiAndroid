@@ -20,4 +20,5 @@ public interface AccountView {
 
     void setDialogMessage(int errorCode);
 
+    void startTransactionPage(String accountNumber);
 }
