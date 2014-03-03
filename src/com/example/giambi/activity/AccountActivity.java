@@ -65,7 +65,6 @@ public class AccountActivity extends Activity implements AccountView {
         adapter = new MyAdapter(this);
         listView.setAdapter(adapter);
         flushListView();
-        adapter.notifyDataSetChanged();
         currencyFormat.setMinimumFractionDigits(2);
 
         setupActionBar();

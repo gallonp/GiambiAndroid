@@ -3,59 +3,56 @@ package com.example.giambi.model;
 import java.util.Date;
 import java.util.List;
 
-import org.eclipse.jdt.annotation.NonNull;
-import org.eclipse.jdt.annotation.Nullable;
-
 import com.example.giambi.util.InvalidArguementException;
 
 public class Transaction {
 
-	// Composite keys: name and amount
-	public String name;
-	public double amount;
-	// username is the only foreign key
+    // Composite keys: name and amount
+    public String name;
+    public double amount;
+    // username is the only foreign key
 
-	public String username;
+    public String username;
 
-	// Extra info
-	public String category;
-	public Date createDate;
-	public String merchant;
-	public long accountNumber;
-	// database unique key
-	public Long id;
+    // Extra info
+    public String category;
+    public Date createDate;
+    public String merchant;
+    public long accountNumber;
+    // database unique key
+    public Long id;
 
-	public Transaction(@NonNull String name, @NonNull double amount,
-			@NonNull String username) throws InvalidArguementException {
-		
-		if (name.isEmpty() || username.isEmpty()) {
-			throw new InvalidArguementException(
-					"At least one of the arguements is empty");
-		}
-		this.name = name;
-		this.amount = amount;
-		this.username = username;
-	}
+    public Transaction(String name, double amount,String username) throws
+            InvalidArguementException {
 
-	public void addExtraInfo(String category, Date createDate, String merchant,
-			long accountNumber) {
-		this.category = category;
-		this.createDate = createDate;
-		this.merchant = merchant;
-		this.accountNumber = accountNumber;
-	}
+        if (name.isEmpty() || username.isEmpty()) {
+            throw new InvalidArguementException(
+                    "At least one of the arguements is empty");
+        }
+        this.name = name;
+        this.amount = amount;
+        this.username = username;
+    }
 
-	public static List<Transaction> getAccountTransactions(String username,
-			long accountNumber) {
-		return null;
-	}
+    public void addExtraInfo(String category, Date createDate, String merchant,
+                             long accountNumber) {
+        this.category = category;
+        this.createDate = createDate;
+        this.merchant = merchant;
+        this.accountNumber = accountNumber;
+    }
 
-	public static List<Transaction> getAllTransactions(String username) {
-		return null;
-	}
+    public static List<Transaction> getAccountTransactions(String username,
+                                                           long accountNumber) {
+        return null;
+    }
 
-	public static void persistTransaction(Transaction transaction) {
+    public static List<Transaction> getAllTransactions(String username) {
+        return null;
+    }
 
-	}
+    public static void persistTransaction(Transaction transaction) {
+
+    }
 
 }
