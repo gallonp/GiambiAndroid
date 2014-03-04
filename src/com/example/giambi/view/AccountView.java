@@ -3,6 +3,10 @@
  */
 package com.example.giambi.view;
 
+import java.util.List;
+
+import com.example.giambi.model.BankAccount;
+
 import android.widget.AdapterView.OnItemClickListener;
 
 /**
@@ -16,7 +20,7 @@ public interface AccountView {
 
     void showAddAccDialog();
 
-    void flushListView();
+    void setAccountList(List<BankAccount> bankAccounts);
 
     void setDialogMessage(int errorCode);
 

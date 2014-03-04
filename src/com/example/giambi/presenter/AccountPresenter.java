@@ -34,7 +34,12 @@ public class AccountPresenter {
      */
     public AccountPresenter(AccountView view) {
         this.v = view;
-
+        try {
+			BankAccount.getAccouts(v.getUsername(), this.bankAccounts);
+			v.setAccountList(this.bankAccounts);
+		} catch (GetAccountException e) {
+			Log.v("Get Account Exception", e.getMessage());
+		}
         v.addOnListItemClick(this.onListItemClickListener);
         Log.v("AccountPresenter", "Listeners set up complete.");
     }
@@ -66,7 +71,7 @@ public class AccountPresenter {
         public void onItemClick(AdapterView<?> parent, View view, int position,
                 long id) {
 //        	get the current clicked account number
-//            v.startTransactionPage(accountNumber)
+//          v.startTransactionPage();
         }
     };
 
@@ -80,7 +85,7 @@ public class AccountPresenter {
                 public boolean onMenuItemClick(MenuItem item) {
                     String itemTitle = item.getTitle().toString();
                     if (itemTitle.equals("Refresh")) {
-                        v.flushListView();
+                        v.setAccountList(bankAccounts);
                         Log.i("MenuItem", "1");
                     } else if (itemTitle.equals("Search")) {
                         Log.i("MenuItem", "2");

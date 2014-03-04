@@ -45,7 +45,7 @@ import com.example.giambi.view.AccountView;
 public class AccountActivity extends Activity implements AccountView {
 
     private ListView listView;
-    private AccountPresenter accountP;
+    private AccountPresenter accountPresenter;
     private ActionBar actionBar;
     private String loginAccName;
     private List<BankAccount> bankAccounts = new LinkedList<BankAccount>();
@@ -61,12 +61,10 @@ public class AccountActivity extends Activity implements AccountView {
         loginAccName = getUsernameFromPreference();
         listView = (ListView) this.findViewById(R.id.account_list);
         actionBar = this.getActionBar();
-        accountP = new AccountPresenter(this);
         adapter = new MyAdapter(this);
         listView.setAdapter(adapter);
-        flushListView();
         currencyFormat.setMinimumFractionDigits(2);
-
+        accountPresenter = new AccountPresenter(this);
         setupActionBar();
 
         Log.i(ACTIVITY_SERVICE, "BankAccount info acquired complete.");
@@ -89,7 +87,7 @@ public class AccountActivity extends Activity implements AccountView {
         menuItems[2] = (MenuItem) menu.findItem(R.id.create_new_item);
         menuItems[3] = (MenuItem) menu.findItem(R.id.logout);
         for (MenuItem item : menuItems) {
-            item.setOnMenuItemClickListener(accountP.getOnMenuItemClickListener());
+            item.setOnMenuItemClickListener(accountPresenter.getOnMenuItemClickListener());
         }
         return true;
     }
@@ -138,8 +136,8 @@ public class AccountActivity extends Activity implements AccountView {
      * Flush list view adapter.
      */
     @Override
-    public void flushListView() {
-        getData(bankAccounts, listData);
+    public void setAccountList(List<BankAccount> bankAccounts) {
+        mapBankAccountData(bankAccounts, listData);
         adapter.notifyDataSetChanged();
     }
 
@@ -154,10 +152,10 @@ public class AccountActivity extends Activity implements AccountView {
         return username;
     }
 
-    private void getData(List<BankAccount> bankAccounts, List<Map<String, Object>> list) {
-
-        // Update back-end BankAccount array
-        accountP.getAccounts(loginAccName, bankAccounts);
+    private void mapBankAccountData(List<BankAccount> bankAccounts, List<Map<String, Object>> list) {
+//
+//        // Update back-end BankAccount array
+//        accountP.getAccounts(loginAccName, bankAccounts);
 
         // Clear ListView data list
         list.clear();

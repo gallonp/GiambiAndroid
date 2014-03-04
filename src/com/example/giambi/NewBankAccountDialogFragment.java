@@ -1,9 +1,11 @@
 package com.example.giambi;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import com.example.giambi.model.BankAccount;
 import com.example.giambi.util.CreateAccountException;
+import com.example.giambi.util.GetAccountException;
 import com.example.giambi.util.Util;
 import com.example.giambi.view.AccountView;
 
@@ -98,8 +100,13 @@ public class NewBankAccountDialogFragment extends DialogFragment {
         } catch (CreateAccountException e) {
             Log.i("onAddBankAccount", e.getMessage());
         }
-
+        List<BankAccount> bankAccounts=null;
+        try {
+			BankAccount.getAccouts(v.getUsername(), bankAccounts);
+		} catch (GetAccountException e) {
+			Log.v("GetAccountException", e.getMessage());
+		}
         this.dismiss();
-        v.flushListView();
+        v.setAccountList(bankAccounts);
     }
 }

@@ -9,11 +9,17 @@ import com.example.giambi.model.Transaction;
 import com.example.giambi.presenter.TransactionPresenter;
 import com.example.giambi.view.TransactionView;
 
+import android.app.ActionBar;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
@@ -36,7 +42,7 @@ public class TransactionActivity extends ListActivity implements
 
 	private TransactionPresenter transactionPresenter;
 	
-	
+	private ActionBar actionBar;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +57,35 @@ public class TransactionActivity extends ListActivity implements
 		ViewGroup root = (ViewGroup) findViewById(R.id.transactionLayout);
 		root.addView(progressBar);
 		this.setAccountNumber();
+		this.actionBar = this.getActionBar();
 		this.transactionPresenter = new TransactionPresenter(this, this.accountNumber);
 	}
 	
 	
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.general_menu_options, menu);
+        MenuItem[] menuItems = new MenuItem[4];
+        menuItems[0] = (MenuItem) menu.findItem(R.id.refresh);
+        menuItems[1] = (MenuItem) menu.findItem(R.id.search);
+        menuItems[2] = (MenuItem) menu.findItem(R.id.create_new_item);
+        menuItems[3] = (MenuItem) menu.findItem(R.id.logout);
+        for (MenuItem item : menuItems) {
+           item.setOnMenuItemClickListener(menuClickListener);
+        }
+        return true;
+    }
+
+    public OnMenuItemClickListener menuClickListener = new OnMenuItemClickListener(){
+
+		@Override
+		public boolean onMenuItemClick(MenuItem item) {
+			Log.v("menu title",(String) item.getTitle() );
+			return false;
+		}
+    	
+    };
 	
 	private void setAccountNumber(){
 		Bundle b = getIntent().getExtras();
