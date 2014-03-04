@@ -1,6 +1,7 @@
 package com.example.giambi;
 
 import java.math.BigDecimal;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.example.giambi.model.BankAccount;
@@ -100,7 +101,7 @@ public class NewBankAccountDialogFragment extends DialogFragment {
         } catch (CreateAccountException e) {
             Log.i("onAddBankAccount", e.getMessage());
         }
-        List<BankAccount> bankAccounts=null;
+        List<BankAccount> bankAccounts=new LinkedList<BankAccount>();
         try {
 			BankAccount.getAccouts(v.getUsername(), bankAccounts);
 		} catch (GetAccountException e) {

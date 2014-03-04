@@ -48,6 +48,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.giambi.LoginActivity" />
         </activity>
+        <activity
+            android:name="com.example.giambi.activity.TransactionActivity"
+            android:label="@string/transaction"
+            android:parentActivityName="com.example.giambi.activity.AccountActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.giambi.AccountActivity" />
+        </activity>
     </application>
 
 </manifest>

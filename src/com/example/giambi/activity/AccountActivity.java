@@ -26,6 +26,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
@@ -259,6 +260,12 @@ public class AccountActivity extends Activity implements AccountView {
 	    bundle.putString("AccountNumber", accountNumber);
 	    i.putExtras(bundle);
 	    startActivity(i);
+	}
+
+	@Override
+	public void setAdapter(Adapter mAdapter) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

@@ -16,6 +16,7 @@ import com.example.giambi.model.BankAccount;
 import com.example.giambi.util.GetAccountException;
 import com.example.giambi.view.AccountView;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -28,7 +29,7 @@ public class AccountPresenter {
     private AccountView v;
 
     
-    private List<BankAccount> bankAccounts;
+    private List<BankAccount> bankAccounts = new LinkedList<BankAccount>();
     /**
      * Constructor.
      */
@@ -71,7 +72,8 @@ public class AccountPresenter {
         public void onItemClick(AdapterView<?> parent, View view, int position,
                 long id) {
 //        	get the current clicked account number
-//          v.startTransactionPage();
+        	
+          v.startTransactionPage(bankAccounts.get(position).getAccountNum());
         }
     };
 

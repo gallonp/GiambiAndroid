@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.example.giambi.model.BankAccount;
 
+import android.widget.Adapter;
 import android.widget.AdapterView.OnItemClickListener;
 
 /**
@@ -25,4 +26,6 @@ public interface AccountView {
     void setDialogMessage(int errorCode);
 
     void startTransactionPage(String accountNumber);
+    
+    void setAdapter(Adapter mAdapter);
 }

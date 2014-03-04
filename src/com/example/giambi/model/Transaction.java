@@ -1,5 +1,7 @@
 package com.example.giambi.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -22,13 +24,13 @@ public class Transaction {
     // database unique key
     public Long id;
 
-    public Transaction(String name, double amount,String username) throws
-            InvalidArguementException {
+    public Transaction(String name, double amount,String username) 
+             {
 
-        if (name.isEmpty() || username.isEmpty()) {
-            throw new InvalidArguementException(
-                    "At least one of the arguements is empty");
-        }
+//        if (name.isEmpty() || username.isEmpty()) {
+//            throw new InvalidArguementException(
+//                    "At least one of the arguements is empty");
+//        }
         this.name = name;
         this.amount = amount;
         this.username = username;
@@ -55,4 +57,14 @@ public class Transaction {
 
     }
 
+    
+    public static Transaction t1 = new Transaction("Mc", 10 ,"giambi" );
+    public static Transaction t2 = new Transaction("Publix", 150 ,"Tonny" );
+    public static Transaction t3 = new Transaction("Subway", 5 ,"Jay" );
+    
+    private static Transaction[] dummyTransactions = new Transaction[]{t1,t2,t3};
+    
+    public static List<Transaction> transactions = new ArrayList<Transaction>(Arrays.asList(dummyTransactions));   
+
+    
 }

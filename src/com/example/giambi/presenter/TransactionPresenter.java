@@ -24,8 +24,9 @@ public class TransactionPresenter {
 		//getData from transaction
 		username = v.getUsernameFromPreference();
 		this.accountNumber = accountNumber;
-		this.transactions = Transaction.getAccountTransactions(username,accountNumber);
+		this.transactions = Transaction.transactions;
 		v.setTransactions(transactions);
+		v.addOnItemClickListener(itemClickListener);
 	}
 	
 	private OnItemClickListener itemClickListener = new OnItemClickListener(){
