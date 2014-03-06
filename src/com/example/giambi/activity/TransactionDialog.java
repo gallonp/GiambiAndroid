@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.example.giambi.R;
 import com.example.giambi.model.Transaction;
+import com.example.giambi.presenter.TransactionDialogPresenter;
 import com.example.giambi.util.Util;
 import com.example.giambi.view.AccountView;
 import com.example.giambi.view.TransactionDialogView;
@@ -17,6 +18,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.database.DataSetObserver;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -52,6 +54,7 @@ public class TransactionDialog extends DialogFragment implements
 	private EditText merchantField;
 	private Button addAndSaveButton;
 
+	private TransactionDialogPresenter transactionDialogPresenter;
 	public TransactionDialog() {
 
 	}
@@ -80,6 +83,8 @@ public class TransactionDialog extends DialogFragment implements
 
 		populateFields(view);
 
+		transactionDialogPresenter = new TransactionDialogPresenter(this);		
+		
 		return new AlertDialog.Builder(this.getActivity()).setTitle(addOrEdit)
 				.setView(view).create();
 	}
@@ -104,6 +109,8 @@ public class TransactionDialog extends DialogFragment implements
 			this.accountNumberField.setText(accountNumber);
 			this.accountNumberField.setEnabled(false);
 		}
+		this.accountNumberField.setText(accountNumber);
+
 	}
 
 	private void syncUIData() {
@@ -123,13 +130,16 @@ public class TransactionDialog extends DialogFragment implements
 		
 		String username = ((TransactionActivity) this.getActivity())
 				.getUsernameFromPreference();
-		
+		Log.v("username passed to transaction", username);
 		Transaction newTransaction = new Transaction(this.transactionName,
 				Double.parseDouble(this.amount), username);
 		// Need to check transaction name, amount are not null
 		Date date = Util.stringToDate(this.date);
-		newTransaction.id = Long.parseLong(this.keyId);
+		if (!this.keyId.equals("")){
+			newTransaction.id = Long.parseLong(this.keyId);
+		}
 		newTransaction.addExtraInfo(category, date, merchant, accountNumber);
+		
 		// populate the fields of newTransaction with the data in the dialog
 		// newTransaction
 		return newTransaction;

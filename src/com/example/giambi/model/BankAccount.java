@@ -59,8 +59,6 @@ public final class BankAccount {
 		String encodedBankName = Util.encodeString(bankName);
 		String encodedBalance = Util.encodeString(balance.toString());
 		String encodedAccNum = Util.encodeString(accountNum);
-		// HttpPost request = new HttpPost(
-		// "http://giambi-server-2340.appspot.com/register");
 		HttpPost request = new HttpPost("http://10.0.3.2:8888/createaccount");
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("userAccount", encodedLoginAcc);
@@ -106,10 +104,7 @@ public final class BankAccount {
 		HttpResponse response = GiambiHttpClient.getResponse(request);
 		String responseCookie = "";// response.getHeaders("Cookie")[0].getValue();
 		String content = "";
-		// if (responseCookie != "") {
-		// this.cookie = responseCookie;
-		//
-		// } else {
+
 		try {
 			content = Util.HttpContentReader(response.getEntity().getContent());
 			System.out.println(content);

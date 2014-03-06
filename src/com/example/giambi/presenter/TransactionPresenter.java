@@ -26,11 +26,13 @@ public class TransactionPresenter {
 		//getData from transaction
 		username = v.getUsernameFromPreference();
 		this.accountNumber = accountNumber;
-		this.transactions = Transaction.transactions;
-		this.transactions.get(0).createDate = Calendar.getInstance().getTime();
-		this.transactions.get(1).createDate = Calendar.getInstance().getTime();
-		this.transactions.get(2).createDate = Calendar.getInstance().getTime();
-		v.setTransactions(transactions);
+		this.transactions = Transaction.getAccountTransactions(username, this.accountNumber);
+		if (transactions != null){
+			this.transactions.get(0).createDate = Calendar.getInstance().getTime();
+			this.transactions.get(1).createDate = Calendar.getInstance().getTime();
+			this.transactions.get(2).createDate = Calendar.getInstance().getTime();
+			v.setTransactions(transactions);
+		}
 		v.addOnItemClickListener(itemClickListener);
 	}
 	

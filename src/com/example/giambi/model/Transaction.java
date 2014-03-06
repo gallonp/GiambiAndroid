@@ -5,12 +5,20 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpParams;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import android.util.Log;
 
@@ -57,11 +65,12 @@ public class Transaction implements Serializable {
 
 	public static List<Transaction> getAccountTransactions(String username,
 			String accountNumber) {
-		HttpPost request = new HttpPost("http://10.0.3.2:8888/transaction");
-		JSONObject jsonObj = new JSONObject();
-		jsonObj.put("username", username);
-		jsonObj.put("AccountNumber", accountNumber);
-		request.setEntity(Util.jsonToEntity(jsonObj));
+		List<Transaction> transactions = new LinkedList<Transaction>();
+		HttpGet request = new HttpGet("http://10.0.3.2:8888/transactions");
+		HttpParams httpParams = new BasicHttpParams();
+		httpParams.setParameter("username", username);
+		httpParams.setParameter("accountNumber", accountNumber);
+		request.setParams(httpParams);
 		HttpResponse response = GiambiHttpClient.getResponse(request);
 		String content = "";
 		try {
@@ -71,9 +80,47 @@ public class Transaction implements Serializable {
 		} catch (IOException e) {
 			Log.e("IOException", e.getMessage());
 		}
-		JSONObject parsedObj = (JSONObject) JSONValue.parse(content);
-		
-		//some methods to decode the JSON object into list of transactions
+		Log.v("Get transactions content",content);
+		JSONArray jsonArr = null;
+		JSONParser jPaser = new JSONParser();
+		try {
+			JSONObject jSONObj = (JSONObject) jPaser.parse(content);
+			Log.v("jSONObj", jSONObj.get("data").toString());
+			if (jSONObj.get("data").toString().equals("[]")){
+				return null;
+			} else {
+				Log.v("JSONArr to parse",content);
+				jsonArr = (JSONArray) jPaser.parse(content);
+			}
+			
+		} catch (ParseException e) {
+			Log.i("onJSONArrayCreate", "Error on casting");
+
+			// throws exceptions;
+			return null;
+		}
+		Log.v("JsonArr size",Integer.toString(jsonArr.size()));
+		Log.v("JsonArr string", jsonArr.toJSONString());
+		if (jsonArr.size() != 0) {
+			for (int i = 0; i < jsonArr.size(); ++i) {
+				@SuppressWarnings("unchecked")
+				Map<String, String> transactionMap = (Map<String, String>) jsonArr
+						.get(i);
+				Transaction newTransaction = new Transaction(
+						transactionMap.get("transactionName"),
+						Long.parseLong(transactionMap.get("amount")),
+						transactionMap.get("username"));
+				newTransaction.addExtraInfo(transactionMap.get("category"),
+						Util.stringToDate(transactionMap.get("date")),
+						transactionMap.get("merchant"),
+						transactionMap.get("accountNumber"));
+				Log.v("Adding transaction","added one!");
+				transactions.add(newTransaction);
+			}
+			return transactions;
+		}
+
+		// some methods to decode the JSON object into list of transactions
 		return null;
 	}
 
@@ -85,18 +132,19 @@ public class Transaction implements Serializable {
 	@SuppressWarnings("unchecked")
 	public static void persistTransaction(Transaction transaction) {
 		// Need to update the path
-		
-		//if KeyId exist, update. If not, create
-		
-		HttpPost request = new HttpPost("http://10.0.3.2:8888/transaction");
+
+		// if KeyId exist, update. If not, create
+
+		HttpPost request = new HttpPost("http://10.0.3.2:8888/transactions");
 		JSONObject jsonObj = new JSONObject();
-		jsonObj.put("AccountNumber", transaction.accountNumber);
-		jsonObj.put("Amount", transaction.amount);
-		jsonObj.put("Category", transaction.category);
-		jsonObj.put("CreateDate", transaction.createDate.toString());
-		jsonObj.put("Merchant", transaction.merchant);
-		jsonObj.put("TransactionName", transaction.transactionName);
-		jsonObj.put("Username", transaction.username);
+		jsonObj.put("accountNumber", transaction.accountNumber);
+		jsonObj.put("amount", transaction.amount);
+		jsonObj.put("category", transaction.category);
+//		jsonObj.put("createDate", transaction.createDate.toString());
+		jsonObj.put("merchant", transaction.merchant);
+		jsonObj.put("transactionName", transaction.transactionName);
+		jsonObj.put("username", transaction.username);
+		Log.v("username sent via json", transaction.username);
 		request.setEntity(Util.jsonToEntity(jsonObj));
 		HttpResponse response = GiambiHttpClient.getResponse(request);
 		String content = "";

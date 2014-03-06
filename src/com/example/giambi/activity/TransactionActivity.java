@@ -153,8 +153,8 @@ public class TransactionActivity extends Activity implements
 	@Override
 	public void setTransactions(List<Transaction> transactions) {
 		this.transactions = transactions;
-		Transaction one = this.transactions.get(0);
-		Log.v("setTransactions", one.transactionName+"," + one.amount+ "," + one.username);
+//		Transaction one = this.transactions.get(0);
+//		Log.v("setTransactions", one.transactionName+"," + one.amount+ "," + one.username);
 //		this.myAdapter.notifyDataSetChanged();
 	}
 
