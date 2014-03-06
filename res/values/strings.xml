@@ -37,5 +37,6 @@
     <string name="merchant">Merchant</string>
     <string name="transaction">transaction</string>
     <string name="date">Date</string>
+    <string name="date_hint">DD/MM/YYYY</string>
     
 </resources>

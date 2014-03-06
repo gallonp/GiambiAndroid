@@ -6,7 +6,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -153,4 +156,16 @@ public class Util {
         return encodedString;
     }
 
+    
+    public static Date stringToDate(String dateString){
+    	SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+    	try {
+    		Date date = formatter.parse(dateString);
+    		return date;
+    	} catch (ParseException e) {
+    		e.printStackTrace();
+    	}
+    	return null;
+    	
+    }
 }

@@ -246,6 +246,7 @@ public class TransactionActivity extends Activity implements
             b.putString("Merchant", transaction.merchant);
             b.putString("Date", transaction.createDate.toString());
             b.putString("Username", this.username);
+            b.putString("KeyId", Long.toString(transaction.id));
             dialog.setArguments(b);
         } else {
         	Bundle b = new Bundle();

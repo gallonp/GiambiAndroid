@@ -7,7 +7,9 @@ import java.util.List;
 
 import com.example.giambi.R;
 import com.example.giambi.model.Transaction;
+import com.example.giambi.util.Util;
 import com.example.giambi.view.AccountView;
+import com.example.giambi.view.TransactionDialogView;
 import com.example.giambi.view.TransactionView;
 
 import android.app.AlertDialog;
@@ -17,6 +19,7 @@ import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -26,91 +29,120 @@ import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.SearchView;
 
-public class TransactionDialog extends DialogFragment {
+public class TransactionDialog extends DialogFragment implements
+		TransactionDialogView {
 
 	private Transaction transaction = null;
 	private String username = "";
 	private String addOrEdit = "";
-	
+
 	private String accountNumber = "";
 	private String transactionName = "";
 	private String amount = "";
 	private String category = "";
 	private String merchant = "";
 	private String date = "";
-	
+	private String keyId = "";
+
 	private EditText transactionNameField;
 	private EditText amountField;
 	private EditText dateField;
-	private ListView categoryField;
-	private EditText transactionAccountNumberField;
-	private SearchView merchantField;
+	private EditText categoryField;
+	private EditText accountNumberField;
+	private EditText merchantField;
 	private Button addAndSaveButton;
-	
+
 	public TransactionDialog() {
 
 	}
 
 	@Override
-	public Dialog onCreateDialog(
-			Bundle savedInstanceState) {
+	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		TransactionActivity v = (TransactionActivity) this.getActivity();
 		LayoutInflater inflater = LayoutInflater.from(v);
-		final View view = inflater
-				.inflate(R.layout.transaction_dialog, null);
-		
+		final View view = inflater.inflate(R.layout.transaction_dialog, null);
+
 		transactionNameField = (EditText) view
 				.findViewById(R.id.transactionName);
-		amountField = (EditText) view
-				.findViewById(R.id.transactionAmount);
-		categoryField = (ListView) view
-				.findViewById(R.id.transactionCategoryExpandableListView);
-		transactionAccountNumberField = (EditText) view
+		amountField = (EditText) view.findViewById(R.id.transactionAmount);
+		// categoryField = (ListView) view
+		// .findViewById(R.id.transactionCategoryExpandableListView);
+		categoryField = (EditText) view
+				.findViewById(R.id.transactionCategoryEditTextView);
+		accountNumberField = (EditText) view
 				.findViewById(R.id.AccountNumberTextView);
-		merchantField = (SearchView) view
-				.findViewById(R.id.merchantExpandableListView);
+		// merchantField = (SearchView) view
+		// .findViewById(R.id.merchantExpandableListView);
+		merchantField = (EditText) view.findViewById(R.id.merchantEditTextView);
 		dateField = (EditText) view.findViewById(R.id.transactionDate);
-		addAndSaveButton = (Button) view.findViewById(R.id.addTransactionButton);
+		addAndSaveButton = (Button) view
+				.findViewById(R.id.addTransactionButton);
 
 		populateFields(view);
-		
+
 		return new AlertDialog.Builder(this.getActivity()).setTitle(addOrEdit)
 				.setView(view).create();
 	}
-	
-	public <T> void  setListAdapter(ListView listView,List<T> data){
-		listView.setAdapter(new ArrayAdapter<T>(this.getActivity(), R.layout.simple_string_list, data){
-		});
-	}
-	
-	
-	//only populate the fields when there is bundle from previous activitys
+
+	// only populate the fields when there is bundle from previous activitys
 	private void populateFields(View addView) {
 		Bundle b = this.getArguments();
 		addOrEdit = b.getString("AddOrEdit");
-		if (!addOrEdit.contains("Add")){
-		accountNumber = b.getString("AccountNumber");
-		transactionName = b.getString("TransactionName");
-		amount = b.getString("Amount");
-		category = b.getString("Category");
-		merchant = b.getString("Merchant");
-		date = b.getString("Date");
-		this.amountField.setText(amount);
-		this.transactionNameField.setText(transactionName);
-		this.dateField.setText(date);
-		this.addAndSaveButton.setText("Save");
-		this.transactionAccountNumberField.setText("1245263");
-		this.transactionAccountNumberField.setEnabled(false);
+		if (!addOrEdit.contains("Add")) {
+			keyId = b.getString("keyId");
+			accountNumber = b.getString("AccountNumber");
+			transactionName = b.getString("TransactionName");
+			amount = b.getString("Amount");
+			category = b.getString("Category");
+			merchant = b.getString("Merchant");
+			date = b.getString("Date");
+			this.amountField.setText(amount);
+			this.transactionNameField.setText(transactionName);
+			this.dateField.setText(date);
+			this.addAndSaveButton.setText("Save");
+			// Set accountNumber to its original one and forbid editing
+			this.accountNumberField.setText(accountNumber);
+			this.accountNumberField.setEnabled(false);
 		}
 	}
-	
-	private Transaction getCurrentTransactionData(){
 
-		Transaction newTransaction = new Transaction(this.transactionName, Double.parseDouble(this.amount), null);
-		//populate the fields of newTransaction with the data in the dialog
-		return null;
+	private void syncUIData() {
+		accountNumber = this.accountNumberField.getText().toString();
+		transactionName = this.transactionNameField.getText().toString();
+		amount = this.amountField.getText().toString();
+		category = this.categoryField.getText().toString();
+		merchant = this.merchantField.getText().toString();
+		date = this.dateField.toString();
+		//username and keyId don't need to sync
 	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public Transaction getCurrentTransactionData() {
+		syncUIData();
 		
+		String username = ((TransactionActivity) this.getActivity())
+				.getUsernameFromPreference();
 		
-	
+		Transaction newTransaction = new Transaction(this.transactionName,
+				Double.parseDouble(this.amount), username);
+		// Need to check transaction name, amount are not null
+		Date date = Util.stringToDate(this.date);
+		newTransaction.id = Long.parseLong(this.keyId);
+		newTransaction.addExtraInfo(category, date, merchant, accountNumber);
+		// populate the fields of newTransaction with the data in the dialog
+		// newTransaction
+		return newTransaction;
+	}
+
+	@Override
+	public void AddOnClickListener(OnClickListener clickerListener) {
+		this.addAndSaveButton.setOnClickListener(clickerListener);
+	}
+
+	// public <T> void setListAdapter(ListView listView,List<T> data){
+	// listView.setAdapter(new ArrayAdapter<T>(this.getActivity(),
+	// R.layout.simple_string_list, data){
+	// });
+	// }
 }

@@ -85,6 +85,9 @@ public class Transaction implements Serializable {
 	@SuppressWarnings("unchecked")
 	public static void persistTransaction(Transaction transaction) {
 		// Need to update the path
+		
+		//if KeyId exist, update. If not, create
+		
 		HttpPost request = new HttpPost("http://10.0.3.2:8888/transaction");
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("AccountNumber", transaction.accountNumber);
