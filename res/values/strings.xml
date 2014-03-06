@@ -36,5 +36,6 @@
     <string name="transaction_category">Category</string>
     <string name="merchant">Merchant</string>
     <string name="transaction">transaction</string>
+    <string name="date">Date</string>
     
 </resources>

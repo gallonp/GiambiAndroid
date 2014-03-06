@@ -5,6 +5,7 @@ import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
 
+import com.example.giambi.NewBankAccountDialogFragment;
 import com.example.giambi.R;
 import com.example.giambi.model.Transaction;
 import com.example.giambi.presenter.TransactionPresenter;
@@ -12,6 +13,8 @@ import com.example.giambi.view.TransactionView;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.DialogFragment;
+import android.app.FragmentTransaction;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -26,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -38,13 +42,17 @@ public class TransactionActivity extends Activity implements
 
 	private List<Transaction> transactions = new ArrayList<Transaction>();
 	// All transactions must belong to a unique accountNumber of a certain user
-	private Long accountNumber = 0L;
+	private String accountNumber = "";
+	
+	private String username = "";
 	
 	private OnItemClickListener onItemClickListener;
 
 	private TransactionPresenter transactionPresenter;
 	
 	private ActionBar actionBar;
+	
+	private DialogFragment dialog;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +67,7 @@ public class TransactionActivity extends Activity implements
 //		getListView().setEmptyView(progressBar);
 //		ViewGroup root = (ViewGroup) findViewById(R.id.transactionLayout);
 //		root.addView(progressBar);
+		this.username = this.getUsernameFromPreference();
 		this.setAccountNumber();
 		this.actionBar = this.getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -67,8 +76,8 @@ public class TransactionActivity extends Activity implements
 		Log.v("onCreateTransationAct","Before Set presenter");
 		this.transactionPresenter = new TransactionPresenter(this, this.accountNumber);
 
+		
 	}
-	
 	
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -96,7 +105,8 @@ public class TransactionActivity extends Activity implements
             } else if (itemTitle.equals("Search")) {
                 Log.i("MenuItem", "2");
             } else if (itemTitle.equals("New..")) {
-                Log.i("MenuItem", "3");
+            	showTransactionDetail(null);
+            	Log.i("MenuItem", "3");
             } else if (itemTitle.equals("Log Out")) {
                 Log.i("MenuItem", "4");
             } else {
@@ -105,15 +115,21 @@ public class TransactionActivity extends Activity implements
 			return false;
 		}
     	
-    };
-	
+    };    
+    
 	private void setAccountNumber(){
 		Bundle b = getIntent().getExtras();
+		String accNumber ="";
+		try{
 		long value = Long.parseLong(b.getString("AccountNumber"));
-		if (value == 0){
+		accNumber = Long.toString(value);
+		} catch (NumberFormatException e){
+			Log.v("TransactionActivity","Error in parsing AccountNumber");
+		}
+		if (accNumber.isEmpty()){
 			//some ways to hanlde no account number
 		} else {
-			this.accountNumber = value;
+			this.accountNumber = accNumber;
 		}
 	}
 
@@ -138,8 +154,8 @@ public class TransactionActivity extends Activity implements
 	public void setTransactions(List<Transaction> transactions) {
 		this.transactions = transactions;
 		Transaction one = this.transactions.get(0);
-		Log.v("setTransactions", one.name+"," + one.amount+ "," + one.username);
-		this.myAdapter.notifyDataSetChanged();
+		Log.v("setTransactions", one.transactionName+"," + one.amount+ "," + one.username);
+//		this.myAdapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -174,8 +190,9 @@ public class TransactionActivity extends Activity implements
 
 		@Override
 		public long getItemId(int position) {
+			Log.v("getItemId",Integer.toString(position));
 			Transaction transaction = transactions.get(position);
-			return transaction.id;
+			return transaction.hashCode();
 		}
 
 		@Override
@@ -191,10 +208,10 @@ public class TransactionActivity extends Activity implements
 			TextView amount = (TextView) rowView.findViewById(R.id.amount);
 			
 			Transaction transaction = transactions.get(position);
-			Log.v("setTransactionsView", transaction.name+"," + transaction.amount+ "," + transaction.username);
+			Log.v("setTransactionsView", transaction.transactionName+"," + transaction.amount+ "," + transaction.username);
 
 			// set field from transaction
-			transactionName.setText(transaction.name);
+			transactionName.setText(transaction.transactionName);
 			category.setText(transaction.category);
 			amount.setText(Currency.getInstance(Locale.US).getSymbol()
 					+ Double.toString(transaction.amount));
@@ -216,6 +233,27 @@ public class TransactionActivity extends Activity implements
 
 	@Override
 	public void showTransactionDetail(Transaction transaction) {
-		
+        Log.i("DialogFragment", "show new dialog fragment");
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        dialog = new TransactionDialog();
+        if(transaction!= null){
+            Bundle b = new Bundle();
+            b.putString("AddOrEdit", "Transaction Details");
+            b.putString("TransactionName", transaction.transactionName);
+            b.putString("AccountNumber", transaction.accountNumber);
+            b.putString("Category", transaction.category);
+            b.putString("Amount", Double.toString(transaction.amount));
+            b.putString("Merchant", transaction.merchant);
+            b.putString("Date", transaction.createDate.toString());
+            b.putString("Username", this.username);
+            dialog.setArguments(b);
+        } else {
+        	Bundle b = new Bundle();
+            b.putString("AddOrEdit", "Add Transaction");
+            dialog.setArguments(b);
+        }
+//        b.putString("transactionName", )
+//        b.putSerializable(key, value)("Transaction", this.accountNumber);
+        dialog.show(ft, "dialog");
 	}
 }

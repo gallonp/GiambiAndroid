@@ -1,5 +1,7 @@
 package com.example.giambi.presenter;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import android.view.View;
@@ -15,16 +17,19 @@ public class TransactionPresenter {
 	
 	private List<Transaction> transactions;
 	
-	private long accountNumber=0;
+	private String accountNumber="";
 	
 	private String username;
 	
-	public TransactionPresenter(TransactionView v, long accountNumber) {
+	public TransactionPresenter(TransactionView v, String accountNumber) {
 		this.v = v;
 		//getData from transaction
 		username = v.getUsernameFromPreference();
 		this.accountNumber = accountNumber;
 		this.transactions = Transaction.transactions;
+		this.transactions.get(0).createDate = Calendar.getInstance().getTime();
+		this.transactions.get(1).createDate = Calendar.getInstance().getTime();
+		this.transactions.get(2).createDate = Calendar.getInstance().getTime();
 		v.setTransactions(transactions);
 		v.addOnItemClickListener(itemClickListener);
 	}

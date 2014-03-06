@@ -47,17 +47,32 @@
             />
 
         <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/date"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <EditText
+            android:id="@+id/transactionDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="date" />
+
+        <TextView
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/account_number"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <ExpandableListView
-            android:id="@+id/expandableListView1"
+        <EditText
+            android:id="@+id/AccountNumberTextView"
             android:layout_width="match_parent"
-            android:layout_height="30dp" >
-        </ExpandableListView>
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="number" />
 
         <TextView
             android:id="@+id/textView3"
@@ -67,13 +82,13 @@
             android:text="@string/transaction_category"
             android:textAppearance="?android:attr/textAppearanceMedium"/>
 
-        <ExpandableListView
-            android:id="@+id/categoryOptionsListView"
+        <ListView
+            android:id="@+id/transactionCategoryExpandableListView"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginBottom="10dp" >
 
-        </ExpandableListView>
+        </ListView>
 
         <TextView
             android:id="@+id/textView4"
@@ -84,10 +99,10 @@
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <SearchView
-            android:id="@+id/merchantSearchListView"
+            android:id="@+id/merchantExpandableListView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" 
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="5dp">
 
         </SearchView>
 
@@ -96,11 +111,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/holo_blue_dark"
-            android:layout_marginTop="10dp"
             android:text="@string/add"
             android:textColor="@android:color/white"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
         
     </LinearLayout>
     
