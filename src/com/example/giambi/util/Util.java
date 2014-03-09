@@ -158,14 +158,13 @@ public class Util {
 
     
     public static Date stringToDate(String dateString){
-    	SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+    	SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
     	try {
     		Date date = formatter.parse(dateString);
     		return date;
     	} catch (ParseException e) {
-    		e.printStackTrace();
+    		Log.v("Date Parse Error",dateString +" can't be parsed using current format");
+    		return null;
     	}
-    	return null;
-    	
     }
 }

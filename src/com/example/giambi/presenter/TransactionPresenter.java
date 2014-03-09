@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -25,15 +26,18 @@ public class TransactionPresenter {
 		this.v = v;
 		//getData from transaction
 		username = v.getUsernameFromPreference();
+		Log.v("username from preference", username);
 		this.accountNumber = accountNumber;
+		
 		this.transactions = Transaction.getAccountTransactions(username, this.accountNumber);
-		if (transactions != null){
-			this.transactions.get(0).createDate = Calendar.getInstance().getTime();
-			this.transactions.get(1).createDate = Calendar.getInstance().getTime();
-			this.transactions.get(2).createDate = Calendar.getInstance().getTime();
-			v.setTransactions(transactions);
-		}
+		Log.v("transactions to present",transactions.size()+"");
+//		if (transactions != null){
+//			this.transactions.get(0).createDate = Calendar.getInstance().getTime();
+//			this.transactions.get(1).createDate = Calendar.getInstance().getTime();
+//			this.transactions.get(2).createDate = Calendar.getInstance().getTime();
+		v.setTransactions(transactions);
 		v.addOnItemClickListener(itemClickListener);
+//		}
 	}
 	
 	private OnItemClickListener itemClickListener = new OnItemClickListener(){

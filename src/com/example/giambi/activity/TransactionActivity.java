@@ -5,6 +5,7 @@ import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
 
+import com.example.giambi.MyAdapter;
 import com.example.giambi.NewBankAccountDialogFragment;
 import com.example.giambi.R;
 import com.example.giambi.model.Transaction;
@@ -46,14 +47,13 @@ public class TransactionActivity extends Activity implements
 	
 	private String username = "";
 	
-	private OnItemClickListener onItemClickListener;
-
 	private TransactionPresenter transactionPresenter;
 	
 	private ActionBar actionBar;
 	
 	private DialogFragment dialog;
 	
+	private ListView transactionList;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -71,9 +71,13 @@ public class TransactionActivity extends Activity implements
 		this.setAccountNumber();
 		this.actionBar = this.getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		this.myAdapter = new MyAdapter(this);
-		this.getListView().setAdapter(this.myAdapter);
-		Log.v("onCreateTransationAct","Before Set presenter");
+		this.myAdapter = new MyAdapter(this, transactions);
+		this.transactionList = (ListView) findViewById(R.id.transactionListView);
+		this.transactionList.setAdapter(this.myAdapter);
+		
+		Bundle b = this.getIntent().getExtras();
+		this.accountNumber = (String) b.get("AccountNumber");
+		
 		this.transactionPresenter = new TransactionPresenter(this, this.accountNumber);
 
 		
@@ -83,39 +87,33 @@ public class TransactionActivity extends Activity implements
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.general_menu_options, menu);
-        MenuItem[] menuItems = new MenuItem[4];
-        menuItems[0] = (MenuItem) menu.findItem(R.id.refresh);
-        menuItems[1] = (MenuItem) menu.findItem(R.id.search);
-        menuItems[2] = (MenuItem) menu.findItem(R.id.create_new_item);
-        menuItems[3] = (MenuItem) menu.findItem(R.id.logout);
-        for (MenuItem item : menuItems) {
-           item.setOnMenuItemClickListener(menuClickListener);
-        }
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
-    public OnMenuItemClickListener menuClickListener = new OnMenuItemClickListener(){
-
-		@Override
-		public boolean onMenuItemClick(MenuItem item) {
-			String itemTitle = item.getTitle().toString();
-			Log.v("menu title",(String) item.getTitle()+","+item.getGroupId() );
-            if (itemTitle.equals("Refresh")) {
-                Log.i("MenuItem", "1");
-            } else if (itemTitle.equals("Search")) {
-                Log.i("MenuItem", "2");
-            } else if (itemTitle.equals("New..")) {
-            	showTransactionDetail(null);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.refresh:
+            	updateTransactions();
+                return true;
+                
+            case R.id.create_new_item:
+            	Transaction newTransaction = new Transaction("", 0, username);
+            	newTransaction.accountNumber = accountNumber;
+            	Log.v("accountNumber passed to new", accountNumber);
+            	showTransactionDetail(newTransaction);
             	Log.i("MenuItem", "3");
-            } else if (itemTitle.equals("Log Out")) {
-                Log.i("MenuItem", "4");
-            } else {
-                Log.i("MenuItem", "Unknown");
-            }
-			return false;
-		}
-    	
-    };    
+                return true;
+                
+            case R.id.logout:
+            	return true;
+            case R.id.search:
+            	return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
     
 	private void setAccountNumber(){
 		Bundle b = getIntent().getExtras();
@@ -128,6 +126,7 @@ public class TransactionActivity extends Activity implements
 		}
 		if (accNumber.isEmpty()){
 			//some ways to hanlde no account number
+			this.finish();
 		} else {
 			this.accountNumber = accNumber;
 		}
@@ -146,13 +145,10 @@ public class TransactionActivity extends Activity implements
         return username;
     }
     
-	public ListView getListView() {
-		return (ListView) findViewById(R.id.transactionListView);
-	}
-
 	@Override
 	public void setTransactions(List<Transaction> transactions) {
 		this.transactions = transactions;
+		this.myAdapter.transactionsInList = transactions;
 //		Transaction one = this.transactions.get(0);
 //		Log.v("setTransactions", one.transactionName+"," + one.amount+ "," + one.username);
 //		this.myAdapter.notifyDataSetChanged();
@@ -160,83 +156,25 @@ public class TransactionActivity extends Activity implements
 
 	@Override
 	public void updateTransactions() {
+		this.myAdapter.transactionsInList = this.transactions;
 		this.myAdapter.notifyDataSetChanged();
 	}
 	
 	
 
-	public class MyAdapter extends BaseAdapter {
-
-		private final Context context;
-//		private final List<Transaction> transactions;
-
-		public MyAdapter(Context context) {
-			super();
-			this.context = context;
-			
-			Log.v("MyAdapter constructor","instantiation completed");
-			Log.v("transactions size",Integer.toString(transactions.size()));
-		}
-
-		@Override
-		public int getCount() {
-			return transactions.size();
-		}
-
-		@Override
-		public Object getItem(int position) {
-			return transactions.get(position);
-		}
-
-		@Override
-		public long getItemId(int position) {
-			Log.v("getItemId",Integer.toString(position));
-			Transaction transaction = transactions.get(position);
-			return transaction.hashCode();
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			// TODO Auto-generated method stub
-			LayoutInflater inflater = LayoutInflater.from(context);
-			Log.v("adapter","inflate view");
-			View rowView = inflater.inflate(R.layout.transaction_row, parent,
-					false);
-			TextView transactionName = (TextView) rowView
-					.findViewById(R.id.transactionName);
-			TextView category = (TextView) rowView.findViewById(R.id.category);
-			TextView amount = (TextView) rowView.findViewById(R.id.amount);
-			
-			Transaction transaction = transactions.get(position);
-			Log.v("setTransactionsView", transaction.transactionName+"," + transaction.amount+ "," + transaction.username);
-
-			// set field from transaction
-			transactionName.setText(transaction.transactionName);
-			category.setText(transaction.category);
-			amount.setText(Currency.getInstance(Locale.US).getSymbol()
-					+ Double.toString(transaction.amount));
-
-			return rowView;
-		}
-
-	}
-
-
+	
 
 	@Override
 	public void addOnItemClickListener(OnItemClickListener listener) {
-		this.onItemClickListener = listener;
-		this.getListView().setOnItemClickListener(this.onItemClickListener);
+		this.transactionList.setOnItemClickListener(listener);
 	}
-
-
 
 	@Override
 	public void showTransactionDetail(Transaction transaction) {
         Log.i("DialogFragment", "show new dialog fragment");
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         dialog = new TransactionDialog();
-        if(transaction!= null){
+        if(!transaction.transactionName.isEmpty()){
             Bundle b = new Bundle();
             b.putString("AddOrEdit", "Transaction Details");
             b.putString("TransactionName", transaction.transactionName);
@@ -251,6 +189,8 @@ public class TransactionActivity extends Activity implements
         } else {
         	Bundle b = new Bundle();
             b.putString("AddOrEdit", "Add Transaction");
+            b.putString("AccountNumber", transaction.accountNumber);
+
             dialog.setArguments(b);
         }
 //        b.putString("transactionName", )

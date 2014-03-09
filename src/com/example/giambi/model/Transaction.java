@@ -69,7 +69,9 @@ public class Transaction implements Serializable {
 		HttpGet request = new HttpGet("http://10.0.3.2:8888/transactions");
 		HttpParams httpParams = new BasicHttpParams();
 		httpParams.setParameter("username", username);
+		Log.v("username params", username);
 		httpParams.setParameter("accountNumber", accountNumber);
+		Log.v("accountNumber params: ", accountNumber);
 		request.setParams(httpParams);
 		HttpResponse response = GiambiHttpClient.getResponse(request);
 		String content = "";
@@ -87,17 +89,15 @@ public class Transaction implements Serializable {
 			JSONObject jSONObj = (JSONObject) jPaser.parse(content);
 			Log.v("jSONObj", jSONObj.get("data").toString());
 			if (jSONObj.get("data").toString().equals("[]")){
-				return null;
+				return transactions;
 			} else {
 				Log.v("JSONArr to parse",content);
-				jsonArr = (JSONArray) jPaser.parse(content);
+				jsonArr = (JSONArray) jSONObj.get("data");
 			}
-			
 		} catch (ParseException e) {
 			Log.i("onJSONArrayCreate", "Error on casting");
-
 			// throws exceptions;
-			return null;
+			return transactions;
 		}
 		Log.v("JsonArr size",Integer.toString(jsonArr.size()));
 		Log.v("JsonArr string", jsonArr.toJSONString());
@@ -108,20 +108,22 @@ public class Transaction implements Serializable {
 						.get(i);
 				Transaction newTransaction = new Transaction(
 						transactionMap.get("transactionName"),
-						Long.parseLong(transactionMap.get("amount")),
+						Double.parseDouble(transactionMap.get("amount")),
 						transactionMap.get("username"));
+				Log.v("transactionMap.get(\"name\")=",transactionMap.get("name"));
+				newTransaction.id = Long.parseLong(transactionMap.get("name"));
+				Log.v("newTransaction id",newTransaction.id+"");
 				newTransaction.addExtraInfo(transactionMap.get("category"),
-						Util.stringToDate(transactionMap.get("date")),
+						Util.stringToDate(transactionMap.get("createDate")),
 						transactionMap.get("merchant"),
 						transactionMap.get("accountNumber"));
 				Log.v("Adding transaction","added one!");
 				transactions.add(newTransaction);
 			}
-			return transactions;
 		}
 
 		// some methods to decode the JSON object into list of transactions
-		return null;
+		return transactions;
 	}
 
 	public static List<Transaction> getAllTransactions(String username) {
@@ -140,10 +142,16 @@ public class Transaction implements Serializable {
 		jsonObj.put("accountNumber", transaction.accountNumber);
 		jsonObj.put("amount", transaction.amount);
 		jsonObj.put("category", transaction.category);
-//		jsonObj.put("createDate", transaction.createDate.toString());
+		jsonObj.put("id", transaction.id);
+		Log.v("transaction id passed to doPost", transaction.id+"");
+		if (transaction.createDate!= null){
+			jsonObj.put("createDate", transaction.createDate.toString());
+		}
 		jsonObj.put("merchant", transaction.merchant);
 		jsonObj.put("transactionName", transaction.transactionName);
 		jsonObj.put("username", transaction.username);
+		Log.v("transaction username passed to doPost", transaction.username+"");
+		
 		Log.v("username sent via json", transaction.username);
 		request.setEntity(Util.jsonToEntity(jsonObj));
 		HttpResponse response = GiambiHttpClient.getResponse(request);

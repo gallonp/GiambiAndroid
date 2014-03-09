@@ -55,6 +55,7 @@ public class TransactionDialog extends DialogFragment implements
 	private Button addAndSaveButton;
 
 	private TransactionDialogPresenter transactionDialogPresenter;
+
 	public TransactionDialog() {
 
 	}
@@ -68,14 +69,10 @@ public class TransactionDialog extends DialogFragment implements
 		transactionNameField = (EditText) view
 				.findViewById(R.id.transactionName);
 		amountField = (EditText) view.findViewById(R.id.transactionAmount);
-		// categoryField = (ListView) view
-		// .findViewById(R.id.transactionCategoryExpandableListView);
 		categoryField = (EditText) view
 				.findViewById(R.id.transactionCategoryEditTextView);
 		accountNumberField = (EditText) view
 				.findViewById(R.id.AccountNumberTextView);
-		// merchantField = (SearchView) view
-		// .findViewById(R.id.merchantExpandableListView);
 		merchantField = (EditText) view.findViewById(R.id.merchantEditTextView);
 		dateField = (EditText) view.findViewById(R.id.transactionDate);
 		addAndSaveButton = (Button) view
@@ -83,8 +80,8 @@ public class TransactionDialog extends DialogFragment implements
 
 		populateFields(view);
 
-		transactionDialogPresenter = new TransactionDialogPresenter(this);		
-		
+		transactionDialogPresenter = new TransactionDialogPresenter(this);
+
 		return new AlertDialog.Builder(this.getActivity()).setTitle(addOrEdit)
 				.setView(view).create();
 	}
@@ -94,7 +91,8 @@ public class TransactionDialog extends DialogFragment implements
 		Bundle b = this.getArguments();
 		addOrEdit = b.getString("AddOrEdit");
 		if (!addOrEdit.contains("Add")) {
-			keyId = b.getString("keyId");
+			keyId = b.getString("KeyId");
+			Log.v("KeyId:", keyId + "");
 			accountNumber = b.getString("AccountNumber");
 			transactionName = b.getString("TransactionName");
 			amount = b.getString("Amount");
@@ -108,7 +106,13 @@ public class TransactionDialog extends DialogFragment implements
 			// Set accountNumber to its original one and forbid editing
 			this.accountNumberField.setText(accountNumber);
 			this.accountNumberField.setEnabled(false);
+			this.categoryField.setText(this.category);
+			this.merchantField.setText(this.merchant);
 		}
+		accountNumber = b.getString("AccountNumber");
+		this.accountNumberField.setText(accountNumber);
+		this.accountNumberField.setEnabled(false);
+
 		this.accountNumberField.setText(accountNumber);
 
 	}
@@ -119,27 +123,32 @@ public class TransactionDialog extends DialogFragment implements
 		amount = this.amountField.getText().toString();
 		category = this.categoryField.getText().toString();
 		merchant = this.merchantField.getText().toString();
-		date = this.dateField.toString();
-		//username and keyId don't need to sync
+		date = this.dateField.getText().toString();
+		// username and keyId don't need to sync
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
 	public Transaction getCurrentTransactionData() {
 		syncUIData();
-		
+
 		String username = ((TransactionActivity) this.getActivity())
 				.getUsernameFromPreference();
 		Log.v("username passed to transaction", username);
 		Transaction newTransaction = new Transaction(this.transactionName,
 				Double.parseDouble(this.amount), username);
 		// Need to check transaction name, amount are not null
+		Log.v("got Date from UI:", this.date.toString());
 		Date date = Util.stringToDate(this.date);
-		if (!this.keyId.equals("")){
+		if (date == null) {
+			date = Calendar.getInstance().getTime();
+		}
+
+		if (this.keyId != null && !this.keyId.equals("")) {
 			newTransaction.id = Long.parseLong(this.keyId);
 		}
 		newTransaction.addExtraInfo(category, date, merchant, accountNumber);
-		
+
 		// populate the fields of newTransaction with the data in the dialog
 		// newTransaction
 		return newTransaction;
@@ -148,6 +157,11 @@ public class TransactionDialog extends DialogFragment implements
 	@Override
 	public void AddOnClickListener(OnClickListener clickerListener) {
 		this.addAndSaveButton.setOnClickListener(clickerListener);
+	}
+
+	@Override
+	public TransactionView getTransactionActivity() {
+		return (TransactionView) this.getActivity();
 	}
 
 	// public <T> void setListAdapter(ListView listView,List<T> data){

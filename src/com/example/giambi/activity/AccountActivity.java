@@ -55,6 +55,11 @@ public class AccountActivity extends Activity implements AccountView {
     private MyAdapter adapter;
     private NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(Locale.US);
 
+    @Override 
+    protected void onResume(){
+    	
+    }
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

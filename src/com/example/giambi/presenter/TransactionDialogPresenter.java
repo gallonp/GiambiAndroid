@@ -1,5 +1,7 @@
 package com.example.giambi.presenter;
 
+import java.util.List;
+
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,6 +28,12 @@ public class TransactionDialogPresenter {
 			Log.v("Add button Clicked","clicked!!!!");
 			Transaction newTransaction = v.getCurrentTransactionData();
 			Transaction.persistTransaction(newTransaction);
+			Log.v("newTransaction to persist", newTransaction.id+"");
+			List<Transaction> transactions = Transaction.getAccountTransactions(v.getTransactionActivity().getUsernameFromPreference(),"" );
+			v.getTransactionActivity().setTransactions(transactions);
+			v.getTransactionActivity().updateTransactions();
+			v.dismiss();
+			
 		}
 		
 	};

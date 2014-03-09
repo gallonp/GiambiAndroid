@@ -19,16 +19,14 @@
             android:id="@+id/transactionName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="left|center_vertical"/>
-
+            android:layout_gravity="top"/>
         <TextView
             android:id="@+id/category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="10sp"
+            android:textSize="12sp"
             android:textColor="#aa000000"
-            android:layout_gravity="left|center_vertical"/>
-
+            android:layout_gravity="bottom"/>
     </LinearLayout>
 
     <TextView
@@ -37,6 +35,6 @@
         android:layout_height="wrap_content"
         android:textColor="#ff000000"
         android:layout_alignParentRight="true"
-        android:gravity="right|center_vertical"/>
+        android:gravity="center_vertical"/>
 
 </RelativeLayout>
