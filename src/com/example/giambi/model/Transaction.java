@@ -27,6 +27,7 @@ import com.example.giambi.util.InvalidArguementException;
 import com.example.giambi.util.RegisterException;
 import com.example.giambi.util.Util;
 
+@SuppressWarnings("serial")
 public class Transaction implements Serializable {
 
 	// Composite keys: name and amount
@@ -66,7 +67,7 @@ public class Transaction implements Serializable {
 	public static List<Transaction> getAccountTransactions(String username,
 			String accountNumber) {
 		List<Transaction> transactions = new LinkedList<Transaction>();
-		HttpGet request = new HttpGet("http://10.0.3.2:8888/transactions");
+		HttpGet request = new HttpGet("http://127.0.0.1:8888/transactions");
 		HttpParams httpParams = new BasicHttpParams();
 		httpParams.setParameter("username", username);
 		Log.v("username params", username);
@@ -137,7 +138,7 @@ public class Transaction implements Serializable {
 
 		// if KeyId exist, update. If not, create
 
-		HttpPost request = new HttpPost("http://10.0.3.2:8888/transactions");
+		HttpPost request = new HttpPost("http://localhost:8888/transactions");
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("accountNumber", transaction.accountNumber);
 		jsonObj.put("amount", transaction.amount);
