@@ -7,14 +7,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.example.giambi.model.Transaction;
-import com.example.giambi.view.TransactionDialogView;
+import com.example.giambi.view.TransactionDetailsView;
 
-public class TransactionDialogPresenter {
+public class TransactionDetailsPresenter {
 	
 	
-	private TransactionDialogView v;
+	private TransactionDetailsView v;
 	
-	public TransactionDialogPresenter(TransactionDialogView view) {
+	public TransactionDetailsPresenter(TransactionDetailsView view) {
 		
 		this.v = view;
 		v.AddOnClickListener(onClickListener);

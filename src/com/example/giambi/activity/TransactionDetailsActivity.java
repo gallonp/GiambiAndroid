@@ -5,9 +5,9 @@ import java.util.Date;
 
 import com.example.giambi.R;
 import com.example.giambi.model.Transaction;
-import com.example.giambi.presenter.TransactionDialogPresenter;
+import com.example.giambi.presenter.TransactionDetailsPresenter;
 import com.example.giambi.util.Util;
-import com.example.giambi.view.TransactionDialogView;
+import com.example.giambi.view.TransactionDetailsView;
 import com.example.giambi.view.TransactionView;
 
 import android.app.Activity;
@@ -21,7 +21,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 @SuppressWarnings("unused")
-public class TransactionDetailsActivity extends Activity implements TransactionDialogView {
+public class TransactionDetailsActivity extends Activity implements TransactionDetailsView {
 
 	
 	private Transaction transaction = null;
@@ -44,7 +44,7 @@ public class TransactionDetailsActivity extends Activity implements TransactionD
 	private EditText merchantField;
 	private Button addAndSaveButton;
 
-	private TransactionDialogPresenter transactionDialogPresenter;
+	private TransactionDetailsPresenter transactionDialogPresenter;
 	
 	public TransactionDetailsActivity() {
 		
@@ -68,7 +68,7 @@ public class TransactionDetailsActivity extends Activity implements TransactionD
 
 		populateFields();
 
-		transactionDialogPresenter = new TransactionDialogPresenter(this);
+		transactionDialogPresenter = new TransactionDetailsPresenter(this);
 
 	}
 	

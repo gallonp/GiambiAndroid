@@ -5,7 +5,7 @@ import com.example.giambi.model.Transaction;
 
 import android.view.View.OnClickListener;
 
-public interface TransactionDialogView {
+public interface TransactionDetailsView {
 	
 	void AddOnClickListener(OnClickListener clickerListener);
 	
