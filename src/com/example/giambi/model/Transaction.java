@@ -82,16 +82,16 @@ public class Transaction implements Serializable {
 		} catch (IOException e) {
 			Log.e("IOException", e.getMessage());
 		}
-		Log.v("Get transactions content",content);
+//		Log.v("Get transactions content",content);
 		JSONArray jsonArr = null;
 		JSONParser jPaser = new JSONParser();
 		try {
 			JSONObject jSONObj = (JSONObject) jPaser.parse(content);
-			Log.v("jSONObj", jSONObj.get("data").toString());
+//			Log.v("jSONObj", jSONObj.get("data").toString());
 			if (jSONObj.get("data").toString().equals("[]")){
 				return transactions;
 			} else {
-				Log.v("JSONArr to parse",content);
+//				Log.v("JSONArr to parse",content);
 				jsonArr = (JSONArray) jSONObj.get("data");
 			}
 		} catch (ParseException e) {
@@ -99,8 +99,8 @@ public class Transaction implements Serializable {
 			// throws exceptions;
 			return transactions;
 		}
-		Log.v("JsonArr size",Integer.toString(jsonArr.size()));
-		Log.v("JsonArr string", jsonArr.toJSONString());
+//		Log.v("JsonArr size",Integer.toString(jsonArr.size()));
+//		Log.v("JsonArr string", jsonArr.toJSONString());
 		if (jsonArr.size() != 0) {
 			for (int i = 0; i < jsonArr.size(); ++i) {
 				@SuppressWarnings("unchecked")
@@ -110,14 +110,14 @@ public class Transaction implements Serializable {
 						transactionMap.get("transactionName"),
 						Double.parseDouble(transactionMap.get("amount")),
 						transactionMap.get("username"));
-				Log.v("transactionMap.get(\"name\")=",transactionMap.get("name"));
+//				Log.v("transactionMap.get(\"name\")=",transactionMap.get("name"));
 				newTransaction.id = Long.parseLong(transactionMap.get("name"));
-				Log.v("newTransaction id",newTransaction.id+"");
+//				Log.v("newTransaction id",newTransaction.id+"");
 				newTransaction.addExtraInfo(transactionMap.get("category"),
 						Util.stringToDate(transactionMap.get("createDate")),
 						transactionMap.get("merchant"),
 						transactionMap.get("accountNumber"));
-				Log.v("Adding transaction","added one!");
+//				Log.v("Adding transaction","added one!");
 				transactions.add(newTransaction);
 			}
 		}
@@ -150,7 +150,7 @@ public class Transaction implements Serializable {
 		jsonObj.put("merchant", transaction.merchant);
 		jsonObj.put("transactionName", transaction.transactionName);
 		jsonObj.put("username", transaction.username);
-		Log.v("transaction username passed to doPost", transaction.username+"");
+//		Log.v("transaction username passed to doPost", transaction.username+"");
 		
 		Log.v("username sent via json", transaction.username);
 		request.setEntity(Util.jsonToEntity(jsonObj));

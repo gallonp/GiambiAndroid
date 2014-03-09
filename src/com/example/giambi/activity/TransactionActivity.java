@@ -18,6 +18,7 @@ import android.app.DialogFragment;
 import android.app.FragmentTransaction;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -156,6 +157,7 @@ public class TransactionActivity extends Activity implements
 
 	@Override
 	public void updateTransactions() {
+		this.transactionPresenter.updateTransactions();
 		this.myAdapter.transactionsInList = this.transactions;
 		this.myAdapter.notifyDataSetChanged();
 	}
@@ -172,8 +174,9 @@ public class TransactionActivity extends Activity implements
 	@Override
 	public void showTransactionDetail(Transaction transaction) {
         Log.i("DialogFragment", "show new dialog fragment");
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        dialog = new TransactionDialog();
+        Intent i = new Intent(this,TransactionDetailsActivity.class);
+//        FragmentTransaction ft = getFragmentManager().beginTransaction();
+//        dialog = new TransactionDialog();
         if(!transaction.transactionName.isEmpty()){
             Bundle b = new Bundle();
             b.putString("AddOrEdit", "Transaction Details");
@@ -185,16 +188,28 @@ public class TransactionActivity extends Activity implements
             b.putString("Date", transaction.createDate.toString());
             b.putString("Username", this.username);
             b.putString("KeyId", Long.toString(transaction.id));
-            dialog.setArguments(b);
+            i.putExtras(b);
+            startActivityForResult(i, 1);
         } else {
         	Bundle b = new Bundle();
             b.putString("AddOrEdit", "Add Transaction");
             b.putString("AccountNumber", transaction.accountNumber);
-
-            dialog.setArguments(b);
+            i.putExtras(b);
+            startActivityForResult(i, 2);
+//            dialog.setArguments(b);
         }
+        
+
+        
 //        b.putString("transactionName", )
 //        b.putSerializable(key, value)("Transaction", this.accountNumber);
-        dialog.show(ft, "dialog");
+//        dialog.show(ft, "dialog");
 	}
+	
+	
+    protected void onActivityResult(int requestCode, int resultCode,
+            Intent data) {
+    	this.updateTransactions();
+    }
+    
 }

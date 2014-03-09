@@ -49,5 +49,10 @@ public class TransactionPresenter {
 		}
 		
 	};
+	
+	public void updateTransactions(){
+		this.transactions = Transaction.getAccountTransactions(username, this.accountNumber);
+		v.setTransactions(transactions);
+	}
 
 }

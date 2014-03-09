@@ -88,6 +88,12 @@
             android:text="@string/transaction_category"
             android:textAppearance="?android:attr/textAppearanceMedium"/>
 
+        <ListView
+            android:id="@+id/transactionCategoryListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+        </ListView>
+
         <EditText
             android:id="@+id/transactionCategoryEditTextView"
             android:layout_width="match_parent"
@@ -106,6 +112,12 @@
             android:layout_marginBottom="2dp"
             android:text="@string/merchant"
             android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <ListView
+            android:id="@+id/merchantListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+        </ListView>
 
         <EditText
             android:id="@+id/merchantEditTextView"

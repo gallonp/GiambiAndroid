@@ -11,7 +11,8 @@ public interface TransactionDialogView {
 	
 	Transaction getCurrentTransactionData();
 	
-	TransactionView getTransactionActivity();
+	String getUsernameFromPreference();
+
+	void finish();
 	
-	void dismiss();
 }

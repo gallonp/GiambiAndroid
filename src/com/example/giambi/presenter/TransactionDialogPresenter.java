@@ -29,10 +29,10 @@ public class TransactionDialogPresenter {
 			Transaction newTransaction = v.getCurrentTransactionData();
 			Transaction.persistTransaction(newTransaction);
 			Log.v("newTransaction to persist", newTransaction.id+"");
-			List<Transaction> transactions = Transaction.getAccountTransactions(v.getTransactionActivity().getUsernameFromPreference(),"" );
-			v.getTransactionActivity().setTransactions(transactions);
-			v.getTransactionActivity().updateTransactions();
-			v.dismiss();
+			v.finish();
+//			List<Transaction> transactions = Transaction.getAccountTransactions(v.getUsernameFromPreference(),"" );
+//			v.getTransactionActivity().setTransactions(transactions);
+//			v.getTransactionActivity().updateTransactions();
 			
 		}
 		

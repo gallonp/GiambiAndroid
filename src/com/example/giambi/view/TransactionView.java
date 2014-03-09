@@ -17,4 +17,5 @@ public interface TransactionView {
 	String getUsernameFromPreference();
 	
 	void showTransactionDetail(Transaction transaction);
+	
 }
