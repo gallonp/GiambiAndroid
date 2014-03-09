@@ -5,12 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.MenuItem.OnMenuItemClickListener;
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-
-import com.example.giambi.MainActivity;
 import com.example.giambi.activity.LoginActivity;
 import com.example.giambi.model.BankAccount;
 import com.example.giambi.util.GetAccountException;
@@ -21,26 +19,27 @@ import java.util.List;
 
 /**
  * Presenter for account activity.
- * @author cwl
  *
+ * @author cwl
  */
 public class AccountPresenter {
 
     private AccountView v;
 
-    
+
     private List<BankAccount> bankAccounts = new LinkedList<BankAccount>();
+
     /**
      * Constructor.
      */
     public AccountPresenter(AccountView view) {
         this.v = view;
         try {
-			BankAccount.getAccouts(v.getUsername(), this.bankAccounts);
-			v.setAccountList(this.bankAccounts);
-		} catch (GetAccountException e) {
-			Log.v("Get Account Exception", e.getMessage());
-		}
+            BankAccount.getAccouts(v.getUsername(), this.bankAccounts);
+            v.setAccountList(this.bankAccounts);
+        } catch (GetAccountException e) {
+            Log.v("Get Account Exception", e.getMessage());
+        }
         v.addOnListItemClick(this.onListItemClickListener);
         Log.v("AccountPresenter", "Listeners set up complete.");
     }
@@ -63,6 +62,7 @@ public class AccountPresenter {
             Log.e("onGetData", e.getMessage());
         }
     }
+
     /**
      * Listener for listView item click
      */
@@ -70,10 +70,10 @@ public class AccountPresenter {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position,
-                long id) {
+                                long id) {
 //        	get the current clicked account number
-        	
-          v.startTransactionPage(bankAccounts.get(position).getAccountNum());
+
+            v.startTransactionPage(bankAccounts.get(position).getAccountNum());
         }
     };
 
@@ -102,10 +102,7 @@ public class AccountPresenter {
                     return false;
                 }
 
-    };
-    
+            };
 
 
-    
-    
 }

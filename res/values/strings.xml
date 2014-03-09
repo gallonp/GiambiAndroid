@@ -36,6 +36,7 @@
     <string name="transaction_category">Category</string>
     <string name="merchant">Merchant</string>
     <string name="transaction">transaction</string>
+    <string name="report">report</string>
     <string name="date">Date</string>
     <string name="date_hint">DD/MM/YYYY</string>
     <string name="pick_one">Pick one...</string>

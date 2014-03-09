@@ -1,16 +1,15 @@
 package com.example.giambi;
 
-import com.example.giambi.activity.LoginActivity;
-import com.example.giambi.activity.RegisterActivity;
-
-import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import com.example.giambi.activity.LoginActivity;
+import com.example.giambi.activity.RegisterActivity;
 
 public class MainActivity extends Activity {
 
@@ -42,12 +41,12 @@ public class MainActivity extends Activity {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-            case R.id.welcome_login:
-                jumpToLogin();
-                break;
-            case R.id.welcome_Register:
-                jumpToRegister();
-                break;
+                case R.id.welcome_login:
+                    jumpToLogin();
+                    break;
+                case R.id.welcome_Register:
+                    jumpToRegister();
+                    break;
             }
         }
 

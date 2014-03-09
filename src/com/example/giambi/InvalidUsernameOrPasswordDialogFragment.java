@@ -8,16 +8,16 @@ import android.os.Bundle;
 
 /**
  * Creates a dialog to notify user when there's an error in his/her password or
- * username. Create a dialog by creating an instance of this dialog 
+ * username. Create a dialog by creating an instance of this dialog
  * then putString() the desired message to be displayed in the bundle then call show(ft, string) to show the dialog
  * exmaple:
- *     FragmentTransaction ft = getFragmentManager().beginTransaction();
- *     Bundle bundle = new Bundle();
- *     bundle.putString("message", getString(R.string.dialog_message_password_empty)); 
- *     DialogFragment dialog = new InvalidUsernameOrPasswordDialogFragment();
- *     dialog.setArguments(bundle);
- *     dialog.show(ft, "dialog");
- * 
+ * FragmentTransaction ft = getFragmentManager().beginTransaction();
+ * Bundle bundle = new Bundle();
+ * bundle.putString("message", getString(R.string.dialog_message_password_empty));
+ * DialogFragment dialog = new InvalidUsernameOrPasswordDialogFragment();
+ * dialog.setArguments(bundle);
+ * dialog.show(ft, "dialog");
+ *
  * @author haolidu
  * @version 0.99
  */

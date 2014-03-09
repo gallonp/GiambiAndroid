@@ -1,25 +1,24 @@
 package com.example.giambi;
 
-import java.io.IOException;
-import java.util.concurrent.ExecutionException;
-
+import android.os.AsyncTask;
+import android.util.Log;
 import org.apache.http.Header;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CookieStore;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import android.os.AsyncTask;
-import android.util.Log;
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 public class GiambiHttpClient {
 
     public static DefaultHttpClient httpClient = new DefaultHttpClient();
     public static CookieStore cookieStore = httpClient.getCookieStore();
+
     public static class AsynReader extends
             AsyncTask<HttpRequest, Void, HttpResponse> {
 
@@ -28,19 +27,19 @@ public class GiambiHttpClient {
             HttpRequest req = requests[0];
             HttpResponse resp;
             try {
-            	for (Header header:req.getAllHeaders()){
-            		Log.v("Headers",header.getName()+","+header.getValue());
-            	}
-            	for (Cookie cookie : cookieStore.getCookies()){
-            		req.addHeader(cookie.getName(),cookie.getValue());
-            		Log.v("cookie",cookie.getName()+"="+cookie.getValue());
-            	}
-            	for (Header header:req.getAllHeaders()){
-            		Log.v("Headers after cookies added",header.getName()+","+header.getValue());
-            	}
+                for (Header header : req.getAllHeaders()) {
+                    Log.v("Headers", header.getName() + "," + header.getValue());
+                }
+                for (Cookie cookie : cookieStore.getCookies()) {
+                    req.addHeader(cookie.getName(), cookie.getValue());
+                    Log.v("cookie", cookie.getName() + "=" + cookie.getValue());
+                }
+                for (Header header : req.getAllHeaders()) {
+                    Log.v("Headers after cookies added", header.getName() + "," + header.getValue());
+                }
                 resp = httpClient.execute((HttpUriRequest) req);
                 Log.v("asynReader", "asynTaskComplete");
-                
+
             } catch (ClientProtocolException e) {
                 Log.e(this.toString(), e.toString());
                 resp = null;

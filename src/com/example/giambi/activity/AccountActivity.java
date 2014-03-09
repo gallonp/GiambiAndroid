@@ -1,46 +1,32 @@
 package com.example.giambi.activity;
 
-import java.math.BigDecimal;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.DialogFragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.Adapter;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.example.giambi.InvalidUsernameOrPasswordDialogFragment;
-import com.example.giambi.MainActivity;
 import com.example.giambi.NewBankAccountDialogFragment;
 import com.example.giambi.R;
 import com.example.giambi.model.BankAccount;
 import com.example.giambi.presenter.AccountPresenter;
-import com.example.giambi.util.GetAccountException;
 import com.example.giambi.util.Util;
 import com.example.giambi.view.AccountView;
+
+import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 public class AccountActivity extends Activity implements AccountView {
@@ -110,7 +96,7 @@ public class AccountActivity extends Activity implements AccountView {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         dialog = new NewBankAccountDialogFragment();
 
-        
+
         dialog.show(ft, "dialog");
     }
 
@@ -120,14 +106,14 @@ public class AccountActivity extends Activity implements AccountView {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         Bundle bundle = new Bundle();
         switch (errorCode) {
-        case Util.INVALID_ACCOUNT_NUMBER:
-            bundle.putString("message",
-                    getString(R.string.dialog_message_invalid_account_number));
-            break;
-        case Util.INVALID_BALANCE:
-            bundle.putString("message",
-                    getString(R.string.dialog_message_invalid_balance));
-            break;
+            case Util.INVALID_ACCOUNT_NUMBER:
+                bundle.putString("message",
+                        getString(R.string.dialog_message_invalid_account_number));
+                break;
+            case Util.INVALID_BALANCE:
+                bundle.putString("message",
+                        getString(R.string.dialog_message_invalid_balance));
+                break;
         }
         DialogFragment dialog = new InvalidUsernameOrPasswordDialogFragment();
         dialog.setArguments(bundle);
@@ -145,11 +131,12 @@ public class AccountActivity extends Activity implements AccountView {
 
     /**
      * Get username from preference.
+     *
      * @return current username
      */
     private String getUsernameFromPreference() {
         SharedPreferences prefs = this.getSharedPreferences(
-                  "com.example.app", Context.MODE_PRIVATE);
+                "com.example.app", Context.MODE_PRIVATE);
         String username = prefs.getString("USERNAME_GIAMBI", null);
         return username;
     }
@@ -187,9 +174,9 @@ public class AccountActivity extends Activity implements AccountView {
 
     /**
      * @author cwl
-     * Holder for view in each entry of list.
+     *         Holder for view in each entry of list.
      */
-    private final class ViewHolder{
+    private final class ViewHolder {
         protected TextView alias;
         protected TextView bankName;
         protected TextView balance;
@@ -198,14 +185,15 @@ public class AccountActivity extends Activity implements AccountView {
 
     /**
      * Adapter for ListView.
+     *
      * @author cwl
      */
-    public class MyAdapter extends BaseAdapter{
+    public class MyAdapter extends BaseAdapter {
 
         private LayoutInflater mInflater;
 //        private List<Map<String, Object>> listData;
 
-        public MyAdapter(Context context){
+        public MyAdapter(Context context) {
 //            listData = v.getListData();
             this.mInflater = LayoutInflater.from(context);
         }
@@ -214,12 +202,12 @@ public class AccountActivity extends Activity implements AccountView {
         public int getCount() {
             return listData.size();
         }
- 
+
         @Override
         public Object getItem(int arg0) {
             return listData.get(arg0);
         }
- 
+
         @Override
         public long getItemId(int arg0) {
             return Long.parseLong((String) listData.get(arg0).get("ID"));
@@ -231,66 +219,42 @@ public class AccountActivity extends Activity implements AccountView {
             ViewHolder holder = null;
             if (convertView == null) {
 
-                holder=new ViewHolder(); 
+                holder = new ViewHolder();
 
                 convertView = mInflater.inflate(R.layout.vlist, null);
-                holder.alias = (TextView)convertView.findViewById(R.id.bAccount_alias);
-                holder.bankName = (TextView)convertView.findViewById(R.id.bAccount_bName);
-                holder.balance = (TextView)convertView.findViewById(R.id.bAccount_balance);
-                holder.date = (TextView)convertView.findViewById(R.id.bAccount_date);
+                holder.alias = (TextView) convertView.findViewById(R.id.bAccount_alias);
+                holder.bankName = (TextView) convertView.findViewById(R.id.bAccount_bName);
+                holder.balance = (TextView) convertView.findViewById(R.id.bAccount_balance);
+                holder.date = (TextView) convertView.findViewById(R.id.bAccount_date);
                 convertView.setTag(holder);
 
-            }else {
+            } else {
                 holder = (ViewHolder) convertView.getTag();
             }
 
 
-            holder.alias.setText((String)listData.get(position).get("Alias"));
-            holder.bankName.setText((String)listData.get(position).get("BankName"));
-            holder.balance.setText((String)listData.get(position).get("Balance"));
-            holder.date.setText((String)listData.get(position).get("Date"));
+            holder.alias.setText((String) listData.get(position).get("Alias"));
+            holder.bankName.setText((String) listData.get(position).get("BankName"));
+            holder.balance.setText((String) listData.get(position).get("Balance"));
+            holder.date.setText((String) listData.get(position).get("Date"));
 
             return convertView;
         }
     }
 
-	@Override
-	public void startTransactionPage(String accountNumber) {
-	    Intent i = new Intent(this, TransactionActivity.class);
-	    Bundle bundle = new Bundle();
-	    bundle.putString("AccountNumber", accountNumber);
-	    i.putExtras(bundle);
-	    startActivity(i);
-	}
+    @Override
+    public void startTransactionPage(String accountNumber) {
+        Intent i = new Intent(this, TransactionActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("AccountNumber", accountNumber);
+        i.putExtras(bundle);
+        startActivity(i);
+    }
 
-	@Override
-	public void setAdapter(Adapter mAdapter) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void setAdapter(Adapter mAdapter) {
+        // TODO Auto-generated method stub
 
-
-//  private class MyAsyncTask extends AsyncTask{
-//
-//      @Override
-//      protected Object doInBackground(Object... arg0) {
-//          // TODO Auto-generated method stub
-//          return null;
-//      }
-//
-//      @SuppressWarnings("unchecked")
-//      @Override
-//      protected void onPostExecute(Object result) {
-//          // TODO Auto-generated method stub
-//          super.onPostExecute(result);
-//      }
-//
-//      @Override
-//      protected void onPreExecute() {
-//          // TODO Auto-generated method stub
-//          super.onPreExecute();
-//      }
-//  }
-
+    }
 
 }

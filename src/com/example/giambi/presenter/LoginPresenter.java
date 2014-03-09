@@ -3,12 +3,10 @@ package com.example.giambi.presenter;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-
 import com.example.giambi.InvalidUsernameOrPasswordDialogFragment;
 import com.example.giambi.model.LoginAccount;
 import com.example.giambi.util.AuthenticateException;

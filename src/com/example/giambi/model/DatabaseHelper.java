@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(Context context, String name, CursorFactory factory,
-            int version, DatabaseErrorHandler errorHandler) {
+                          int version, DatabaseErrorHandler errorHandler) {
         super(context, name, factory, version, errorHandler);
         // TODO Auto-generated constructor stub
     }

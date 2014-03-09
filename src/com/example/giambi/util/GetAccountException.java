@@ -2,7 +2,6 @@ package com.example.giambi.util;
 
 /**
  * @author cwl
- *
  */
 public class GetAccountException extends Exception {
 
@@ -12,7 +11,7 @@ public class GetAccountException extends Exception {
     private static final long serialVersionUID = -6065780988761444840L;
 
     /**
-     * 
+     *
      */
     public GetAccountException() {
         super();

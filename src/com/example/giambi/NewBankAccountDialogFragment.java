@@ -1,15 +1,5 @@
 package com.example.giambi;
 
-import java.math.BigDecimal;
-import java.util.LinkedList;
-import java.util.List;
-
-import com.example.giambi.model.BankAccount;
-import com.example.giambi.util.CreateAccountException;
-import com.example.giambi.util.GetAccountException;
-import com.example.giambi.util.Util;
-import com.example.giambi.view.AccountView;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -20,6 +10,15 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import com.example.giambi.model.BankAccount;
+import com.example.giambi.util.CreateAccountException;
+import com.example.giambi.util.GetAccountException;
+import com.example.giambi.util.Util;
+import com.example.giambi.view.AccountView;
+
+import java.math.BigDecimal;
+import java.util.LinkedList;
+import java.util.List;
 
 public class NewBankAccountDialogFragment extends DialogFragment {
 
@@ -51,7 +50,7 @@ public class NewBankAccountDialogFragment extends DialogFragment {
         addButton = (Button) view.findViewById(R.id.accountAddButton);
         addButton.setOnClickListener(onClickListener);
 
-     // Create the AlertDialog object and return it
+        // Create the AlertDialog object and return it
         return builder.create();
     }
 
@@ -101,12 +100,12 @@ public class NewBankAccountDialogFragment extends DialogFragment {
         } catch (CreateAccountException e) {
             Log.i("onAddBankAccount", e.getMessage());
         }
-        List<BankAccount> bankAccounts=new LinkedList<BankAccount>();
+        List<BankAccount> bankAccounts = new LinkedList<BankAccount>();
         try {
-			BankAccount.getAccouts(v.getUsername(), bankAccounts);
-		} catch (GetAccountException e) {
-			Log.v("GetAccountException", e.getMessage());
-		}
+            BankAccount.getAccouts(v.getUsername(), bankAccounts);
+        } catch (GetAccountException e) {
+            Log.v("GetAccountException", e.getMessage());
+        }
         this.dismiss();
         v.setAccountList(bankAccounts);
     }
