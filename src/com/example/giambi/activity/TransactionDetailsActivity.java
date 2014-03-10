@@ -1,8 +1,11 @@
 package com.example.giambi.activity;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
+import com.example.giambi.MySelectionAdapter;
 import com.example.giambi.R;
 import com.example.giambi.model.Transaction;
 import com.example.giambi.presenter.TransactionDetailsPresenter;
@@ -20,11 +23,16 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 @SuppressWarnings("unused")
 public class TransactionDetailsActivity extends Activity implements TransactionDetailsView {
 
 	
 	private Transaction transaction = null;
+	private List<String> categories = new ArrayList<String>();
+	private List<String> merchants = new ArrayList<String>();
+	
+	
 	private String username = "";
 	private String addOrEdit = "";
 
@@ -43,6 +51,9 @@ public class TransactionDetailsActivity extends Activity implements TransactionD
 	private EditText accountNumberField;
 	private EditText merchantField;
 	private Button addAndSaveButton;
+	
+	private ListView categoryListView;
+	private ListView merchantListView;
 
 	private TransactionDetailsPresenter transactionDialogPresenter;
 	
@@ -65,13 +76,26 @@ public class TransactionDetailsActivity extends Activity implements TransactionD
 		dateField = (EditText) this.findViewById(R.id.transactionDate);
 		addAndSaveButton = (Button) this
 				.findViewById(R.id.addTransactionButton);
+		merchantListView = (ListView) this.findViewById(R.id.merchantListView);
+		categoryListView = (ListView) this.findViewById(R.id.categoryListView);
+		
+		merchantListView.setAdapter(new MySelectionAdapter<String>(this, R.layout.select_item_row, this.merchants));
+		categoryListView.setAdapter(new MySelectionAdapter<String>(this, R.layout.select_item_row, this.categories));
 
 		populateFields();
-
 		transactionDialogPresenter = new TransactionDetailsPresenter(this);
 
 	}
 	
+	@Override
+	public void setMerchants(List<String> merchants){
+		this.merchants = merchants;
+	}
+	
+	@Override
+	public void setCategories(List<String> categories){
+		this.categories = categories;
+	}
 	
 	private void populateFields() {
 		Bundle b = this.getIntent().getExtras();

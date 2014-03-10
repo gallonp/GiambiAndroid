@@ -1,7 +1,33 @@
 package com.example.giambi.model;
 
-public class Category {
+import java.util.ArrayList;
+import java.util.List;
 
+
+public class Category {
+	
+	
+	public  List<String> categories = new ArrayList<String>();
+
+	public Category(){
+		categories.add(Category.bookSupplies);
+		categories.add(Category.cashATM);
+		categories.add(Category.clothing);
+		categories.add(Category.coffeeShop);
+		categories.add(Category.creditCardPayment);
+		categories.add(Category.fastfood);
+		categories.add(Category.groceries);
+		categories.add(Category.mobilePhone);
+		categories.add(Category.paycheck);
+		categories.add(Category.pharmacy);
+		categories.add(Category.rentalCarTaxi);
+		categories.add(Category.restaurants);
+		categories.add(Category.shopping);
+		categories.add(Category.bookSupplies);
+		categories.add(Category.uncategorized);
+
+	}
+	
 	public static final String uncategorized = "Uncategorized";
 	public static final String rentalCarTaxi = "Rental Car & Taxi";
 	public static final String groceries = "Groceries";

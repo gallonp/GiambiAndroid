@@ -14,12 +14,12 @@ import android.widget.TextView;
 
 import com.example.giambi.model.Transaction;
 
-public class MyAdapter extends ArrayAdapter<Transaction> {
+public class MyListAdapter extends ArrayAdapter<Transaction> {
 
 	private final Context context;
 	public List<Transaction> transactionsInList;
 
-	public MyAdapter(Context context, List<Transaction> transactions) {
+	public MyListAdapter(Context context, List<Transaction> transactions) {
 		super(context, R.layout.transaction_row, transactions);
 		this.context = context;
 		this.transactionsInList = transactions;

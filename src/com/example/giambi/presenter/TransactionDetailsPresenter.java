@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import com.example.giambi.model.Category;
 import com.example.giambi.model.Transaction;
 import com.example.giambi.view.TransactionDetailsView;
 
@@ -18,7 +19,8 @@ public class TransactionDetailsPresenter {
 		
 		this.v = view;
 		v.AddOnClickListener(onClickListener);
-		
+		Category category = new Category();
+		v.setCategories(category.categories);
 	}
 
 	private OnClickListener onClickListener = new OnClickListener(){

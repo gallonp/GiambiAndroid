@@ -5,7 +5,7 @@ import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
 
-import com.example.giambi.MyAdapter;
+import com.example.giambi.MyListAdapter;
 import com.example.giambi.NewBankAccountDialogFragment;
 import com.example.giambi.R;
 import com.example.giambi.model.Transaction;
@@ -40,7 +40,7 @@ import android.widget.TextView;
 public class TransactionActivity extends Activity implements
 		TransactionView {
 
-	private MyAdapter myAdapter;
+	private MyListAdapter myAdapter;
 
 	private List<Transaction> transactions = new ArrayList<Transaction>();
 	// All transactions must belong to a unique accountNumber of a certain user
@@ -72,7 +72,7 @@ public class TransactionActivity extends Activity implements
 		this.setAccountNumber();
 		this.actionBar = this.getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		this.myAdapter = new MyAdapter(this, transactions);
+		this.myAdapter = new MyListAdapter(this, transactions);
 		this.transactionList = (ListView) findViewById(R.id.transactionListView);
 		this.transactionList.setAdapter(this.myAdapter);
 		

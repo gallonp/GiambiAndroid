@@ -1,5 +1,7 @@
 package com.example.giambi.view;
 
+import java.util.List;
+
 import com.example.giambi.activity.TransactionActivity;
 import com.example.giambi.model.Transaction;
 
@@ -14,5 +16,9 @@ public interface TransactionDetailsView {
 	String getUsernameFromPreference();
 
 	void finish();
+	
+	void setMerchants(List<String> merchants);
+	 
+	void setCategories(List<String> categories);
 	
 }
