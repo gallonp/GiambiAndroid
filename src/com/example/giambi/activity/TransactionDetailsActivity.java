@@ -5,7 +5,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import com.example.giambi.ListSelectionDialog;
 import com.example.giambi.MySelectionAdapter;
+import com.example.giambi.NewBankAccountDialogFragment;
 import com.example.giambi.R;
 import com.example.giambi.model.Transaction;
 import com.example.giambi.presenter.TransactionDetailsPresenter;
@@ -15,15 +17,20 @@ import com.example.giambi.view.TransactionView;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Spinner;
 @SuppressWarnings("unused")
 public class TransactionDetailsActivity extends Activity implements TransactionDetailsView {
 
@@ -55,14 +62,14 @@ public class TransactionDetailsActivity extends Activity implements TransactionD
 	private ListView categoryListView;
 	private ListView merchantListView;
 
-	private TransactionDetailsPresenter transactionDialogPresenter;
+	private TransactionDetailsPresenter transactionDetailsPresenter;
 	
 	public TransactionDetailsActivity() {
 		
 	}
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.setContentView(R.layout.transaction_dialog);
+		this.setContentView(R.layout.transaction_details);
 		
 
 		transactionNameField = (EditText) this
@@ -81,21 +88,28 @@ public class TransactionDetailsActivity extends Activity implements TransactionD
 		
 		merchantListView.setAdapter(new MySelectionAdapter<String>(this, R.layout.select_item_row, this.merchants));
 		categoryListView.setAdapter(new MySelectionAdapter<String>(this, R.layout.select_item_row, this.categories));
-
+		
 		populateFields();
-		transactionDialogPresenter = new TransactionDetailsPresenter(this);
+		transactionDetailsPresenter = new TransactionDetailsPresenter(this);
+		this.categoryField.setOnClickListener(new OnClickListener(){
 
+			@Override
+			public void onClick(View arg0) {
+		        FragmentTransaction ft = getFragmentManager().beginTransaction();
+		        ListSelectionDialog dialog = new ListSelectionDialog();
+		        dialog.show(ft, "listDialog");			
+			}
+			
+		});
 	}
-	
-	@Override
-	public void setMerchants(List<String> merchants){
-		this.merchants = merchants;
-	}
-	
-	@Override
-	public void setCategories(List<String> categories){
-		this.categories = categories;
-	}
+//	
+//	@Override
+//	public void setCategories(List<String> categories){
+//		this.categories = categories;
+//		@SuppressWarnings("unchecked")
+//		MySelectionAdapter<String> a = ((MySelectionAdapter<String>) this.categoryListView.getAdapter());
+////		a.data = categories;
+//	}
 	
 	private void populateFields() {
 		Bundle b = this.getIntent().getExtras();
@@ -174,5 +188,14 @@ public class TransactionDetailsActivity extends Activity implements TransactionD
         String username = prefs.getString("USERNAME_GIAMBI", null);
         return username;
     }
+	@Override
+	public void addOnItemClickListener(OnItemClickListener listener,
+			ListView list) {
+		list.setOnItemClickListener(listener);
+	}
+	@Override
+	public void setCategories(String category) {
+		this.categoryField.setText(category);
+	}
 
 }

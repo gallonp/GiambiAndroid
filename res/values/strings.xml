@@ -38,5 +38,7 @@
     <string name="transaction">transaction</string>
     <string name="date">Date</string>
     <string name="date_hint">DD/MM/YYYY</string>
+    <string name="pick_one">Pick one...</string>
+    <string name="select">Select</string>
     
 </resources>

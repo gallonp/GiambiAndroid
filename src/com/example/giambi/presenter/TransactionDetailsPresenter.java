@@ -5,6 +5,8 @@ import java.util.List;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.example.giambi.model.Category;
 import com.example.giambi.model.Transaction;
@@ -19,10 +21,12 @@ public class TransactionDetailsPresenter {
 		
 		this.v = view;
 		v.AddOnClickListener(onClickListener);
-		Category category = new Category();
-		v.setCategories(category.categories);
+//		Category category = new Category();
+//		Log.v("category 1",category.categories.get(0));
+//		v.setCategories(category.categories);
 	}
 
+	
 	private OnClickListener onClickListener = new OnClickListener(){
 
 		@Override
@@ -39,4 +43,5 @@ public class TransactionDetailsPresenter {
 		}
 		
 	};
+	
 }

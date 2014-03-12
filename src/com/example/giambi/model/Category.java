@@ -25,7 +25,6 @@ public class Category {
 		categories.add(Category.shopping);
 		categories.add(Category.bookSupplies);
 		categories.add(Category.uncategorized);
-
 	}
 	
 	public static final String uncategorized = "Uncategorized";
@@ -34,7 +33,7 @@ public class Category {
 	public static final String shopping = "shopping";
 	public static final String clothing = "Clothing";
 	public static final String creditCardPayment = "Credit Card Payment";
-	public static final String fastfood = "public static final String";
+	public static final String fastfood = "fastfood";
 	public static final String cashATM = "Cash & ATM";
 	public static final String pharmacy = "Pharmacy";
 	public static final String restaurants = "Restaurants";

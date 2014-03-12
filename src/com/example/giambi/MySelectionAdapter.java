@@ -10,16 +10,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 public class MySelectionAdapter<T> extends ArrayAdapter<T> {
 	
-	List<T>  data = new ArrayList<T>();
+	public List<T>  data = new ArrayList<T>();
 	private Context context;
 	
 	public MySelectionAdapter(Context context, int resource, List<T> data) {
 		super(context, resource, data);
 		this.data = data;
-		
 		this.context = context;
 	}
 
@@ -33,6 +33,10 @@ public class MySelectionAdapter<T> extends ArrayAdapter<T> {
 		return data.get(position);
 	}
 
+	public void select(int position){
+		
+	}
+	
 	@Override
 	public long getItemId(int position) {
 		Log.v("getItemId", Integer.toString(position));
@@ -41,7 +45,7 @@ public class MySelectionAdapter<T> extends ArrayAdapter<T> {
 	}
 	
 	static class ViewHolder{
-		public RadioButton radionButton;
+		public TextView textView;
 	}
 	
 	
@@ -51,9 +55,9 @@ public class MySelectionAdapter<T> extends ArrayAdapter<T> {
 
 		if (rowView == null) {
 			LayoutInflater inflater = LayoutInflater.from(context);
-			rowView = inflater.inflate(R.layout.transaction_row, parent, false);
+			rowView = inflater.inflate(R.layout.select_item_row, parent, false);
 			ViewHolder viewHolder = new ViewHolder();
-			viewHolder.radionButton = (RadioButton) rowView.findViewById(R.id.radioButton);
+			viewHolder.textView = (TextView) rowView.findViewById(R.id.itemTextView);
 //			viewHolder.transactionName = (TextView) rowView
 //					.findViewById(R.id.transactionName);
 //			viewHolder.category = (TextView) rowView
@@ -72,7 +76,8 @@ public class MySelectionAdapter<T> extends ArrayAdapter<T> {
 		}
 //		Log.v("setTransactionsView", transaction.transactionName + ","
 //				+ transaction.amount + "," + transaction.username);
-		holder.radionButton.setText(obj.toString());
+//		Log.v("Set category list",obj.toString());
+		holder.textView.setText(obj.toString());
 		// set field from transaction
 //		holder.transactionName.setText(transaction.transactionName);
 //		holder.category.setText(transaction.category);

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Locale;
 
 import com.example.giambi.MyListAdapter;
-import com.example.giambi.NewBankAccountDialogFragment;
 import com.example.giambi.R;
 import com.example.giambi.model.Transaction;
 import com.example.giambi.presenter.TransactionPresenter;
@@ -148,11 +147,7 @@ public class TransactionActivity extends Activity implements
     
 	@Override
 	public void setTransactions(List<Transaction> transactions) {
-		this.transactions = transactions;
 		this.myAdapter.transactionsInList = transactions;
-//		Transaction one = this.transactions.get(0);
-//		Log.v("setTransactions", one.transactionName+"," + one.amount+ "," + one.username);
-//		this.myAdapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -160,6 +155,7 @@ public class TransactionActivity extends Activity implements
 		this.transactionPresenter.updateTransactions();
 		this.myAdapter.transactionsInList = this.transactions;
 		this.myAdapter.notifyDataSetChanged();
+
 	}
 	
 	
@@ -198,12 +194,6 @@ public class TransactionActivity extends Activity implements
             startActivityForResult(i, 2);
 //            dialog.setArguments(b);
         }
-        
-
-        
-//        b.putString("transactionName", )
-//        b.putSerializable(key, value)("Transaction", this.accountNumber);
-//        dialog.show(ft, "dialog");
 	}
 	
 	

@@ -6,6 +6,8 @@ import com.example.giambi.activity.TransactionActivity;
 import com.example.giambi.model.Transaction;
 
 import android.view.View.OnClickListener;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 
 public interface TransactionDetailsView {
 	
@@ -17,8 +19,8 @@ public interface TransactionDetailsView {
 
 	void finish();
 	
-	void setMerchants(List<String> merchants);
-	 
-	void setCategories(List<String> categories);
+	void setCategories(String categories);
+	
+	void addOnItemClickListener(OnItemClickListener listener, ListView list);
 	
 }
