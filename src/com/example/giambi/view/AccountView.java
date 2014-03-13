@@ -3,7 +3,6 @@
  */
 package com.example.giambi.view;
 
-import android.widget.Adapter;
 import android.widget.AdapterView.OnItemClickListener;
 import com.example.giambi.model.BankAccount;
 
@@ -26,5 +25,4 @@ public interface AccountView {
 
     void startTransactionPage(String accountNumber);
 
-    void setAdapter(Adapter mAdapter);
 }

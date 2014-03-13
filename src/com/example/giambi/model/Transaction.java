@@ -1,14 +1,8 @@
 package com.example.giambi.model;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
+import android.util.Log;
+import com.example.giambi.GiambiHttpClient;
+import com.example.giambi.util.Util;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -19,10 +13,9 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import android.util.Log;
-
-import com.example.giambi.GiambiHttpClient;
-import com.example.giambi.util.Util;
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.*;
 
 @SuppressWarnings("serial")
 public class Transaction implements Serializable {
@@ -178,5 +171,9 @@ public class Transaction implements Serializable {
 
 		return accountNumber;
 	}
+
+    public long getId() {
+        return this.id;
+    }
 
 }

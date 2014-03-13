@@ -1,10 +1,10 @@
 package com.example.giambi.model;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
-
+import android.util.Log;
+import com.example.giambi.GiambiHttpClient;
+import com.example.giambi.util.CreateAccountException;
+import com.example.giambi.util.GetAccountException;
+import com.example.giambi.util.Util;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.json.simple.JSONArray;
@@ -12,12 +12,10 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import com.example.giambi.GiambiHttpClient;
-import com.example.giambi.util.CreateAccountException;
-import com.example.giambi.util.GetAccountException;
-import com.example.giambi.util.Util;
-
-import android.util.Log;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Bank account class for each login account.
@@ -91,7 +89,7 @@ public final class BankAccount {
 	 * @throws GetAccountException
 	 */
 	@SuppressWarnings({ "unchecked", "unused" })
-	public static int getAccouts(String loginAcc, List<BankAccount> list)
+	public static int getAccounts(String loginAcc, List<BankAccount> list)
 			throws GetAccountException {
 		String encodedLoginAcc = Util.encodeString(loginAcc);
 
@@ -121,9 +119,9 @@ public final class BankAccount {
 		    return -2;
 		}
 		JSONArray jsonArr = null;
-		JSONParser jPaser = new JSONParser();
+		JSONParser jsonParser = new JSONParser();
 		try {
-			jsonArr = (JSONArray) jPaser.parse(content);
+			jsonArr = (JSONArray) jsonParser.parse(content);
 		} catch (ParseException e) {
 			Log.i("onJSONArrayCreate", "Error on casting");
 			return -1;

@@ -9,13 +9,24 @@ import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import com.example.giambi.GiambiHttpClient;
 import com.example.giambi.activity.LoginActivity;
-import com.example.giambi.model.BankAccount;
-import com.example.giambi.util.GetAccountException;
+import com.example.giambi.util.GetReportException;
+import com.example.giambi.util.Util;
 import com.example.giambi.view.ReportView;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Presenter for account activity.
@@ -24,45 +35,14 @@ import java.util.List;
  */
 public class ReportPresenter {
 
-    private ReportView v;
-
-
-    private List<BankAccount> bankAccounts = new LinkedList<BankAccount>();
-
-    /**
-     * Constructor.
-     */
-    public ReportPresenter(ReportView view) {
-        this.v = view;
-        try {
-            BankAccount.getAccouts(v.getUsername(), this.bankAccounts);
-            v.setAccountList(this.bankAccounts);
-        } catch (GetAccountException e) {
-            Log.v("Get Account Exception", e.getMessage());
-        }
-        v.addOnListItemClick(this.onListItemClickListener);
-        Log.v("AccountPresenter", "Listeners set up complete.");
-    }
-
-    public OnMenuItemClickListener getOnMenuItemClickListener() {
-        return this.onMenuItemClickListener;
-    }
-
-    public void getAccounts(String loginAccName,
-                            List<BankAccount> bankAccounts) {
-        try {
-            int result = BankAccount.getAccouts(loginAccName, bankAccounts);
-            if (result == -2) {
-                Intent intent = new Intent();
-                intent.setClass((Context) v, LoginActivity.class);
-                ((Context) v).startActivity(intent);
-                ((Activity) v).finish();
-            }
-        } catch (GetAccountException e) {
-            Log.e("onGetData", e.getMessage());
-        }
-    }
-
+    private static final String[] NORMAL_FIELDS = {"category",
+            "balance", "startDate", "endDate"};
+    private final ReportView v;
+    private final String loginAccount;
+    private final String accountNumber;
+    private final String reportType;
+    private List<Map<String, String>> listData = new LinkedList<Map<String,
+            String>>();
     /**
      * Listener for listView item click
      */
@@ -71,12 +51,9 @@ public class ReportPresenter {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position,
                                 long id) {
-//        	get the current clicked account number
-
-            v.startTransactionPage(bankAccounts.get(position).getAccountNum());
+            //TODO
         }
     };
-
     /**
      * Listener for Menu Item click
      */
@@ -87,15 +64,12 @@ public class ReportPresenter {
                 public boolean onMenuItemClick(MenuItem item) {
                     String itemTitle = item.getTitle().toString();
                     if (itemTitle.equals("Refresh")) {
-                        v.setAccountList(bankAccounts);
+                        v.flushList();
                         Log.i("MenuItem", "1");
                     } else if (itemTitle.equals("Search")) {
                         Log.i("MenuItem", "2");
-                    } else if (itemTitle.equals("New..")) {
-                        Log.i("MenuItem", "3");
-                        v.showAddAccDialog();
                     } else if (itemTitle.equals("Log Out")) {
-                        Log.i("MenuItem", "4");
+                        Log.i("MenuItem", "3");
                     } else {
                         Log.i("MenuItem", "Unknown");
                     }
@@ -103,6 +77,131 @@ public class ReportPresenter {
                 }
 
             };
+
+    /**
+     * Constructor.
+     */
+    public ReportPresenter(ReportView view, String loginAccount,
+                           String accountNumber, String reportType) {
+        this.v = view;
+        this.loginAccount = loginAccount;
+        this.accountNumber = accountNumber;
+        this.reportType = reportType;
+        // TODO get report
+
+        v.addOnListItemClick(this.onListItemClickListener);
+        Log.v("AccountPresenter", "Listeners set up complete.");
+    }
+
+    public OnMenuItemClickListener getOnMenuItemClickListener() {
+        return this.onMenuItemClickListener;
+    }
+
+    @SuppressWarnings("unchecked")
+    private int requestReport() throws GetReportException {
+        String encodedLoginAcc = Util.encodeString(loginAccount);
+        String encodedAccNumber = Util.encodeString(accountNumber);
+
+        HttpPost request = new HttpPost("http://10.0.2.2:8888/getreport");
+        JSONObject jsonObj = new JSONObject();
+        jsonObj.put("userAccount", encodedLoginAcc);
+        jsonObj.put("AccountNumber", encodedAccNumber);
+
+        request.setEntity(Util.jsonToEntity(jsonObj));
+
+        HttpResponse response = GiambiHttpClient.getResponse(request);
+        String responseCookie = "";// response.getHeaders("Cookie")[0].getValue();
+        String content;
+
+        try {
+            content = Util.HttpContentReader(response.getEntity().getContent());
+            System.out.println(content);
+        } catch (IllegalStateException e) {
+            Log.e("IllegalStateException", e.getMessage());
+            return -1;
+        } catch (IOException e) {
+            Log.e("IOException", e.getMessage());
+            return -1;
+        }
+        if (content == null) {
+            throw new GetReportException("Server return no content.");
+        }
+        if (content.equals("invalid cookie")) {
+            return -2;
+        }
+        JSONArray jsonArr;
+        JSONParser jsonParser = new JSONParser();
+        try {
+            jsonArr = (JSONArray) jsonParser.parse(content);
+        } catch (ParseException e) {
+            Log.i("onJSONArrayCreate", "Error on casting");
+            return -1;
+        }
+
+        // Add accounts to bankAccounts list
+        listData.clear();
+        if (content.equals("No accounts."))
+            return 0;
+        if (jsonArr.size() != 0) {
+
+            Map<String, String> reportInfo;
+            String category;
+            String balance;
+            String startDate;
+            String endDate;
+            String date;
+            Map<String, String> processedMap = new HashMap<String, String>(4);
+
+            for (Object aJsonArr : jsonArr) {
+                reportInfo = (Map<String, String>) aJsonArr;
+                category = reportInfo.get(NORMAL_FIELDS[0]);
+                try {
+                    balance = new BigDecimal(reportInfo.get
+                            (NORMAL_FIELDS[1]))
+                            .setScale(2, BigDecimal.ROUND_HALF_EVEN).toString();
+                } catch (NumberFormatException e) {
+                    Log.e("onReportProcess", e.getMessage());
+                    return -1;
+                }
+                startDate = reportInfo.get(NORMAL_FIELDS[2]);
+                endDate = reportInfo.get(NORMAL_FIELDS[3]);
+                if (Util.stringToDate(startDate) == null
+                        || Util.stringToDate(endDate) == null) {
+                    return -1;
+                }
+                date = String.format("%s - %s", startDate, endDate);
+
+                processedMap.clear();
+                processedMap.put("Category", category);
+                processedMap.put("Balance", balance);
+                processedMap.put("Date", date);
+                listData.add(processedMap);
+            }
+            return 0;
+        }
+        return -1;
+    }
+
+    public List<Map<String, String>> getReport() {
+        try {
+            int result = this.requestReport();
+            if (result == -2) {
+                Intent intent = new Intent();
+                intent.setClass((Context) v, LoginActivity.class);
+                ((Context) v).startActivity(intent);
+                ((Activity) v).finish();
+            } else if (result == -1) {
+                Log.e("onGetData", "Exception occurs.");
+                ((Activity) v).finish();
+            } else {
+                return this.listData;
+            }
+        } catch (GetReportException e) {
+            Log.e("onGetData", e.getMessage());
+            return null;
+        }
+        return null;
+    }
 
 
 }

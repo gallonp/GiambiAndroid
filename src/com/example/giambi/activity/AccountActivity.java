@@ -10,7 +10,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
-import android.widget.Adapter;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
@@ -36,7 +35,8 @@ public class AccountActivity extends Activity implements AccountView {
     private ActionBar actionBar;
     private String loginAccName;
     private List<BankAccount> bankAccounts = new LinkedList<BankAccount>();
-    private List<Map<String, Object>> listData = new LinkedList<Map<String, Object>>();
+    private List<Map<String, String>> listData = new LinkedList<Map<String,
+            String>>();
     private DialogFragment dialog;
     private MyAdapter adapter;
     private NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(Locale.US);
@@ -68,12 +68,12 @@ public class AccountActivity extends Activity implements AccountView {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.general_menu_options, menu);
+        inflater.inflate(R.menu.accountactivity_menu_options, menu);
         MenuItem[] menuItems = new MenuItem[4];
-        menuItems[0] = (MenuItem) menu.findItem(R.id.refresh);
-        menuItems[1] = (MenuItem) menu.findItem(R.id.search);
-        menuItems[2] = (MenuItem) menu.findItem(R.id.create_new_item);
-        menuItems[3] = (MenuItem) menu.findItem(R.id.logout);
+        menuItems[0] = (MenuItem) menu.findItem(R.id.account_refresh);
+        menuItems[1] = (MenuItem) menu.findItem(R.id.account_search);
+        menuItems[2] = (MenuItem) menu.findItem(R.id.account_create_new_item);
+        menuItems[3] = (MenuItem) menu.findItem(R.id.account_logout);
         for (MenuItem item : menuItems) {
             item.setOnMenuItemClickListener(accountPresenter.getOnMenuItemClickListener());
         }
@@ -141,7 +141,8 @@ public class AccountActivity extends Activity implements AccountView {
         return username;
     }
 
-    private void mapBankAccountData(List<BankAccount> bankAccounts, List<Map<String, Object>> list) {
+    private void mapBankAccountData(List<BankAccount> bankAccounts,
+                                    List<Map<String, String>> list) {
 //
 //        // Update back-end BankAccount array
 //        accountP.getAccounts(loginAccName, bankAccounts);
@@ -150,11 +151,11 @@ public class AccountActivity extends Activity implements AccountView {
         list.clear();
 
         // Add entries to ListView data list
-        Map<String, Object> map;
+        Map<String, String> map;
         BigDecimal balance;
 
         for (int i = 0; i < bankAccounts.size(); ++i) {
-            map = new HashMap<String, Object>();
+            map = new HashMap<String, String>();
             balance = bankAccounts.get(i).getBalance().setScale(2, BigDecimal.ROUND_HALF_EVEN);
 
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
@@ -249,12 +250,6 @@ public class AccountActivity extends Activity implements AccountView {
         bundle.putString("AccountNumber", accountNumber);
         i.putExtras(bundle);
         startActivity(i);
-    }
-
-    @Override
-    public void setAdapter(Adapter mAdapter) {
-        // TODO Auto-generated method stub
-
     }
 
 }

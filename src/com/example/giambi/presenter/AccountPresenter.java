@@ -26,7 +26,6 @@ public class AccountPresenter {
 
     private AccountView v;
 
-
     private List<BankAccount> bankAccounts = new LinkedList<BankAccount>();
 
     /**
@@ -35,7 +34,7 @@ public class AccountPresenter {
     public AccountPresenter(AccountView view) {
         this.v = view;
         try {
-            BankAccount.getAccouts(v.getUsername(), this.bankAccounts);
+            BankAccount.getAccounts(v.getUsername(), this.bankAccounts);
             v.setAccountList(this.bankAccounts);
         } catch (GetAccountException e) {
             Log.v("Get Account Exception", e.getMessage());
@@ -51,7 +50,7 @@ public class AccountPresenter {
     public void getAccounts(String loginAccName,
                             List<BankAccount> bankAccounts) {
         try {
-            int result = BankAccount.getAccouts(loginAccName, bankAccounts);
+            int result = BankAccount.getAccounts(loginAccName, bankAccounts);
             if (result == -2) {
                 Intent intent = new Intent();
                 intent.setClass((Context) v, LoginActivity.class);

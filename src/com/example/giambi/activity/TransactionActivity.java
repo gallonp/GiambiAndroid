@@ -1,40 +1,26 @@
 package com.example.giambi.activity;
 
-import java.util.ArrayList;
-import java.util.Currency;
-import java.util.List;
-import java.util.Locale;
-
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.DialogFragment;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 import com.example.giambi.MyListAdapter;
 import com.example.giambi.R;
 import com.example.giambi.model.Transaction;
 import com.example.giambi.presenter.TransactionPresenter;
 import com.example.giambi.view.TransactionView;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.DialogFragment;
-import android.app.FragmentTransaction;
-import android.app.ListActivity;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.MenuItem.OnMenuItemClickListener;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TransactionActivity extends Activity implements
 		TransactionView {
@@ -74,10 +60,7 @@ public class TransactionActivity extends Activity implements
 		this.myAdapter = new MyListAdapter(this, transactions);
 		this.transactionList = (ListView) findViewById(R.id.transactionListView);
 		this.transactionList.setAdapter(this.myAdapter);
-		
-		Bundle b = this.getIntent().getExtras();
-		this.accountNumber = (String) b.get("AccountNumber");
-		
+
 		this.transactionPresenter = new TransactionPresenter(this, this.accountNumber);
 
 		
@@ -86,7 +69,7 @@ public class TransactionActivity extends Activity implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.general_menu_options, menu);
+        inflater.inflate(R.menu.transactionactivity_menu_options, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -94,28 +77,39 @@ public class TransactionActivity extends Activity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
-            case R.id.refresh:
+            case R.id.trans_refresh:
             	updateTransactions();
                 return true;
                 
-            case R.id.create_new_item:
+            case R.id.trans_create_new_item:
             	Transaction newTransaction = new Transaction("", 0, username);
             	newTransaction.accountNumber = accountNumber;
             	Log.v("accountNumber passed to new", accountNumber);
             	showTransactionDetail(newTransaction);
             	Log.i("MenuItem", "3");
                 return true;
-                
-            case R.id.logout:
+
+            case R.id.trans_report:
+                startReport("Spending");
+            case R.id.trans_logout:
             	return true;
-            case R.id.search:
+            case R.id.trans_search:
             	return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-    
-	private void setAccountNumber(){
+
+    private void startReport(String type) {
+        Intent i = new Intent(this, ReportActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("AccountNumber", this.accountNumber);
+        bundle.putString("ReportType", type);
+        i.putExtras(bundle);
+        startActivity(i);
+    }
+
+    private void setAccountNumber(){
 		Bundle b = getIntent().getExtras();
 		String accNumber ="";
 		try{

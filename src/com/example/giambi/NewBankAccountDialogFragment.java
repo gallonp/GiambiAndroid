@@ -102,7 +102,7 @@ public class NewBankAccountDialogFragment extends DialogFragment {
         }
         List<BankAccount> bankAccounts = new LinkedList<BankAccount>();
         try {
-            BankAccount.getAccouts(v.getUsername(), bankAccounts);
+            BankAccount.getAccounts(v.getUsername(), bankAccounts);
         } catch (GetAccountException e) {
             Log.v("GetAccountException", e.getMessage());
         }

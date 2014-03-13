@@ -1,9 +1,5 @@
 package com.example.giambi;
 
-import java.util.Currency;
-import java.util.List;
-import java.util.Locale;
-
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,8 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
 import com.example.giambi.model.Transaction;
+
+import java.util.Currency;
+import java.util.List;
+import java.util.Locale;
 
 public class MyListAdapter extends ArrayAdapter<Transaction> {
 
@@ -41,7 +40,7 @@ public class MyListAdapter extends ArrayAdapter<Transaction> {
 	public long getItemId(int position) {
 		Log.v("getItemId", Integer.toString(position));
 		Transaction transaction = transactionsInList.get(position);
-		return transaction.hashCode();
+		return transaction.getId();
 	}
 
 	static class ViewHolder {
