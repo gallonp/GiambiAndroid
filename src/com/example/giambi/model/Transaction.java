@@ -57,13 +57,18 @@ public class Transaction implements Serializable {
 	public static List<Transaction> getAccountTransactions(String username,
 			String accountNumber) {
 		List<Transaction> transactions = new LinkedList<Transaction>();
-		HttpGet request = new HttpGet("http://10.0.3.2:8888/transactions");
-		HttpParams httpParams = new BasicHttpParams();
-		httpParams.setParameter("username", username);
-		Log.v("username params", username);
-		httpParams.setParameter("accountNumber", accountNumber);
-		Log.v("accountNumber params: ", accountNumber);
-		request.setParams(httpParams);
+		StringBuffer uri = new StringBuffer();
+		uri.append("http://10.0.3.2:8888/transactions?");
+		if (username != null && !username.isEmpty()){
+			uri.append("username="+username+"&");
+		}
+		if (accountNumber != null &&!accountNumber.isEmpty()){
+			uri.append("accountNumber="+accountNumber);
+		}
+		if (uri.charAt(uri.length()-1) == '&'){
+			uri.deleteCharAt(uri.length()-1);
+		}
+		HttpGet request = new HttpGet(uri.toString());
 		HttpResponse response = GiambiHttpClient.getResponse(request);
 		String content = "";
 		try {
