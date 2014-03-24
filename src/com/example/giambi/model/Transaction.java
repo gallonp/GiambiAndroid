@@ -6,8 +6,6 @@ import com.example.giambi.util.Util;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpParams;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -58,7 +56,7 @@ public class Transaction implements Serializable {
 			String accountNumber) {
 		List<Transaction> transactions = new LinkedList<Transaction>();
 		StringBuffer uri = new StringBuffer();
-		uri.append("http://10.0.3.2:8888/transactions?");
+		uri.append("http://10.0.2.2:8888/transactions?");
 		if (username != null && !username.isEmpty()){
 			uri.append("username="+username+"&");
 		}
@@ -83,6 +81,7 @@ public class Transaction implements Serializable {
 		JSONParser jPaser = new JSONParser();
 		try {
 			JSONObject jSONObj = (JSONObject) jPaser.parse(content);
+            System.out.println(content);
 //			Log.v("jSONObj", jSONObj.get("data").toString());
 			if (jSONObj.get("data").toString().equals("[]")){
 				return transactions;
@@ -133,7 +132,7 @@ public class Transaction implements Serializable {
 
 		// if KeyId exist, update. If not, create
 
-		HttpPost request = new HttpPost("http://10.0.3.2:8888/transactions");
+		HttpPost request = new HttpPost("http://10.0.2.2:8888/transactions");
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("accountNumber", transaction.accountNumber);
 		jsonObj.put("amount", transaction.amount);

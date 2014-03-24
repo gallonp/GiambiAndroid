@@ -36,7 +36,7 @@ import java.util.Map;
 public class ReportPresenter {
 
     private static final String[] NORMAL_FIELDS = {"category",
-            "balance", "startDate", "endDate"};
+            "amount", "startDate", "endDate"};
     private final ReportView v;
     private final String loginAccount;
     private final String accountNumber;
@@ -105,7 +105,7 @@ public class ReportPresenter {
         HttpPost request = new HttpPost("http://10.0.2.2:8888/getreport");
         JSONObject jsonObj = new JSONObject();
         jsonObj.put("userAccount", encodedLoginAcc);
-        jsonObj.put("AccountNumber", encodedAccNumber);
+        jsonObj.put("accountNumber", encodedAccNumber);
 
         request.setEntity(Util.jsonToEntity(jsonObj));
 
@@ -129,10 +129,12 @@ public class ReportPresenter {
         if (content.equals("invalid cookie")) {
             return -2;
         }
-        JSONArray jsonArr;
+//        JSONArray jsonArr;
         JSONParser jsonParser = new JSONParser();
         try {
-            jsonArr = (JSONArray) jsonParser.parse(content);
+            System.out.println(content);
+//            jsonObj = (JSONObject) jsonParser.parse(content);
+            jsonObj = (JSONObject) jsonParser.parse(content);
         } catch (ParseException e) {
             Log.i("onJSONArrayCreate", "Error on casting");
             return -1;
@@ -142,40 +144,47 @@ public class ReportPresenter {
         listData.clear();
         if (content.equals("No accounts."))
             return 0;
-        if (jsonArr.size() != 0) {
+        if (jsonObj.size() != 0) {
 
             Map<String, String> reportInfo;
             String category;
-            String balance;
+            String amount;
             String startDate;
             String endDate;
             String date;
             Map<String, String> processedMap = new HashMap<String, String>(4);
+            JSONArray jsonArr = (JSONArray) jsonObj.get("Data");
 
             for (Object aJsonArr : jsonArr) {
                 reportInfo = (Map<String, String>) aJsonArr;
+                category = "";
+                amount = "";
                 category = reportInfo.get(NORMAL_FIELDS[0]);
                 try {
-                    balance = new BigDecimal(reportInfo.get
+                    amount = new BigDecimal(reportInfo.get
                             (NORMAL_FIELDS[1]))
                             .setScale(2, BigDecimal.ROUND_HALF_EVEN).toString();
                 } catch (NumberFormatException e) {
                     Log.e("onReportProcess", e.getMessage());
                     return -1;
                 }
-                startDate = reportInfo.get(NORMAL_FIELDS[2]);
-                endDate = reportInfo.get(NORMAL_FIELDS[3]);
-                if (Util.stringToDate(startDate) == null
-                        || Util.stringToDate(endDate) == null) {
-                    return -1;
-                }
-                date = String.format("%s - %s", startDate, endDate);
+//                startDate = reportInfo.get(NORMAL_FIELDS[2]);
+//                endDate = reportInfo.get(NORMAL_FIELDS[3]);
+//                if (Util.stringToDate(startDate) == null
+//                        || Util.stringToDate(endDate) == null) {
+//                    return -1;
+//                }
+//                date = String.format("%s - %s", startDate, endDate);
 
                 processedMap.clear();
                 processedMap.put("Category", category);
-                processedMap.put("Balance", balance);
-                processedMap.put("Date", date);
+                processedMap.put("Amount", amount);
+
+//                processedMap.put("Date", date);
                 listData.add(processedMap);
+                for (int i = 0; i < listData.size(); ++i) {
+                    System.out.println(listData.get(i).toString());
+                }
             }
             return 0;
         }
@@ -185,6 +194,9 @@ public class ReportPresenter {
     public List<Map<String, String>> getReport() {
         try {
             int result = this.requestReport();
+            for (int i = 0; i < listData.size(); ++i) {
+                System.out.println(listData.get(i).toString());
+            }
             if (result == -2) {
                 Intent intent = new Intent();
                 intent.setClass((Context) v, LoginActivity.class);

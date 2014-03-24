@@ -119,7 +119,7 @@ public class TransactionActivity extends Activity implements
 			Log.v("TransactionActivity","Error in parsing AccountNumber");
 		}
 		if (accNumber.isEmpty()){
-			//some ways to hanlde no account number
+			//some ways to handle no account number
 			this.finish();
 		} else {
 			this.accountNumber = accNumber;

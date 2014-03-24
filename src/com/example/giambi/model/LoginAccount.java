@@ -1,18 +1,16 @@
 package com.example.giambi.model;
 
-import java.io.IOException;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.json.simple.JSONObject;
-
 import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
-
 import com.example.giambi.GiambiHttpClient;
 import com.example.giambi.util.AuthenticateException;
 import com.example.giambi.util.RegisterException;
 import com.example.giambi.util.Util;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.json.simple.JSONObject;
+
+import java.io.IOException;
 
 public class LoginAccount {
 
@@ -36,7 +34,7 @@ public class LoginAccount {
 //		HttpPost request = new HttpPost(
 //				"http://giambi-server-2340.appspot.com/register");
 		HttpPost request = new HttpPost(
-                "http://10.0.3.2:8888/register");
+                "http://10.0.2.2:8888/register");
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("username", encodedUsername);
 		jsonObj.put("password", encodedPassword);
@@ -71,7 +69,7 @@ public class LoginAccount {
 //		HttpPost request = new HttpPost(
 //				"http://giambi-server-2340.appspot.com/login");
 		HttpPost request = new HttpPost(
-                "http://10.0.3.2:8888/login");
+                "http://10.0.2.2:8888/login");
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("username", encodedUsername);
 		jsonObj.put("password", encodedPassword);

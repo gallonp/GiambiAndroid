@@ -172,9 +172,9 @@ public class ReportActivity extends Activity implements ReportView {
             }
 
 
-            holder.category.setText(listData.get(position).get("category"));
-            holder.balance.setText(listData.get(position).get("Balance"));
-            holder.date.setText(listData.get(position).get("Date"));
+            holder.category.setText(listData.get(position).get("Category"));
+            holder.balance.setText(listData.get(position).get("Amount"));
+//            holder.date.setText(listData.get(position).get("Date"));
 
             return convertView;
         }
