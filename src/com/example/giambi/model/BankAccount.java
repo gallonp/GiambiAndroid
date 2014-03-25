@@ -57,7 +57,8 @@ public final class BankAccount {
 		String encodedBankName = Util.encodeString(bankName);
 		String encodedBalance = Util.encodeString(balance.toString());
 		String encodedAccNum = Util.encodeString(accountNum);
-		HttpPost request = new HttpPost("http://10.0.2.2:8888/createaccount");
+		HttpPost request = new HttpPost("http://" + Util.LOCALHOST
+                + ":8888/createaccount");
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("userAccount", encodedLoginAcc);
 		jsonObj.put("bankAccountName", encodedAlias);
@@ -93,7 +94,8 @@ public final class BankAccount {
 			throws GetAccountException {
 		String encodedLoginAcc = Util.encodeString(loginAcc);
 
-		HttpPost request = new HttpPost("http://10.0.2.2:8888/getaccount");
+		HttpPost request = new HttpPost("http://" + Util.LOCALHOST
+                + ":8888/getaccount");
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("userAccount", encodedLoginAcc);
 

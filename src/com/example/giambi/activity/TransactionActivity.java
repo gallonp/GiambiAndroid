@@ -23,49 +23,59 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TransactionActivity extends Activity implements
-		TransactionView {
+        TransactionView {
 
-	private MyListAdapter myAdapter;
+    private MyListAdapter myAdapter;
 
-	private List<Transaction> transactions = new ArrayList<Transaction>();
-	// All transactions must belong to a unique accountNumber of a certain user
-	private String accountNumber = "";
-	
-	private String username = "";
-	
-	private TransactionPresenter transactionPresenter;
-	
-	private ActionBar actionBar;
-	
-	private DialogFragment dialog;
-	
-	private ListView transactionList;
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.transaction_page);		
-		// Create a progess bar to display while list is loaded
+    private List<Transaction> transactions = new ArrayList<Transaction>();
+    // All transactions must belong to a unique accountNumber of a certain user
+    private String accountNumber = "";
+
+    private String username = "";
+
+    private TransactionPresenter transactionPresenter;
+
+    private ActionBar actionBar;
+
+    private DialogFragment dialog;
+
+    private ListView transactionList;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.transaction_page);
+        // Create a progess bar to display while list is loaded
 //		ProgressBar progressBar = new ProgressBar(this);
 //		progressBar.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
 //				LayoutParams.WRAP_CONTENT));
 //		progressBar.setIndeterminate(true);
-		
+
 //		getListView().setEmptyView(progressBar);
 //		ViewGroup root = (ViewGroup) findViewById(R.id.transactionLayout);
 //		root.addView(progressBar);
-		this.username = this.getUsernameFromPreference();
-		this.setAccountNumber();
-		this.actionBar = this.getActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);
-		this.myAdapter = new MyListAdapter(this, transactions);
-		this.transactionList = (ListView) findViewById(R.id.transactionListView);
-		this.transactionList.setAdapter(this.myAdapter);
+        this.username = this.getUsernameFromPreference();
+        if (savedInstanceState == null)
+            setAccountNumber(getIntent().getExtras());
+        else
+            setAccountNumber(savedInstanceState);
+//		this.setAccountNumber();
+        this.actionBar = this.getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        this.myAdapter = new MyListAdapter(this, transactions);
+        this.transactionList = (ListView) findViewById(R.id.transactionListView);
+        this.transactionList.setAdapter(this.myAdapter);
 
-		this.transactionPresenter = new TransactionPresenter(this, this.accountNumber);
+        this.transactionPresenter = new TransactionPresenter(this, this.accountNumber);
 
-		
-	}
-	
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putString("AccountNumber", this.accountNumber);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -78,23 +88,23 @@ public class TransactionActivity extends Activity implements
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.trans_refresh:
-            	updateTransactions();
+                updateTransactions();
                 return true;
-                
+
             case R.id.trans_create_new_item:
-            	Transaction newTransaction = new Transaction("", 0, username);
-            	newTransaction.accountNumber = accountNumber;
-            	Log.v("accountNumber passed to new", accountNumber);
-            	showTransactionDetail(newTransaction);
-            	Log.i("MenuItem", "3");
+                Transaction newTransaction = new Transaction("", 0, username);
+                newTransaction.accountNumber = accountNumber;
+                Log.v("accountNumber passed to new", accountNumber);
+                showTransactionDetail(newTransaction);
+                Log.i("MenuItem", "3");
                 return true;
 
             case R.id.trans_report:
                 startReport("Spending");
             case R.id.trans_logout:
-            	return true;
+                return true;
             case R.id.trans_search:
-            	return true;
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -109,65 +119,62 @@ public class TransactionActivity extends Activity implements
         startActivity(i);
     }
 
-    private void setAccountNumber(){
-		Bundle b = getIntent().getExtras();
-		String accNumber ="";
-		try{
-		long value = Long.parseLong(b.getString("AccountNumber"));
-		accNumber = Long.toString(value);
-		} catch (NumberFormatException e){
-			Log.v("TransactionActivity","Error in parsing AccountNumber");
-		}
-		if (accNumber.isEmpty()){
-			//some ways to handle no account number
-			this.finish();
-		} else {
-			this.accountNumber = accNumber;
-		}
-	}
+    private void setAccountNumber(Bundle b) {
+//		Bundle b = getIntent().getExtras();
+        String accNumber = "";
+        if (b != null) {
+            try {
+                long value = Long.parseLong(b.getString("AccountNumber"));
+                accNumber = Long.toString(value);
+            } catch (NumberFormatException e) {
+                Log.v("TransactionActivity", "Error in parsing AccountNumber");
+            }
+            if (accNumber.isEmpty()) {
+                //some ways to handle no account number
+                this.finish();
+            } else {
+                this.accountNumber = accNumber;
+            }
+        }
+    }
 
 
-	
-    /**
-     * Get username from preference.
-     * @return current username
-     */
+        /**
+         * Get username from preference.
+         * @return current username
+         */
+
     public String getUsernameFromPreference() {
         SharedPreferences prefs = this.getSharedPreferences(
-                  "com.example.app", Context.MODE_PRIVATE);
+                "com.example.app", Context.MODE_PRIVATE);
         String username = prefs.getString("USERNAME_GIAMBI", null);
         return username;
     }
-    
-	@Override
-	public void setTransactions(List<Transaction> transactions) {
-		this.myAdapter.transactionsInList = transactions;
-	}
 
-	@Override
-	public void updateTransactions() {
-		this.transactionPresenter.updateTransactions();
-		this.myAdapter.transactionsInList = this.transactions;
-		this.myAdapter.notifyDataSetChanged();
+    @Override
+    public void setTransactions(List<Transaction> transactions) {
+        this.myAdapter.transactionsInList = transactions;
+        this.myAdapter.notifyDataSetChanged();
+    }
 
-	}
-	
-	
+    @Override
+    public void updateTransactions() {
+        this.transactionPresenter.updateTransactions();
+    }
 
-	
 
-	@Override
-	public void addOnItemClickListener(OnItemClickListener listener) {
-		this.transactionList.setOnItemClickListener(listener);
-	}
+    @Override
+    public void addOnItemClickListener(OnItemClickListener listener) {
+        this.transactionList.setOnItemClickListener(listener);
+    }
 
-	@Override
-	public void showTransactionDetail(Transaction transaction) {
+    @Override
+    public void showTransactionDetail(Transaction transaction) {
         Log.i("DialogFragment", "show new dialog fragment");
-        Intent i = new Intent(this,TransactionDetailsActivity.class);
+        Intent i = new Intent(this, TransactionDetailsActivity.class);
 //        FragmentTransaction ft = getFragmentManager().beginTransaction();
 //        dialog = new TransactionDialog();
-        if(!transaction.transactionName.isEmpty()){
+        if (!transaction.transactionName.isEmpty()) {
             Bundle b = new Bundle();
             b.putString("AddOrEdit", "Transaction Details");
             b.putString("TransactionName", transaction.transactionName);
@@ -181,19 +188,19 @@ public class TransactionActivity extends Activity implements
             i.putExtras(b);
             startActivityForResult(i, 1);
         } else {
-        	Bundle b = new Bundle();
+            Bundle b = new Bundle();
             b.putString("AddOrEdit", "Add Transaction");
             b.putString("AccountNumber", transaction.accountNumber);
             i.putExtras(b);
             startActivityForResult(i, 2);
 //            dialog.setArguments(b);
         }
-	}
-	
-	
-    protected void onActivityResult(int requestCode, int resultCode,
-            Intent data) {
-    	this.updateTransactions();
     }
-    
+
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    Intent data) {
+        this.updateTransactions();
+        this.accountNumber = data.getExtras().getString("AccountNumber");
+    }
+
 }

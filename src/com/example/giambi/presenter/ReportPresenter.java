@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import com.example.giambi.GiambiHttpClient;
 import com.example.giambi.activity.LoginActivity;
+import com.example.giambi.model.ReportEntry;
 import com.example.giambi.util.GetReportException;
 import com.example.giambi.util.Util;
 import com.example.giambi.view.ReportView;
@@ -23,7 +24,6 @@ import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -41,8 +41,7 @@ public class ReportPresenter {
     private final String loginAccount;
     private final String accountNumber;
     private final String reportType;
-    private List<Map<String, String>> listData = new LinkedList<Map<String,
-            String>>();
+    private List<ReportEntry> listData = new LinkedList<ReportEntry>();
     /**
      * Listener for listView item click
      */
@@ -102,7 +101,8 @@ public class ReportPresenter {
         String encodedLoginAcc = Util.encodeString(loginAccount);
         String encodedAccNumber = Util.encodeString(accountNumber);
 
-        HttpPost request = new HttpPost("http://10.0.2.2:8888/getreport");
+        HttpPost request = new HttpPost("http://" + Util.LOCALHOST +
+                ":8888/getreport");
         JSONObject jsonObj = new JSONObject();
         jsonObj.put("userAccount", encodedLoginAcc);
         jsonObj.put("accountNumber", encodedAccNumber);
@@ -129,11 +129,10 @@ public class ReportPresenter {
         if (content.equals("invalid cookie")) {
             return -2;
         }
-//        JSONArray jsonArr;
+
         JSONParser jsonParser = new JSONParser();
         try {
             System.out.println(content);
-//            jsonObj = (JSONObject) jsonParser.parse(content);
             jsonObj = (JSONObject) jsonParser.parse(content);
         } catch (ParseException e) {
             Log.i("onJSONArrayCreate", "Error on casting");
@@ -152,51 +151,33 @@ public class ReportPresenter {
             String startDate;
             String endDate;
             String date;
-            Map<String, String> processedMap = new HashMap<String, String>(4);
             JSONArray jsonArr = (JSONArray) jsonObj.get("Data");
 
             for (Object aJsonArr : jsonArr) {
                 reportInfo = (Map<String, String>) aJsonArr;
-                category = "";
-                amount = "";
-                category = reportInfo.get(NORMAL_FIELDS[0]);
+                System.out.println(reportInfo);
+                category = reportInfo.keySet().toArray()[0].toString();
                 try {
-                    amount = new BigDecimal(reportInfo.get
-                            (NORMAL_FIELDS[1]))
-                            .setScale(2, BigDecimal.ROUND_HALF_EVEN).toString();
+                    amount = new BigDecimal(reportInfo.get(category))
+                           .setScale(2, BigDecimal.ROUND_HALF_EVEN).toString();
                 } catch (NumberFormatException e) {
                     Log.e("onReportProcess", e.getMessage());
                     return -1;
                 }
-//                startDate = reportInfo.get(NORMAL_FIELDS[2]);
-//                endDate = reportInfo.get(NORMAL_FIELDS[3]);
-//                if (Util.stringToDate(startDate) == null
-//                        || Util.stringToDate(endDate) == null) {
-//                    return -1;
-//                }
-//                date = String.format("%s - %s", startDate, endDate);
 
-                processedMap.clear();
-                processedMap.put("Category", category);
-                processedMap.put("Amount", amount);
+                ReportEntry entry = new ReportEntry(jsonArr.indexOf(aJsonArr),
+                        category, amount);
 
-//                processedMap.put("Date", date);
-                listData.add(processedMap);
-                for (int i = 0; i < listData.size(); ++i) {
-                    System.out.println(listData.get(i).toString());
-                }
+                listData.add(entry);
             }
             return 0;
         }
         return -1;
     }
 
-    public List<Map<String, String>> getReport() {
+    public List<ReportEntry> getReport() {
         try {
             int result = this.requestReport();
-            for (int i = 0; i < listData.size(); ++i) {
-                System.out.println(listData.get(i).toString());
-            }
             if (result == -2) {
                 Intent intent = new Intent();
                 intent.setClass((Context) v, LoginActivity.class);

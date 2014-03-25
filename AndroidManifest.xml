@@ -68,7 +68,7 @@
         <activity
                 android:name="com.example.giambi.activity.ReportActivity"
                 android:label="@string/report"
-                android:parentActivityName="com.example.giambi.activity.ReportActivity" >
+                android:parentActivityName="com.example.giambi.activity.TransactionActivity" >
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="com.example.giambi.TransactionActivity" />

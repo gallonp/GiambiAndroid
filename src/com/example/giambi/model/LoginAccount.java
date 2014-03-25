@@ -34,7 +34,7 @@ public class LoginAccount {
 //		HttpPost request = new HttpPost(
 //				"http://giambi-server-2340.appspot.com/register");
 		HttpPost request = new HttpPost(
-                "http://10.0.2.2:8888/register");
+                "http://" + Util.LOCALHOST + ":8888/register");
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("username", encodedUsername);
 		jsonObj.put("password", encodedPassword);
@@ -69,7 +69,7 @@ public class LoginAccount {
 //		HttpPost request = new HttpPost(
 //				"http://giambi-server-2340.appspot.com/login");
 		HttpPost request = new HttpPost(
-                "http://10.0.2.2:8888/login");
+                "http://" + Util.LOCALHOST + ":8888/login");
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("username", encodedUsername);
 		jsonObj.put("password", encodedPassword);

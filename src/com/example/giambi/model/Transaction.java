@@ -56,7 +56,7 @@ public class Transaction implements Serializable {
 			String accountNumber) {
 		List<Transaction> transactions = new LinkedList<Transaction>();
 		StringBuffer uri = new StringBuffer();
-		uri.append("http://10.0.2.2:8888/transactions?");
+		uri.append("http://" + Util.LOCALHOST + ":8888/transactions?");
 		if (username != null && !username.isEmpty()){
 			uri.append("username="+username+"&");
 		}
@@ -132,7 +132,8 @@ public class Transaction implements Serializable {
 
 		// if KeyId exist, update. If not, create
 
-		HttpPost request = new HttpPost("http://10.0.2.2:8888/transactions");
+		HttpPost request = new HttpPost("http://" + Util.LOCALHOST
+        + ":8888/transactions");
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("accountNumber", transaction.accountNumber);
 		jsonObj.put("amount", transaction.amount);

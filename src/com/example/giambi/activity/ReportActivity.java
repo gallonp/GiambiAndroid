@@ -12,6 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.example.giambi.R;
+import com.example.giambi.model.ReportEntry;
 import com.example.giambi.presenter.ReportPresenter;
 import com.example.giambi.view.ReportView;
 
@@ -19,7 +20,6 @@ import java.text.NumberFormat;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 
 public class ReportActivity extends Activity implements ReportView {
@@ -27,8 +27,7 @@ public class ReportActivity extends Activity implements ReportView {
     private ListView listView;
     private ReportPresenter reportPresenter;
     private ActionBar actionBar;
-    private List<Map<String, String>> listData = new LinkedList<Map<String,
-            String>>();
+    private List<ReportEntry> listData = new LinkedList<ReportEntry>();
     private MyAdapter adapter;
     private final NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(Locale.US);
 
@@ -119,7 +118,6 @@ public class ReportActivity extends Activity implements ReportView {
      */
     private final class ViewHolder {
         TextView category;
-//        protected TextView dummy1;
         TextView balance;
         TextView date;
     }
@@ -149,7 +147,7 @@ public class ReportActivity extends Activity implements ReportView {
 
         @Override
         public long getItemId(int arg0) {
-            return Long.parseLong(listData.get(arg0).get("ID"));
+            return listData.get(arg0).getId();
         }
 
         @Override
@@ -172,9 +170,8 @@ public class ReportActivity extends Activity implements ReportView {
             }
 
 
-            holder.category.setText(listData.get(position).get("Category"));
-            holder.balance.setText(listData.get(position).get("Amount"));
-//            holder.date.setText(listData.get(position).get("Date"));
+            holder.category.setText(listData.get(position).getCategory());
+            holder.balance.setText(listData.get(position).getAmount());
 
             return convertView;
         }
