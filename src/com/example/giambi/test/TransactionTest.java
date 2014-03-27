@@ -1,6 +1,8 @@
 package com.example.giambi.test;
 
+import org.junit.Before;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import com.example.giambi.GiambiHttpClient;
 
@@ -11,7 +13,10 @@ public class TransactionTest extends TestCase {
 @Mock
 private GiambiHttpClient giambiHttpClient;
 	
-
+@Before
+protected void setUp() throws Exception {
+  MockitoAnnotations.initMocks(this);
+}
 
 	
 	
