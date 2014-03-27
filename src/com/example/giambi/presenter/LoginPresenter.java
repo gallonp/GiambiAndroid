@@ -15,49 +15,49 @@ import com.example.giambi.view.LoginView;
 
 public class LoginPresenter {
 
-	private LoginView v;
-	private LoginAccount account;
+    private LoginView v;
+    private LoginAccount account;
 
-	public LoginPresenter(LoginView view) {
-		this.v = view;
-		view.AddClickListener(this.listener);
-	}
+    public LoginPresenter(LoginView view) {
+        this.v = view;
+        view.AddClickListener(this.listener);
+    }
 
-	private OnClickListener listener = new OnClickListener() {
+    private OnClickListener listener = new OnClickListener() {
 
-		@Override
-		public void onClick(View arg0) {
-			String authResult;
-			account = new LoginAccount(v.getUsername(), v.getPassword());
-			try {
-				if (Util.checkLogin(account)) {
-					authResult = account.authenticate();
-					v.setResonpseText(authResult);
-					if (authResult.contains("Login succeeded!")) {
-						v.SetUser(account.getUsername());
-						v.startOverview(account);
-					} else {
-						Log.i("Login Error", authResult);
-						FragmentTransaction ft = ((Activity) v)
-								.getFragmentManager().beginTransaction();
-						Bundle bundle = new Bundle();
-						bundle.putString("message", authResult);
-						DialogFragment dialog = new InvalidUsernameOrPasswordDialogFragment();
-						dialog.setArguments(bundle);
-						dialog.show(ft, "dialog");
-					}
+        @Override
+        public void onClick(View arg0) {
+            String authResult;
+            account = new LoginAccount(v.getUsername(), v.getPassword());
+            try {
+                if (Util.checkLogin(account)) {
+                    authResult = account.authenticate();
+                    v.setResonpseText(authResult);
+                    if (authResult.contains("Login succeeded!")) {
+                        v.SetUser(account.getUsername());
+                        v.startOverview(account);
+                    } else {
+                        Log.i("Login Error", authResult);
+                        FragmentTransaction ft = ((Activity) v)
+                                .getFragmentManager().beginTransaction();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("message", authResult);
+                        DialogFragment dialog = new InvalidUsernameOrPasswordDialogFragment();
+                        dialog.setArguments(bundle);
+                        dialog.show(ft, "dialog");
+                    }
 
-					// pass account to new activity;
-				} else {
-					int usernameErrorCode = Util.checkUserName(account
-							.getUsername());
-					int passwordErrorCode = Util.checkPassword(account
-							.getPassword());
-					v.setDialogMessage(usernameErrorCode, passwordErrorCode);
-				}
-			} catch (AuthenticateException e) {
-				v.setResonpseText(e.getMessage());
-			}
-		}
-	};
+                    // pass account to new activity;
+                } else {
+                    int usernameErrorCode = Util.checkUserName(account
+                            .getUsername());
+                    int passwordErrorCode = Util.checkPassword(account
+                            .getPassword());
+                    v.setDialogMessage(usernameErrorCode, passwordErrorCode);
+                }
+            } catch (AuthenticateException e) {
+                v.setResonpseText(e.getMessage());
+            }
+        }
+    };
 }

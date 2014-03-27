@@ -15,73 +15,73 @@ import java.util.Locale;
 
 public class MyListAdapter extends ArrayAdapter<Transaction> {
 
-	private final Context context;
-	public List<Transaction> transactionsInList;
+    private final Context context;
+    public List<Transaction> transactionsInList;
 
-	public MyListAdapter(Context context, List<Transaction> transactions) {
-		super(context, R.layout.transaction_row, transactions);
-		this.context = context;
-		this.transactionsInList = transactions;
-		Log.v("MyAdapter constructor", "instantiation completed");
-		Log.v("transactions size", Integer.toString(transactions.size()));
-	}
+    public MyListAdapter(Context context, List<Transaction> transactions) {
+        super(context, R.layout.transaction_row, transactions);
+        this.context = context;
+        this.transactionsInList = transactions;
+        Log.v("MyAdapter constructor", "instantiation completed");
+        Log.v("transactions size", Integer.toString(transactions.size()));
+    }
 
-	@Override
-	public int getCount() {
-		return transactionsInList.size();
-	}
+    @Override
+    public int getCount() {
+        return transactionsInList.size();
+    }
 
-	@Override
-	public Transaction getItem(int position) {
-		return transactionsInList.get(position);
-	}
+    @Override
+    public Transaction getItem(int position) {
+        return transactionsInList.get(position);
+    }
 
-	@Override
-	public long getItemId(int position) {
-		Log.v("getItemId", Integer.toString(position));
-		Transaction transaction = transactionsInList.get(position);
-		return transaction.getId();
-	}
+    @Override
+    public long getItemId(int position) {
+        Log.v("getItemId", Integer.toString(position));
+        Transaction transaction = transactionsInList.get(position);
+        return transaction.getId();
+    }
 
-	static class ViewHolder {
-		public TextView transactionName;
-		public TextView category;
-		public TextView amount;
-	}
+    static class ViewHolder {
+        public TextView transactionName;
+        public TextView category;
+        public TextView amount;
+    }
 
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
-		View rowView = convertView;
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        // TODO Auto-generated method stub
+        View rowView = convertView;
 
-		if (rowView == null) {
-			LayoutInflater inflater = LayoutInflater.from(context);
-			rowView = inflater.inflate(R.layout.transaction_row, parent, false);
-			ViewHolder viewHolder = new ViewHolder();
-			viewHolder.transactionName = (TextView) rowView
-					.findViewById(R.id.transactionName);
-			viewHolder.category = (TextView) rowView
-					.findViewById(R.id.category);
-			viewHolder.amount = (TextView) rowView.findViewById(R.id.amount);
-			rowView.setTag(viewHolder);
-		}
-		ViewHolder holder = (ViewHolder) rowView.getTag();
-		Transaction transaction = null;
-		try {
-			transaction = transactionsInList.get(position);
-		} catch (IndexOutOfBoundsException e) {
-			return rowView;
-		}
-		Log.v("setTransactionsView", transaction.transactionName + ","
-				+ transaction.amount + "," + transaction.username);
+        if (rowView == null) {
+            LayoutInflater inflater = LayoutInflater.from(context);
+            rowView = inflater.inflate(R.layout.transaction_row, parent, false);
+            ViewHolder viewHolder = new ViewHolder();
+            viewHolder.transactionName = (TextView) rowView
+                    .findViewById(R.id.transactionName);
+            viewHolder.category = (TextView) rowView
+                    .findViewById(R.id.category);
+            viewHolder.amount = (TextView) rowView.findViewById(R.id.amount);
+            rowView.setTag(viewHolder);
+        }
+        ViewHolder holder = (ViewHolder) rowView.getTag();
+        Transaction transaction = null;
+        try {
+            transaction = transactionsInList.get(position);
+        } catch (IndexOutOfBoundsException e) {
+            return rowView;
+        }
+        Log.v("setTransactionsView", transaction.transactionName + ","
+                + transaction.amount + "," + transaction.username);
 
-		// set field from transaction
-		holder.transactionName.setText(transaction.transactionName);
-		holder.category.setText(transaction.category);
-		holder.amount.setText(Currency.getInstance(Locale.US).getSymbol()
-				+ Double.toString(transaction.amount));
+        // set field from transaction
+        holder.transactionName.setText(transaction.transactionName);
+        holder.category.setText(transaction.category);
+        holder.amount.setText(Currency.getInstance(Locale.US).getSymbol()
+                + Double.toString(transaction.amount));
 
-		return rowView;
-	}
+        return rowView;
+    }
 
 }

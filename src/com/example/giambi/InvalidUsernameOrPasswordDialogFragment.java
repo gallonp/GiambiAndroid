@@ -16,33 +16,33 @@ import android.os.Bundle;
  * getString(R.string.dialog_message_password_empty)); DialogFragment dialog =
  * new InvalidUsernameOrPasswordDialogFragment(); dialog.setArguments(bundle);
  * dialog.show(ft, "dialog");
- * 
+ *
  * @author haolidu
  * @version 0.99
  */
 public class InvalidUsernameOrPasswordDialogFragment extends DialogFragment {
 
-	/**
-	 * Creates the dialog.
-	 */
-	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
+    /**
+     * Creates the dialog.
+     */
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-		String message = getArguments().getString("message");
+        String message = getArguments().getString("message");
 
-		// Use the Builder class for convenient dialog construction
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setMessage(message)
-				.setTitle("Error")
-				.setPositiveButton(R.string.dialog_OK,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								// Do something after user acknowledges the
-								// message.
-							}
-						});
-		// Create the AlertDialog object and return it
-		return builder.create();
-	}
+        // Use the Builder class for convenient dialog construction
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(message)
+                .setTitle("Error")
+                .setPositiveButton(R.string.dialog_OK,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // Do something after user acknowledges the
+                                // message.
+                            }
+                        });
+        // Create the AlertDialog object and return it
+        return builder.create();
+    }
 
 }

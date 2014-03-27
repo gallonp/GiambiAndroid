@@ -13,16 +13,16 @@ import java.util.List;
  */
 public interface AccountView {
 
-	String getUsername();
+    String getUsername();
 
-	void addOnListItemClick(OnItemClickListener onListItemClickListener);
+    void addOnListItemClick(OnItemClickListener onListItemClickListener);
 
-	void showAddAccDialog();
+    void showAddAccDialog();
 
-	void setAccountList(List<BankAccount> bankAccounts);
+    void setAccountList(List<BankAccount> bankAccounts);
 
-	void setDialogMessage(int errorCode);
+    void setDialogMessage(int errorCode);
 
-	void startTransactionPage(String accountNumber);
+    void startTransactionPage(String accountNumber);
 
 }

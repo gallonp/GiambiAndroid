@@ -13,163 +13,166 @@ import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.*;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("serial")
 public class Transaction implements Serializable {
 
-	// Composite keys: name and amount
-	public String transactionName;
-	public double amount;
-	// username is the only foreign key
+    // Composite keys: name and amount
+    public String transactionName;
+    public double amount;
+    // username is the only foreign key
 
-	public String username;
+    public String username;
 
-	// Extra info
-	public String category;
-	public Date createDate;
-	public String merchant;
-	public String accountNumber;
-	// database unique key
-	public Long id;
+    // Extra info
+    public String category;
+    public Date createDate;
+    public String merchant;
+    public String accountNumber;
+    // database unique key
+    public Long id;
 
-	public Transaction(String transactionName, double amount, String username) {
+    public Transaction(String transactionName, double amount, String username) {
 
-		// if (name.isEmpty() || username.isEmpty()) {
-		// throw new InvalidArguementException(
-		// "At least one of the arguements is empty");
-		// }
-		this.transactionName = transactionName;
-		this.amount = amount;
-		this.username = username;
-	}
+        // if (name.isEmpty() || username.isEmpty()) {
+        // throw new InvalidArguementException(
+        // "At least one of the arguements is empty");
+        // }
+        this.transactionName = transactionName;
+        this.amount = amount;
+        this.username = username;
+    }
 
-	public void addExtraInfo(String category, Date createDate, String merchant,
-			String accountNumber) {
-		this.category = category;
-		this.createDate = createDate;
-		this.merchant = merchant;
-		this.accountNumber = accountNumber;
-	}
+    public void addExtraInfo(String category, Date createDate, String merchant,
+                             String accountNumber) {
+        this.category = category;
+        this.createDate = createDate;
+        this.merchant = merchant;
+        this.accountNumber = accountNumber;
+    }
 
-	public static List<Transaction> getAccountTransactions(String username,
-			String accountNumber) {
-		List<Transaction> transactions = new LinkedList<Transaction>();
-		StringBuffer uri = new StringBuffer();
-		uri.append("http://" + Util.LOCALHOST + ":8888/transactions?");
-		if (username != null && !username.isEmpty()) {
-			uri.append("username=" + username + "&");
-		}
-		if (accountNumber != null && !accountNumber.isEmpty()) {
-			uri.append("accountNumber=" + accountNumber);
-		}
-		if (uri.charAt(uri.length() - 1) == '&') {
-			uri.deleteCharAt(uri.length() - 1);
-		}
-		HttpGet request = new HttpGet(uri.toString());
-		HttpResponse response = GiambiHttpClient.getResponse(request);
-		String content = "";
-		try {
-			content = Util.HttpContentReader(response.getEntity().getContent());
-		} catch (IllegalStateException e) {
-			Log.e("IllegalStateException", e.getMessage());
-		} catch (IOException e) {
-			Log.e("IOException", e.getMessage());
-		}
-		// Log.v("Get transactions content",content);
-		JSONArray jsonArr = null;
-		JSONParser jPaser = new JSONParser();
-		try {
-			JSONObject jSONObj = (JSONObject) jPaser.parse(content);
-			System.out.println(content);
-			// Log.v("jSONObj", jSONObj.get("data").toString());
-			if (jSONObj.get("data").toString().equals("[]")) {
-				return transactions;
-			} else {
-				// Log.v("JSONArr to parse",content);
-				jsonArr = (JSONArray) jSONObj.get("data");
-			}
-		} catch (ParseException e) {
-			Log.i("onJSONArrayCreate", "Error on casting");
-			// throws exceptions;
-			return transactions;
-		}
-		// Log.v("JsonArr size",Integer.toString(jsonArr.size()));
-		// Log.v("JsonArr string", jsonArr.toJSONString());
-		if (jsonArr.size() != 0) {
-			for (int i = 0; i < jsonArr.size(); ++i) {
-				@SuppressWarnings("unchecked")
-				Map<String, String> transactionMap = (Map<String, String>) jsonArr
-						.get(i);
-				Transaction newTransaction = new Transaction(
-						transactionMap.get("transactionName"),
-						Double.parseDouble(transactionMap.get("amount")),
-						transactionMap.get("username"));
-				// Log.v("transactionMap.get(\"name\")=",transactionMap.get("name"));
-				newTransaction.id = Long.parseLong(transactionMap.get("name"));
-				// Log.v("newTransaction id",newTransaction.id+"");
-				newTransaction.addExtraInfo(transactionMap.get("category"),
-						Util.stringToDate(transactionMap.get("createDate")),
-						transactionMap.get("merchant"),
-						transactionMap.get("accountNumber"));
-				// Log.v("Adding transaction","added one!");
-				transactions.add(newTransaction);
-			}
-		}
+    public static List<Transaction> getAccountTransactions(String username,
+                                                           String accountNumber) {
+        List<Transaction> transactions = new LinkedList<Transaction>();
+        StringBuffer uri = new StringBuffer();
+        uri.append("http://" + Util.LOCALHOST + ":8888/transactions?");
+        if (username != null && !username.isEmpty()) {
+            uri.append("username=" + username + "&");
+        }
+        if (accountNumber != null && !accountNumber.isEmpty()) {
+            uri.append("accountNumber=" + accountNumber);
+        }
+        if (uri.charAt(uri.length() - 1) == '&') {
+            uri.deleteCharAt(uri.length() - 1);
+        }
+        HttpGet request = new HttpGet(uri.toString());
+        HttpResponse response = GiambiHttpClient.getResponse(request);
+        String content = "";
+        try {
+            content = Util.HttpContentReader(response.getEntity().getContent());
+        } catch (IllegalStateException e) {
+            Log.e("IllegalStateException", e.getMessage());
+        } catch (IOException e) {
+            Log.e("IOException", e.getMessage());
+        }
+        // Log.v("Get transactions content",content);
+        JSONArray jsonArr = null;
+        JSONParser jPaser = new JSONParser();
+        try {
+            JSONObject jSONObj = (JSONObject) jPaser.parse(content);
+            System.out.println(content);
+            // Log.v("jSONObj", jSONObj.get("data").toString());
+            if (jSONObj.get("data").toString().equals("[]")) {
+                return transactions;
+            } else {
+                // Log.v("JSONArr to parse",content);
+                jsonArr = (JSONArray) jSONObj.get("data");
+            }
+        } catch (ParseException e) {
+            Log.i("onJSONArrayCreate", "Error on casting");
+            // throws exceptions;
+            return transactions;
+        }
+        // Log.v("JsonArr size",Integer.toString(jsonArr.size()));
+        // Log.v("JsonArr string", jsonArr.toJSONString());
+        if (jsonArr.size() != 0) {
+            for (int i = 0; i < jsonArr.size(); ++i) {
+                @SuppressWarnings("unchecked")
+                Map<String, String> transactionMap = (Map<String, String>) jsonArr
+                        .get(i);
+                Transaction newTransaction = new Transaction(
+                        transactionMap.get("transactionName"),
+                        Double.parseDouble(transactionMap.get("amount")),
+                        transactionMap.get("username"));
+                // Log.v("transactionMap.get(\"name\")=",transactionMap.get("name"));
+                newTransaction.id = Long.parseLong(transactionMap.get("name"));
+                // Log.v("newTransaction id",newTransaction.id+"");
+                newTransaction.addExtraInfo(transactionMap.get("category"),
+                        Util.stringToDate(transactionMap.get("createDate")),
+                        transactionMap.get("merchant"),
+                        transactionMap.get("accountNumber"));
+                // Log.v("Adding transaction","added one!");
+                transactions.add(newTransaction);
+            }
+        }
 
-		// some methods to decode the JSON object into list of transactions
-		return transactions;
-	}
+        // some methods to decode the JSON object into list of transactions
+        return transactions;
+    }
 
-	public static List<Transaction> getAllTransactions(String username) {
+    public static List<Transaction> getAllTransactions(String username) {
 
-		return getAccountTransactions(username, null);
-	}
+        return getAccountTransactions(username, null);
+    }
 
-	@SuppressWarnings("unchecked")
-	public static void persistTransaction(Transaction transaction) {
-		// Need to update the path
+    @SuppressWarnings("unchecked")
+    public static void persistTransaction(Transaction transaction) {
+        // Need to update the path
 
-		// if KeyId exist, update. If not, create
+        // if KeyId exist, update. If not, create
 
-		HttpPost request = new HttpPost("http://" + Util.LOCALHOST
-				+ ":8888/transactions");
-		JSONObject jsonObj = new JSONObject();
-		jsonObj.put("accountNumber", transaction.accountNumber);
-		jsonObj.put("amount", transaction.amount);
-		jsonObj.put("category", transaction.category);
-		jsonObj.put("id", transaction.id);
-		Log.v("transaction id passed to doPost", transaction.id + "");
-		if (transaction.createDate != null) {
-			jsonObj.put("createDate", transaction.createDate.toString());
-		}
-		jsonObj.put("merchant", transaction.merchant);
-		jsonObj.put("transactionName", transaction.transactionName);
-		jsonObj.put("username", transaction.username);
-		// Log.v("transaction username passed to doPost",
-		// transaction.username+"");
+        HttpPost request = new HttpPost("http://" + Util.LOCALHOST
+                + ":8888/transactions");
+        JSONObject jsonObj = new JSONObject();
+        jsonObj.put("accountNumber", transaction.accountNumber);
+        jsonObj.put("amount", transaction.amount);
+        jsonObj.put("category", transaction.category);
+        jsonObj.put("id", transaction.id);
+        Log.v("transaction id passed to doPost", transaction.id + "");
+        if (transaction.createDate != null) {
+            jsonObj.put("createDate", transaction.createDate.toString());
+        }
+        jsonObj.put("merchant", transaction.merchant);
+        jsonObj.put("transactionName", transaction.transactionName);
+        jsonObj.put("username", transaction.username);
+        // Log.v("transaction username passed to doPost",
+        // transaction.username+"");
 
-		Log.v("username sent via json", transaction.username);
-		request.setEntity(Util.jsonToEntity(jsonObj));
-		HttpResponse response = GiambiHttpClient.getResponse(request);
-		String content = "";
-		try {
-			content = Util.HttpContentReader(response.getEntity().getContent());
-		} catch (IllegalStateException e) {
-			Log.e("IllegalStateException", e.getMessage());
-		} catch (IOException e) {
-			Log.e("IOException", e.getMessage());
-		}
-	}
-	
-	@Override
-	public String toString() {
+        Log.v("username sent via json", transaction.username);
+        request.setEntity(Util.jsonToEntity(jsonObj));
+        HttpResponse response = GiambiHttpClient.getResponse(request);
+        String content = "";
+        try {
+            content = Util.HttpContentReader(response.getEntity().getContent());
+        } catch (IllegalStateException e) {
+            Log.e("IllegalStateException", e.getMessage());
+        } catch (IOException e) {
+            Log.e("IOException", e.getMessage());
+        }
+    }
 
-		return accountNumber;
-	}
+    @Override
+    public String toString() {
 
-	public long getId() {
-		return this.id;
-	}
+        return accountNumber;
+    }
+
+    public long getId() {
+        return this.id;
+    }
 
 }

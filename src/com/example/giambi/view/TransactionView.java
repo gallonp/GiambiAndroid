@@ -1,21 +1,20 @@
 package com.example.giambi.view;
 
-import java.util.List;
-
 import android.widget.AdapterView.OnItemClickListener;
-
 import com.example.giambi.model.Transaction;
+
+import java.util.List;
 
 public interface TransactionView {
 
-	void setTransactions(List<Transaction> transactions);
+    void setTransactions(List<Transaction> transactions);
 
-	void updateTransactions();
+    void updateTransactions();
 
-	void addOnItemClickListener(OnItemClickListener listener);
+    void addOnItemClickListener(OnItemClickListener listener);
 
-	String getUsernameFromPreference();
+    String getUsernameFromPreference();
 
-	void showTransactionDetail(Transaction transaction);
+    void showTransactionDetail(Transaction transaction);
 
 }
