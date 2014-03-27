@@ -4,17 +4,17 @@ import android.view.View.OnClickListener;
 import com.example.giambi.model.LoginAccount;
 
 public interface LoginView {
-    String getUsername();
+	String getUsername();
 
-    String getPassword();
+	String getPassword();
 
-    void AddClickListener(OnClickListener clickerListener);
+	void AddClickListener(OnClickListener clickerListener);
 
-    void setResonpseText(String response);
+	void setResonpseText(String response);
 
-    void setDialogMessage(int usernameErrorCode, int passwordErrorCode);
+	void setDialogMessage(int usernameErrorCode, int passwordErrorCode);
 
-    void startOverview(LoginAccount account);
+	void startOverview(LoginAccount account);
 
-    void SetUser(String username);
+	void SetUser(String username);
 }

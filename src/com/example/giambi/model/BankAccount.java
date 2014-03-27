@@ -58,7 +58,7 @@ public final class BankAccount {
 		String encodedBalance = Util.encodeString(balance.toString());
 		String encodedAccNum = Util.encodeString(accountNum);
 		HttpPost request = new HttpPost("http://" + Util.LOCALHOST
-                + ":8888/createaccount");
+				+ ":8888/createaccount");
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("userAccount", encodedLoginAcc);
 		jsonObj.put("bankAccountName", encodedAlias);
@@ -84,9 +84,11 @@ public final class BankAccount {
 
 	/**
 	 * Get Bank Accounts from server.
+	 * 
 	 * @param loginAcc
 	 * @param list
-	 * @return -2 if cookie expired; -1 if an exception exists; 0 if complete normally
+	 * @return -2 if cookie expired; -1 if an exception exists; 0 if complete
+	 *         normally
 	 * @throws GetAccountException
 	 */
 	@SuppressWarnings({ "unchecked", "unused" })
@@ -95,7 +97,7 @@ public final class BankAccount {
 		String encodedLoginAcc = Util.encodeString(loginAcc);
 
 		HttpPost request = new HttpPost("http://" + Util.LOCALHOST
-                + ":8888/getaccount");
+				+ ":8888/getaccount");
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("userAccount", encodedLoginAcc);
 
@@ -118,7 +120,7 @@ public final class BankAccount {
 		if (content == null) {
 			throw new GetAccountException("Unknown Error");
 		} else if (content == "invalid cookie") {
-		    return -2;
+			return -2;
 		}
 		JSONArray jsonArr = null;
 		JSONParser jsonParser = new JSONParser();
@@ -144,7 +146,7 @@ public final class BankAccount {
 			}
 			return 0;
 		}
-        return -1;
+		return -1;
 	}
 
 	public boolean del(List<BankAccount> list) {

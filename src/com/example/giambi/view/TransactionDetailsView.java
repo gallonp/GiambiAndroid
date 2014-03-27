@@ -10,17 +10,17 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 public interface TransactionDetailsView {
-	
+
 	void AddOnClickListener(OnClickListener clickerListener);
-	
+
 	Transaction getCurrentTransactionData();
-	
+
 	String getUsernameFromPreference();
 
 	void finish();
-	
+
 	void setCategories(String categories);
-	
+
 	void addOnItemClickListener(OnItemClickListener listener, ListView list);
-	
+
 }

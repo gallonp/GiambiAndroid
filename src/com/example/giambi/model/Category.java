@@ -3,13 +3,11 @@ package com.example.giambi.model;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Category {
-	
-	
-	public  List<String> categories = new ArrayList<String>();
 
-	public Category(){
+	public List<String> categories = new ArrayList<String>();
+
+	public Category() {
 		categories.add(Category.bookSupplies);
 		categories.add(Category.cashATM);
 		categories.add(Category.clothing);
@@ -26,7 +24,7 @@ public class Category {
 		categories.add(Category.bookSupplies);
 		categories.add(Category.uncategorized);
 	}
-	
+
 	public static final String uncategorized = "Uncategorized";
 	public static final String rentalCarTaxi = "Rental Car & Taxi";
 	public static final String groceries = "Groceries";

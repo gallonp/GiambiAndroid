@@ -10,8 +10,8 @@ import android.widget.AdapterView.OnItemClickListener;
  */
 public interface ReportView {
 
-    void flushList();
+	void flushList();
 
-    void addOnListItemClick(OnItemClickListener onListItemClickListener);
+	void addOnListItemClick(OnItemClickListener onListItemClickListener);
 
 }
