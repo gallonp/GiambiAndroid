@@ -28,6 +28,11 @@ public class ReportActivity extends Activity implements ReportView {
     private ActionBar actionBar;
     private List<ReportEntry> listData = new LinkedList<ReportEntry>();
     private MyAdapter adapter;
+    private String loginAccName;
+    private String accountNumber;
+    private String reportType;
+    private String startDate;
+    private String endDate;
     private final NumberFormat currencyFormat = NumberFormat
             .getCurrencyInstance(Locale.US);
 
@@ -35,16 +40,17 @@ public class ReportActivity extends Activity implements ReportView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.account_page);
-        String loginAccName = getUsernameFromPreference();
-        String accountNumber = getAccountNumber();
-        String reportType = getReportType();
+        loginAccName = getUsernameFromPreference();
+        getBundleInfo();
+
+        System.out.println("Start Date: " + startDate + " End Date: " + endDate);
         listView = (ListView) this.findViewById(R.id.account_list);
         actionBar = this.getActionBar();
         adapter = new MyAdapter(this);
         listView.setAdapter(adapter);
         currencyFormat.setMinimumFractionDigits(2);
         reportPresenter = new ReportPresenter(this, loginAccName,
-                accountNumber, reportType);
+                accountNumber, reportType, startDate,endDate);
         setupActionBar();
         flushList();
 
@@ -95,22 +101,18 @@ public class ReportActivity extends Activity implements ReportView {
         return prefs.getString("USERNAME_GIAMBI", null);
     }
 
-    private String getAccountNumber() {
+    private void getBundleInfo() {
         Bundle b = this.getIntent().getExtras();
-        if (b.getString("AccountNumber") != null) {
-            return b.getString("AccountNumber");
+        if (b.getString("AccountNumber") == null || b.getString("ReportType")
+         == null || b.getString("StartDate") == null || b.getString
+                ("EndDate") == null) {
+            this.finish();
+        } else {
+            this.accountNumber = b.getString("AccountNumber");
+            this.reportType = b.getString("ReportType");
+            this.startDate = b.getString("StartDate");
+            this.endDate = b.getString("EndDate");
         }
-        this.finish();
-        return null;
-    }
-
-    private String getReportType() {
-        Bundle b = this.getIntent().getExtras();
-        if (b.getString("ReportType") != null) {
-            return b.getString("ReportType");
-        }
-        this.finish();
-        return null;
     }
 
     /**

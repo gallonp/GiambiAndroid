@@ -13,6 +13,8 @@ public interface TransactionView {
 
     void addOnItemClickListener(OnItemClickListener listener);
 
+    void showReportDialog();
+
     String getUsernameFromPreference();
 
     void showTransactionDetail(Transaction transaction);

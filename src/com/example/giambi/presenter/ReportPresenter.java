@@ -41,6 +41,8 @@ public class ReportPresenter {
     private final String loginAccount;
     private final String accountNumber;
     private final String reportType;
+    private final String startDate;
+    private final String endDate;
     private List<ReportEntry> listData = new LinkedList<ReportEntry>();
     /**
      * Listener for listView item click
@@ -80,11 +82,14 @@ public class ReportPresenter {
      * Constructor.
      */
     public ReportPresenter(ReportView view, String loginAccount,
-                           String accountNumber, String reportType) {
+                           String accountNumber, String reportType,
+                           String startDate, String endDate) {
         this.v = view;
         this.loginAccount = loginAccount;
         this.accountNumber = accountNumber;
         this.reportType = reportType;
+        this.startDate = startDate;
+        this.endDate = endDate;
         // TODO get report
 
         v.addOnListItemClick(this.onListItemClickListener);
@@ -99,12 +104,16 @@ public class ReportPresenter {
     private int requestReport() throws GetReportException {
         String encodedLoginAcc = Util.encodeString(loginAccount);
         String encodedAccNumber = Util.encodeString(accountNumber);
+        String encodedStartDate = Util.encodeString(startDate);
+        String encodedEndDate = Util.encodeString(endDate);
 
         HttpPost request = new HttpPost("http://" + Util.LOCALHOST
                 + ":8888/getreport");
         JSONObject jsonObj = new JSONObject();
         jsonObj.put("userAccount", encodedLoginAcc);
         jsonObj.put("accountNumber", encodedAccNumber);
+        jsonObj.put("startDate", encodedStartDate);
+        jsonObj.put("endDate", encodedEndDate);
 
         request.setEntity(Util.jsonToEntity(jsonObj));
 
@@ -138,7 +147,7 @@ public class ReportPresenter {
             return -1;
         }
 
-        // Add accounts to bankAccounts list
+        // Add entries to list
         listData.clear();
         if (content.equals("No accounts."))
             return 0;
@@ -147,9 +156,6 @@ public class ReportPresenter {
             Map<String, String> reportInfo;
             String category;
             String amount;
-            String startDate;
-            String endDate;
-            String date;
             JSONArray jsonArr = (JSONArray) jsonObj.get("Data");
 
             for (Object aJsonArr : jsonArr) {

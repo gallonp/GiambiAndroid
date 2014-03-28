@@ -15,6 +15,7 @@ import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -163,5 +164,11 @@ public class Util {
                     + " can't be parsed using current format");
             return null;
         }
+    }
+
+    public static String dateToString(Calendar date) {
+        SimpleDateFormat formatter = new SimpleDateFormat(
+                "EEE MMM dd HH:mm:ss z yyyy");
+        return formatter.format(date.getTime());
     }
 }
