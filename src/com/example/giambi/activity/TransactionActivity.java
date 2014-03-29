@@ -98,8 +98,10 @@ public class TransactionActivity extends Activity implements TransactionView,
                 return true;
 
             case R.id.trans_report:
-                startReport("Spending");
+                showReportDialog();
+                return true;
             case R.id.trans_logout:
+                showAccountNum();
                 return true;
             case R.id.trans_search:
                 return true;
@@ -108,7 +110,12 @@ public class TransactionActivity extends Activity implements TransactionView,
         }
     }
 
-    private void startReport(String type) {
+    @Override
+    public void showAccountNum() {
+        System.out.println(this.accountNumber);
+    }
+
+    public void startReport(String type) {
         Intent i = new Intent(this, ReportActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("AccountNumber", this.accountNumber);
@@ -206,7 +213,6 @@ public class TransactionActivity extends Activity implements TransactionView,
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         this.updateTransactions();
-        this.accountNumber = data.getExtras().getString("AccountNumber");
     }
 
     @Override

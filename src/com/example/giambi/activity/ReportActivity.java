@@ -43,6 +43,7 @@ public class ReportActivity extends Activity implements ReportView {
         loginAccName = getUsernameFromPreference();
         getBundleInfo();
 
+        System.out.println("AccNum: " + accountNumber + " Type: " + reportType);
         System.out.println("Start Date: " + startDate + " End Date: " + endDate);
         listView = (ListView) this.findViewById(R.id.account_list);
         actionBar = this.getActionBar();
@@ -120,6 +121,7 @@ public class ReportActivity extends Activity implements ReportView {
      */
     private final class ViewHolder {
         TextView category;
+        TextView textView2;
         TextView balance;
         TextView date;
     }
@@ -139,17 +141,23 @@ public class ReportActivity extends Activity implements ReportView {
 
         @Override
         public int getCount() {
-            return listData.size();
+            return listData.size() + 1;
         }
 
         @Override
         public Object getItem(int arg0) {
-            return listData.get(arg0);
+            if (arg0 != 0) {
+                return listData.get(arg0 - 1);
+            }
+            return null;
         }
 
         @Override
         public long getItemId(int arg0) {
-            return listData.get(arg0).getId();
+            if (arg0 != 0) {
+                return listData.get(arg0 + 1).getId();
+            }
+            return 0;
         }
 
         @Override
@@ -160,9 +168,15 @@ public class ReportActivity extends Activity implements ReportView {
 
                 holder = new ViewHolder();
 
-                convertView = mInflater.inflate(R.layout.vlist, null);
+                if (position == 0) {
+                    convertView = mInflater.inflate(R.layout.vlist2, null);
+                } else {
+                    convertView = mInflater.inflate(R.layout.vlist, null);
+                }
                 holder.category = (TextView) convertView
                         .findViewById(R.id.bAccount_alias);
+                holder.textView2 = (TextView) convertView
+                        .findViewById(R.id.bAccount_bName);
                 holder.balance = (TextView) convertView
                         .findViewById(R.id.bAccount_balance);
                 holder.date = (TextView) convertView
@@ -173,8 +187,15 @@ public class ReportActivity extends Activity implements ReportView {
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            holder.category.setText(listData.get(position).getCategory());
-            holder.balance.setText(listData.get(position).getAmount());
+            if (position == 0) {
+                holder.category.setText("Report from: ");
+                holder.textView2.setText("To: ");
+                holder.balance.setText(startDate);
+                holder.date.setText(endDate);
+            } else {
+                holder.category.setText(listData.get(position - 1).getCategory());
+                holder.balance.setText(listData.get(position - 1).getAmount());
+            }
 
             return convertView;
         }

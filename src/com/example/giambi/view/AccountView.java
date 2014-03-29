@@ -5,6 +5,7 @@ package com.example.giambi.view;
 
 import android.widget.AdapterView.OnItemClickListener;
 import com.example.giambi.model.BankAccount;
+import com.example.giambi.presenter.AccountPresenter;
 
 import java.util.List;
 
@@ -25,4 +26,5 @@ public interface AccountView {
 
     void startTransactionPage(String accountNumber);
 
+    AccountPresenter getPresenter();
 }

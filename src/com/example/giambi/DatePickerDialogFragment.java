@@ -17,7 +17,8 @@ import java.util.Calendar;
 public class DatePickerDialogFragment extends DialogFragment {
 
     public interface DateListener {
-        public void setDate(String date1, String date2);
+        void setDate(String date1, String date2);
+        void startReport(String type);
     }
 
     private DatePicker datePicker1;
@@ -69,6 +70,7 @@ public class DatePickerDialogFragment extends DialogFragment {
                                 datePicker2.getDayOfMonth(), 23, 59, 59);
                         dateListener.setDate(Util.dateToString(startDate),
                                 Util.dateToString(endDate));
+                        dateListener.startReport("Spending");
                     }
                 });
 

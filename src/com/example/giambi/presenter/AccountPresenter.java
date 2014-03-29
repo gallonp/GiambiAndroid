@@ -47,7 +47,7 @@ public class AccountPresenter {
         return this.onMenuItemClickListener;
     }
 
-    public void getAccounts(String loginAccName, List<BankAccount> bankAccounts) {
+    public void getAccounts(String loginAccName) {
         try {
             int result = BankAccount.getAccounts(loginAccName, bankAccounts);
             if (result == -2) {
@@ -57,8 +57,9 @@ public class AccountPresenter {
                 ((Activity) v).finish();
             }
         } catch (GetAccountException e) {
-            Log.e("onGetData", e.getMessage());
+            Log.e("GetAccountException", e.getMessage());
         }
+        v.setAccountList(bankAccounts);
     }
 
     /**
@@ -84,7 +85,7 @@ public class AccountPresenter {
         public boolean onMenuItemClick(MenuItem item) {
             String itemTitle = item.getTitle().toString();
             if (itemTitle.equals("Refresh")) {
-                v.setAccountList(bankAccounts);
+                getAccounts(v.getUsername());
                 Log.i("MenuItem", "1");
             } else if (itemTitle.equals("Search")) {
                 Log.i("MenuItem", "2");

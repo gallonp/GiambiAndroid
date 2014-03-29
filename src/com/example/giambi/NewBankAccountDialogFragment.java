@@ -11,20 +11,19 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import com.example.giambi.model.BankAccount;
+import com.example.giambi.presenter.AccountPresenter;
 import com.example.giambi.util.CreateAccountException;
-import com.example.giambi.util.GetAccountException;
 import com.example.giambi.util.Util;
 import com.example.giambi.view.AccountView;
 
 import java.math.BigDecimal;
-import java.util.LinkedList;
-import java.util.List;
 
 public class NewBankAccountDialogFragment extends DialogFragment {
 
     private EditText[] inputBoxs = new EditText[4];
     private Button addButton;
     private AccountView v;
+    private AccountPresenter p;
 
     // private AccountView v = (AccountView) getView();
 
@@ -37,6 +36,7 @@ public class NewBankAccountDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         v = (AccountView) this.getActivity();
+        p = v.getPresenter();
         // v = (AccountView)
         // this.getActivity().getWindow().getDecorView().findViewById(android.R.id.content);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -105,13 +105,7 @@ public class NewBankAccountDialogFragment extends DialogFragment {
         } catch (CreateAccountException e) {
             Log.i("onAddBankAccount", e.getMessage());
         }
-        List<BankAccount> bankAccounts = new LinkedList<BankAccount>();
-        try {
-            BankAccount.getAccounts(v.getUsername(), bankAccounts);
-        } catch (GetAccountException e) {
-            Log.v("GetAccountException", e.getMessage());
-        }
+        p.getAccounts(v.getUsername());
         this.dismiss();
-        v.setAccountList(bankAccounts);
     }
 }

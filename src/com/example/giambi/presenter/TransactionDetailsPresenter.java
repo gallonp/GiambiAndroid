@@ -27,6 +27,7 @@ public class TransactionDetailsPresenter {
             Transaction newTransaction = v.getCurrentTransactionData();
             Transaction.persistTransaction(newTransaction);
             Log.v("newTransaction to persist", newTransaction.id + "");
+            v.getCurrentTransactionData();
             v.finish();
             // List<Transaction> transactions =
             // Transaction.getAccountTransactions(v.getUsernameFromPreference(),""

@@ -33,7 +33,6 @@ public class AccountActivity extends Activity implements AccountView {
     private AccountPresenter accountPresenter;
     private ActionBar actionBar;
     private String loginAccName;
-    private List<BankAccount> bankAccounts = new LinkedList<BankAccount>();
     private List<Map<String, String>> listData = new LinkedList<Map<String, String>>();
     private DialogFragment dialog;
     private MyAdapter adapter;
@@ -141,9 +140,7 @@ public class AccountActivity extends Activity implements AccountView {
 
     private void mapBankAccountData(List<BankAccount> bankAccounts,
                                     List<Map<String, String>> list) {
-        //
-        // // Update back-end BankAccount array
-        // accountP.getAccounts(loginAccName, bankAccounts);
+        // Update back-end BankAccount array
 
         // Clear ListView data list
         list.clear();
@@ -254,6 +251,11 @@ public class AccountActivity extends Activity implements AccountView {
         bundle.putString("AccountNumber", accountNumber);
         i.putExtras(bundle);
         startActivity(i);
+    }
+
+    @Override
+    public AccountPresenter getPresenter() {
+        return this.accountPresenter;
     }
 
 }
