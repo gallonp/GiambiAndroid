@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class AccountPresenter {
     /**
-     * THis is AccountView.
+     * This is AccountView.
      */
     private AccountView v;
 
@@ -33,7 +33,7 @@ public class AccountPresenter {
      */
     private final int a = -2;
     /**
-     * THis create a new bank account.
+     * This create a new bank account.
      */
     private List<BankAccount> bankAccounts = new LinkedList<BankAccount>();
 

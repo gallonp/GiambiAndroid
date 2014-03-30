@@ -6,7 +6,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.*;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
@@ -21,18 +26,54 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * report activity.
+ */
 public class ReportActivity extends Activity implements ReportView {
 
+    /**
+     * list view.
+     */
     private ListView listView;
+    /**
+     * report presenter.
+     */
     private ReportPresenter reportPresenter;
+    /**
+     * action bar.
+     */
     private ActionBar actionBar;
+    /**
+     * list data.
+     */
     private List<ReportEntry> listData = new LinkedList<ReportEntry>();
+    /**
+     * list adapter.
+     */
     private MyAdapter adapter;
+    /**
+     * login account name.
+     */
     private String loginAccName;
+    /**
+     * account number.
+     */
     private String accountNumber;
+    /**
+     * report type.
+     */
     private String reportType;
+    /**
+     * start date.
+     */
     private String startDate;
+    /**
+     * end date.
+     */
     private String endDate;
+    /**
+     * number format.
+     */
     private final NumberFormat currencyFormat = NumberFormat
             .getCurrencyInstance(Locale.US);
 
@@ -43,15 +84,13 @@ public class ReportActivity extends Activity implements ReportView {
         loginAccName = getUsernameFromPreference();
         getBundleInfo();
 
-        System.out.println("AccNum: " + accountNumber + " Type: " + reportType);
-        System.out.println("Start Date: " + startDate + " End Date: " + endDate);
         listView = (ListView) this.findViewById(R.id.account_list);
         actionBar = this.getActionBar();
         adapter = new MyAdapter(this);
         listView.setAdapter(adapter);
         currencyFormat.setMinimumFractionDigits(2);
         reportPresenter = new ReportPresenter(this, loginAccName,
-                accountNumber, reportType, startDate,endDate);
+                accountNumber, reportType, startDate, endDate);
         setupActionBar();
         flushList();
 
@@ -66,7 +105,7 @@ public class ReportActivity extends Activity implements ReportView {
     }
 
     @Override
-    public void flushList() {
+    public final void flushList() {
         this.listData = reportPresenter.getReport();
         adapter.notifyDataSetChanged();
     }
@@ -75,7 +114,8 @@ public class ReportActivity extends Activity implements ReportView {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.reportactivity_menu_options, menu);
-        MenuItem[] menuItems = new MenuItem[3];
+        final int num = 3;
+        MenuItem[] menuItems = new MenuItem[num];
         menuItems[0] = menu.findItem(R.id.report_refresh);
         menuItems[1] = menu.findItem(R.id.report_search);
         menuItems[2] = menu.findItem(R.id.report_logout);
@@ -102,11 +142,14 @@ public class ReportActivity extends Activity implements ReportView {
         return prefs.getString("USERNAME_GIAMBI", null);
     }
 
+    /**
+     * get bundle info.
+     */
     private void getBundleInfo() {
         Bundle b = this.getIntent().getExtras();
         if (b.getString("AccountNumber") == null || b.getString("ReportType")
-         == null || b.getString("StartDate") == null || b.getString
-                ("EndDate") == null) {
+         == null || b.getString("StartDate") == null || b.getString(
+                "EndDate") == null) {
             this.finish();
         } else {
             this.accountNumber = b.getString("AccountNumber");
@@ -120,10 +163,22 @@ public class ReportActivity extends Activity implements ReportView {
      * @author cwl Holder for view in each entry of list.
      */
     private final class ViewHolder {
-        TextView category;
-        TextView textView2;
-        TextView balance;
-        TextView date;
+        /**
+         * category.
+         */
+        private TextView category;
+        /**
+         * another textview.
+         */
+        private TextView textView2;
+        /**
+         * balance.
+         */
+        private TextView balance;
+        /**
+         * date.
+         */
+        private TextView date;
     }
 
     /**
@@ -133,19 +188,26 @@ public class ReportActivity extends Activity implements ReportView {
      */
     public class MyAdapter extends BaseAdapter {
 
+        /**
+         * inflater.
+         */
         private final LayoutInflater mInflater;
 
+        /**
+         * construcot.
+         * @param context context
+         */
         public MyAdapter(Context context) {
             this.mInflater = LayoutInflater.from(context);
         }
 
         @Override
-        public int getCount() {
+        public final int getCount() {
             return listData.size() + 1;
         }
 
         @Override
-        public Object getItem(int arg0) {
+        public final Object getItem(int arg0) {
             if (arg0 != 0) {
                 return listData.get(arg0 - 1);
             }
@@ -153,7 +215,7 @@ public class ReportActivity extends Activity implements ReportView {
         }
 
         @Override
-        public long getItemId(int arg0) {
+        public final long getItemId(int arg0) {
             if (arg0 != 0) {
                 return listData.get(arg0 + 1).getId();
             }
@@ -161,7 +223,8 @@ public class ReportActivity extends Activity implements ReportView {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public final View getView(int position, View convertView,
+                             ViewGroup parent) {
 
             ViewHolder holder;
             if (convertView == null) {
@@ -193,7 +256,8 @@ public class ReportActivity extends Activity implements ReportView {
                 holder.balance.setText(startDate);
                 holder.date.setText(endDate);
             } else {
-                holder.category.setText(listData.get(position - 1).getCategory());
+                holder.category.setText(listData.get(position - 1)
+                        .getCategory());
                 holder.balance.setText(listData.get(position - 1).getAmount());
             }
 

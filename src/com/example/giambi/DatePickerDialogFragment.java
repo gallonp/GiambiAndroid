@@ -14,19 +14,54 @@ import com.example.giambi.util.Util;
 
 import java.util.Calendar;
 
+/**
+ * DatePicker Dialog Fragment.
+ */
 public class DatePickerDialogFragment extends DialogFragment {
 
+    /**
+     * DateListener interface.
+     */
     public interface DateListener {
+        /**
+         * set dates.
+         * @param date1 start date
+         * @param date2 end date
+         */
         void setDate(String date1, String date2);
+
+        /**
+         * start report.
+         * @param type report type
+         */
         void startReport(String type);
     }
 
+    /**
+     * first picker.
+     */
     private DatePicker datePicker1;
+    /**
+     * second picker.
+     */
     private DatePicker datePicker2;
+    /**
+     * listener.
+     */
     private  DateListener dateListener;
+    /**
+     * start date.
+     */
     private Calendar startDate;
+    /**
+     * end date.
+     */
     private Calendar endDate;
 
+    /**
+     * Constructor.
+     * @param activity caller
+     */
     public DatePickerDialogFragment(Activity activity) {
         try {
             dateListener = (DateListener) activity;
@@ -36,10 +71,12 @@ public class DatePickerDialogFragment extends DialogFragment {
     }
 
     /**
-     * Creates the dialog.
+     * Create dialog.
+     * @param savedInstanceState default arg
+     * @return dialog
      */
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public final Dialog onCreateDialog(Bundle savedInstanceState) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -55,19 +92,22 @@ public class DatePickerDialogFragment extends DialogFragment {
                 new DialogInterface.OnClickListener() {
 
                     /**
-                     * This method will be invoked when a button in the dialog is clicked.
+                     * This method will be invoked when a button in the
+                     * dialog is clicked.
                      *
                      * @param dialog The dialog that received the click.
-                     * @param which  The button that was clicked (e.g.
-                     *               {@link android.content.DialogInterface#BUTTON1}) or the position
+                     * @param which  The button that was clicked
                      */
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        startDate.set(datePicker1.getYear(), datePicker1.getMonth(),
+                        final int h = 23;
+                        final int ms = 59;
+                        startDate.set(datePicker1.getYear(), datePicker1.
+                                getMonth(),
                                         datePicker1.getDayOfMonth(), 0, 0, 0);
                         endDate.set(datePicker2.getYear(),
                                 datePicker2.getMonth(),
-                                datePicker2.getDayOfMonth(), 23, 59, 59);
+                                datePicker2.getDayOfMonth(), h, ms, ms);
                         dateListener.setDate(Util.dateToString(startDate),
                                 Util.dateToString(endDate));
                         dateListener.startReport("Spending");
@@ -78,11 +118,11 @@ public class DatePickerDialogFragment extends DialogFragment {
                 new DialogInterface.OnClickListener() {
 
                     /**
-                     * This method will be invoked when a button in the dialog is clicked.
+                     * This method will be invoked when a button in the dialog
+                     * is clicked.
                      *
                      * @param dialog The dialog that received the click.
-                     * @param which  The button that was clicked (e.g.
-                     *               {@link android.content.DialogInterface#BUTTON1}) or the position
+                     * @param which  The button that was clicked
                      */
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

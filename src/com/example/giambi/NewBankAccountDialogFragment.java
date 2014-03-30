@@ -18,27 +18,41 @@ import com.example.giambi.view.AccountView;
 
 import java.math.BigDecimal;
 
+/**
+ * New BankAccount DialogFragment.
+ */
 public class NewBankAccountDialogFragment extends DialogFragment {
 
-    private EditText[] inputBoxs = new EditText[4];
+    /**
+     * num of boxes.
+     */
+    private final int num = 4;
+    /**
+     * input box.
+     */
+    private EditText[] inputBoxs = new EditText[num];
+    /**
+     * button.
+     */
     private Button addButton;
+    /**
+     * listview.
+     */
     private AccountView v;
+    /**
+     * presenter.
+     */
     private AccountPresenter p;
 
-    // private AccountView v = (AccountView) getView();
-
-    public NewBankAccountDialogFragment() {
-    }
-
     /**
-     * Creates the dialog.
+     * on create.
+     * @param savedInstanceState default arg
+     * @return dialog
      */
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public final Dialog onCreateDialog(Bundle savedInstanceState) {
         v = (AccountView) this.getActivity();
         p = v.getPresenter();
-        // v = (AccountView)
-        // this.getActivity().getWindow().getDecorView().findViewById(android.R.id.content);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.new_account_dialog, null);
@@ -55,21 +69,15 @@ public class NewBankAccountDialogFragment extends DialogFragment {
         return builder.create();
     }
 
-    // @Override
-    // public View onCreateView(LayoutInflater inflater, ViewGroup container,
-    // Bundle savedInstanceState) {
-    // View view = inflater.inflate(R.layout.new_account_dialog, container,
-    // false);
-    //
-    // return view;
-    // }
-
+    /**
+     * on click listener.
+     */
     private OnClickListener onClickListener = new View.OnClickListener() {
 
         @Override
-        public void onClick(View v) {
-            String[] params = new String[4];
-            for (int i = 0; i < 4; ++i) {
+        public void onClick(View v1) {
+            String[] params = new String[num];
+            for (int i = 0; i < num; ++i) {
                 params[i] = inputBoxs[i].getText().toString();
             }
 
@@ -78,7 +86,11 @@ public class NewBankAccountDialogFragment extends DialogFragment {
 
     };
 
-    public void updateResult(String[] inputText) {
+    /**
+     * update result.
+     * @param inputText input text
+     */
+    public final void updateResult(String[] inputText) {
         if (Util.isNumeric(inputText[2])) {
             try {
                 new BigDecimal(inputText[3]);
@@ -93,11 +105,6 @@ public class NewBankAccountDialogFragment extends DialogFragment {
             v.setDialogMessage(Util.INVALID_ACCOUNT_NUMBER);
             return;
         }
-        System.out.println(((Boolean) (v.getUsername() == null)).toString()
-                + ((Boolean) (inputText[0] == null)).toString()
-                + ((Boolean) (inputText[1] == null)).toString()
-                + ((Boolean) (inputText[2] == null)).toString()
-                + ((Boolean) (inputText[3] == null)).toString());
         BankAccount newAcc = new BankAccount(v.getUsername(), inputText[0],
                 inputText[1], inputText[2], inputText[3]);
         try {
