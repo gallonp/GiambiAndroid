@@ -1,5 +1,6 @@
 package com.example.giambi;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -17,6 +18,7 @@ import java.util.Calendar;
 /**
  * DatePicker Dialog Fragment.
  */
+@SuppressLint("ValidFragment")
 public class DatePickerDialogFragment extends DialogFragment {
 
     /**

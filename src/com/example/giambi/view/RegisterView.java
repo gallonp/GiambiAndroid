@@ -9,7 +9,7 @@ public interface RegisterView {
 
     String getPassword2();
 
-    void AddClickListener(OnClickListener clickerListener);
+    void addClickListener(OnClickListener clickerListener);
 
     void setResonpseText(String response);
 

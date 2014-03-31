@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -21,6 +20,10 @@ import com.example.giambi.presenter.LoginPresenter;
 import com.example.giambi.util.Util;
 import com.example.giambi.view.LoginView;
 
+/**
+ * @author zhangjialiang
+ * Render login page
+ */
 public class LoginActivity extends Activity implements LoginView {
 
     private TextView username;
@@ -44,13 +47,6 @@ public class LoginActivity extends Activity implements LoginView {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        // getMenuInflater().inflate(R.menu.login, menu);
-        return true;
-    }
-
-    @Override
     public String getUsername() {
         return this.username.getText().toString();
     }
@@ -61,7 +57,7 @@ public class LoginActivity extends Activity implements LoginView {
     }
 
     @Override
-    public void AddClickListener(OnClickListener clickerListener) {
+    public void addClickListener(OnClickListener clickerListener) {
         login.setOnClickListener(clickerListener);
     }
 
@@ -116,6 +112,10 @@ public class LoginActivity extends Activity implements LoginView {
         dialog.show(ft, "dialog");
     }
 
+    /**
+     * 
+     * @param hasFocus
+     */
     private void onFocusChange(boolean hasFocus) {
         final boolean isFocus = hasFocus;
 

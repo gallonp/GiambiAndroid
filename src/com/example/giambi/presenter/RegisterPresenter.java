@@ -14,7 +14,7 @@ public class RegisterPresenter {
 
     public RegisterPresenter(RegisterView view) {
         this.v = view;
-        v.AddClickListener(clickerListener);
+        v.addClickListener(clickerListener);
     }
 
     private OnClickListener clickerListener = new OnClickListener() {

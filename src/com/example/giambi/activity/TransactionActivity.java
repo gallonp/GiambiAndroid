@@ -24,8 +24,10 @@ import com.example.giambi.view.TransactionView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TransactionActivity extends Activity implements TransactionView,
-        DatePickerDialogFragment.DateListener {
+/**
+ * @author zhangjialiang Render transaction list page
+ */
+public class TransactionActivity extends Activity implements TransactionView {
 
     private MyListAdapter myAdapter;
 
@@ -52,11 +54,11 @@ public class TransactionActivity extends Activity implements TransactionView,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.transaction_page);
         this.username = this.getUsernameFromPreference();
-        if (savedInstanceState == null)
+        if (savedInstanceState == null) {
             setAccountNumber(getIntent().getExtras());
-        else
+        } else {
             setAccountNumber(savedInstanceState);
-
+        }
         this.actionBar = this.getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         this.myAdapter = new MyListAdapter(this, transactions);
@@ -88,7 +90,7 @@ public class TransactionActivity extends Activity implements TransactionView,
             case R.id.trans_refresh:
                 updateTransactions();
                 return true;
-
+    
             case R.id.trans_create_new_item:
                 Transaction newTransaction = new Transaction("", 0, username);
                 newTransaction.accountNumber = accountNumber;
@@ -96,7 +98,6 @@ public class TransactionActivity extends Activity implements TransactionView,
                 showTransactionDetail(newTransaction);
                 Log.i("MenuItem", "3");
                 return true;
-
             case R.id.trans_report:
                 showReportDialog();
                 return true;
@@ -114,8 +115,12 @@ public class TransactionActivity extends Activity implements TransactionView,
     public void showAccountNum() {
         System.out.println(this.accountNumber);
     }
-
-    public void startReport(String type) {
+    
+    /**
+     * Start a new report activity.
+     * @param type report type
+     */
+    private void startReport(String type) {
         Intent i = new Intent(this, ReportActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("AccountNumber", this.accountNumber);
@@ -134,7 +139,11 @@ public class TransactionActivity extends Activity implements TransactionView,
 
         dialog.show(ft, "dialog");
     }
-
+    
+    /**
+     * 
+     * @param b savedInstanceBundle
+     */
     private void setAccountNumber(Bundle b) {
         String accNumber = "";
         if (b != null) {
@@ -155,15 +164,15 @@ public class TransactionActivity extends Activity implements TransactionView,
 
     /**
      * Get username from preference.
-     *
+     * 
      * @return current username
      */
 
     public String getUsernameFromPreference() {
         SharedPreferences prefs = this.getSharedPreferences("com.example.app",
                 Context.MODE_PRIVATE);
-        String username = prefs.getString("USERNAME_GIAMBI", null);
-        return username;
+        String usrname = prefs.getString("USERNAME_GIAMBI", null);
+        return usrname;
     }
 
     @Override
@@ -186,9 +195,13 @@ public class TransactionActivity extends Activity implements TransactionView,
     public void showTransactionDetail(Transaction transaction) {
         Log.i("DialogFragment", "show new dialog fragment");
         Intent i = new Intent(this, TransactionDetailsActivity.class);
-        // FragmentTransaction ft = getFragmentManager().beginTransaction();
-        // dialog = new TransactionDialog();
-        if (!transaction.transactionName.isEmpty()) {
+        if (transaction.transactionName.isEmpty()) {
+            Bundle b = new Bundle();
+            b.putString("AddOrEdit", "Add Transaction");
+            b.putString("AccountNumber", transaction.accountNumber);
+            i.putExtras(b);
+            startActivityForResult(i, 2);
+        } else {
             Bundle b = new Bundle();
             b.putString("AddOrEdit", "Transaction Details");
             b.putString("TransactionName", transaction.transactionName);
@@ -201,16 +214,13 @@ public class TransactionActivity extends Activity implements TransactionView,
             b.putString("KeyId", Long.toString(transaction.id));
             i.putExtras(b);
             startActivityForResult(i, 1);
-        } else {
-            Bundle b = new Bundle();
-            b.putString("AddOrEdit", "Add Transaction");
-            b.putString("AccountNumber", transaction.accountNumber);
-            i.putExtras(b);
-            startActivityForResult(i, 2);
-            // dialog.setArguments(b);
         }
     }
 
+    /* (non-Javadoc)
+     * should update the transaction list after the return from transaction detail page
+     * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
+     */
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         this.updateTransactions();
     }

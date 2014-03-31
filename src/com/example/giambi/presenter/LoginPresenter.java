@@ -20,7 +20,7 @@ public class LoginPresenter {
 
     public LoginPresenter(LoginView view) {
         this.v = view;
-        view.AddClickListener(this.listener);
+        view.addClickListener(this.listener);
     }
 
     private OnClickListener listener = new OnClickListener() {

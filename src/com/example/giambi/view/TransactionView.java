@@ -21,4 +21,5 @@ public interface TransactionView {
 
     void showTransactionDetail(Transaction transaction);
 
+    void setDate(String date1, String date2);
 }

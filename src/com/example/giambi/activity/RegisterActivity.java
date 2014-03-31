@@ -14,6 +14,10 @@ import com.example.giambi.presenter.RegisterPresenter;
 import com.example.giambi.util.Util;
 import com.example.giambi.view.RegisterView;
 
+/**
+ * @author zhangjialiang
+ * Render register page
+ */
 public class RegisterActivity extends Activity implements RegisterView {
     TextView username;
     TextView password1;
@@ -53,7 +57,7 @@ public class RegisterActivity extends Activity implements RegisterView {
     }
 
     @Override
-    public void AddClickListener(OnClickListener clickerListener) {
+    public void addClickListener(OnClickListener clickerListener) {
         this.registerBtn.setOnClickListener(clickerListener);
     }
 
