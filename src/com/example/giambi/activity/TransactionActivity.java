@@ -14,6 +14,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+
+import com.example.giambi.DateListener;
 import com.example.giambi.DatePickerDialogFragment;
 import com.example.giambi.MyListAdapter;
 import com.example.giambi.R;
@@ -27,7 +29,8 @@ import java.util.List;
 /**
  * @author zhangjialiang Render transaction list page
  */
-public class TransactionActivity extends Activity implements TransactionView {
+public class TransactionActivity extends Activity implements TransactionView,
+        DateListener {
 
     private MyListAdapter myAdapter;
 
@@ -87,27 +90,27 @@ public class TransactionActivity extends Activity implements TransactionView {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
-            case R.id.trans_refresh:
-                updateTransactions();
-                return true;
-    
-            case R.id.trans_create_new_item:
-                Transaction newTransaction = new Transaction("", 0, username);
-                newTransaction.accountNumber = accountNumber;
-                Log.v("accountNumber passed to new", accountNumber);
-                showTransactionDetail(newTransaction);
-                Log.i("MenuItem", "3");
-                return true;
-            case R.id.trans_report:
-                showReportDialog();
-                return true;
-            case R.id.trans_logout:
-                showAccountNum();
-                return true;
-            case R.id.trans_search:
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        case R.id.trans_refresh:
+            updateTransactions();
+            return true;
+
+        case R.id.trans_create_new_item:
+            Transaction newTransaction = new Transaction("", 0, username);
+            newTransaction.accountNumber = accountNumber;
+            Log.v("accountNumber passed to new", accountNumber);
+            showTransactionDetail(newTransaction);
+            Log.i("MenuItem", "3");
+            return true;
+        case R.id.trans_report:
+            showReportDialog();
+            return true;
+        case R.id.trans_logout:
+            showAccountNum();
+            return true;
+        case R.id.trans_search:
+            return true;
+        default:
+            return super.onOptionsItemSelected(item);
         }
     }
 
@@ -115,12 +118,14 @@ public class TransactionActivity extends Activity implements TransactionView {
     public void showAccountNum() {
         System.out.println(this.accountNumber);
     }
-    
+
     /**
      * Start a new report activity.
-     * @param type report type
+     * 
+     * @param type
+     *            report type
      */
-    private void startReport(String type) {
+    public void startReport(String type) {
         Intent i = new Intent(this, ReportActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("AccountNumber", this.accountNumber);
@@ -136,13 +141,14 @@ public class TransactionActivity extends Activity implements TransactionView {
         Log.i("DialogFragment", "show new dialog fragment");
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         dialog = new DatePickerDialogFragment(this);
-
+        dialog.setArguments(null);
         dialog.show(ft, "dialog");
     }
-    
+
     /**
      * 
-     * @param b savedInstanceBundle
+     * @param b
+     *            savedInstanceBundle
      */
     private void setAccountNumber(Bundle b) {
         String accNumber = "";
@@ -217,9 +223,12 @@ public class TransactionActivity extends Activity implements TransactionView {
         }
     }
 
-    /* (non-Javadoc)
-     * should update the transaction list after the return from transaction detail page
-     * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
+    /*
+     * (non-Javadoc) should update the transaction list after the return from
+     * transaction detail page
+     * 
+     * @see android.app.Activity#onActivityResult(int, int,
+     * android.content.Intent)
      */
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         this.updateTransactions();

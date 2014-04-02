@@ -41,12 +41,12 @@ public class MainActivity extends Activity {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.welcome_login:
-                    jumpToLogin();
-                    break;
-                case R.id.welcome_Register:
-                    jumpToRegister();
-                    break;
+            case R.id.welcome_login:
+                jumpToLogin();
+                break;
+            case R.id.welcome_Register:
+                jumpToRegister();
+                break;
             }
         }
 

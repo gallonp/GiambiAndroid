@@ -21,8 +21,7 @@ import com.example.giambi.util.Util;
 import com.example.giambi.view.LoginView;
 
 /**
- * @author zhangjialiang
- * Render login page
+ * @author zhangjialiang Render login page
  */
 public class LoginActivity extends Activity implements LoginView {
 
@@ -68,6 +67,17 @@ public class LoginActivity extends Activity implements LoginView {
 
     @Override
     public void startOverview(LoginAccount account) {
+
+        SharedPreferences prefs = this.getSharedPreferences("com.example.app",
+                Context.MODE_PRIVATE);
+        String name = prefs.getString("USERNAME_GIAMBI", null);
+        if (name != null) {
+            prefs.edit().remove("USERNAME_GIAMBI").commit();
+        }
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("USERNAME_GIAMBI", account.getUsername());
+        editor.commit();
+
         Intent i = new Intent(this, AccountActivity.class);
         Log.v(ACCOUNT_SERVICE, "Intent initialize complete.");
         startActivity(i);
@@ -79,33 +89,33 @@ public class LoginActivity extends Activity implements LoginView {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         Bundle bundle = new Bundle();
         switch (usernameErrorCode) {
-            case Util.USERNAME_EMPTY:
+        case Util.USERNAME_EMPTY:
+            bundle.putString("message",
+                    getString(R.string.dialog_message_username_empty));
+            break;
+        case Util.USERNAME_LENGTH:
+            bundle.putString("message",
+                    getString(R.string.dialog_message_username_length));
+            break;
+        case Util.USERNAME_NOT_EMAIL:
+            bundle.putString("message",
+                    getString(R.string.dialog_message_username_not_email));
+            break;
+        default:
+            switch (passwordCode) {
+            case Util.PASSWORD_EMPTY:
                 bundle.putString("message",
-                        getString(R.string.dialog_message_username_empty));
+                        getString(R.string.dialog_message_password_empty));
                 break;
-            case Util.USERNAME_LENGTH:
+            case Util.PASSWORD_LENGTH:
                 bundle.putString("message",
-                        getString(R.string.dialog_message_username_length));
+                        getString(R.string.dialog_message_password_length));
                 break;
-            case Util.USERNAME_NOT_EMAIL:
+            case Util.PASSWORD_EASY:
                 bundle.putString("message",
-                        getString(R.string.dialog_message_username_not_email));
+                        getString(R.string.dialog_message_password_easy));
                 break;
-            default:
-                switch (passwordCode) {
-                    case Util.PASSWORD_EMPTY:
-                        bundle.putString("message",
-                                getString(R.string.dialog_message_password_empty));
-                        break;
-                    case Util.PASSWORD_LENGTH:
-                        bundle.putString("message",
-                                getString(R.string.dialog_message_password_length));
-                        break;
-                    case Util.PASSWORD_EASY:
-                        bundle.putString("message",
-                                getString(R.string.dialog_message_password_easy));
-                        break;
-                }
+            }
         }
         DialogFragment dialog = new InvalidUsernameOrPasswordDialogFragment();
         dialog.setArguments(bundle);

@@ -19,9 +19,13 @@ public class ReportEntry {
 
     /**
      * constructor.
-     * @param id1 id
-     * @param category1 category
-     * @param amount1 amount
+     * 
+     * @param id1
+     *            id
+     * @param category1
+     *            category
+     * @param amount1
+     *            amount
      */
     public ReportEntry(int id1, String category1, String amount1) {
         this.id = id1;
@@ -31,6 +35,7 @@ public class ReportEntry {
 
     /**
      * get category.
+     * 
      * @return category
      */
     public final String getCategory() {
@@ -39,7 +44,9 @@ public class ReportEntry {
 
     /**
      * set category.
-     * @param category1 category
+     * 
+     * @param category1
+     *            category
      */
     public final void setCategory(String category1) {
         this.category = category1;
@@ -47,6 +54,7 @@ public class ReportEntry {
 
     /**
      * get amount.
+     * 
      * @return amount
      */
     public final String getAmount() {
@@ -55,7 +63,9 @@ public class ReportEntry {
 
     /**
      * set amount.
-     * @param amount1 amount
+     * 
+     * @param amount1
+     *            amount
      */
     public final void setAmount(String amount1) {
         this.amount = amount1;
@@ -63,6 +73,7 @@ public class ReportEntry {
 
     /**
      * get id.
+     * 
      * @return id
      */
     public final int getId() {
@@ -71,7 +82,9 @@ public class ReportEntry {
 
     /**
      * set id.
-     * @param id1 id
+     * 
+     * @param id1
+     *            id
      */
     public final void setId(int id1) {
         this.id = id1;

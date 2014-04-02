@@ -30,7 +30,7 @@ import java.util.Map;
 
 /**
  * Presenter for account activity.
- *
+ * 
  * @author cwl
  */
 public class ReportPresenter {
@@ -38,8 +38,8 @@ public class ReportPresenter {
     /**
      * fields.
      */
-    private static final String[] NORMAL_FIELDS = {"category", "amount",
-            "startDate", "endDate"};
+    private static final String[] NORMAL_FIELDS = { "category", "amount",
+            "startDate", "endDate" };
     /**
      * report view.
      */
@@ -71,12 +71,11 @@ public class ReportPresenter {
     /**
      * Listener for listView item click.
      */
-    private OnItemClickListener onListItemClickListener =
-            new OnItemClickListener() {
+    private OnItemClickListener onListItemClickListener = new OnItemClickListener() {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position,
-                                long id) {
+                long id) {
             // TODO
         }
     };
@@ -84,8 +83,7 @@ public class ReportPresenter {
     /**
      * Listener for Menu Item click.
      */
-    private OnMenuItemClickListener onMenuItemClickListener =
-            new OnMenuItemClickListener() {
+    private OnMenuItemClickListener onMenuItemClickListener = new OnMenuItemClickListener() {
 
         @Override
         public boolean onMenuItemClick(MenuItem item) {
@@ -107,16 +105,23 @@ public class ReportPresenter {
 
     /**
      * Constructor.
-     * @param view view
-     * @param loginAccount1 login account
-     * @param accountNumber1 account number
-     * @param reportType1 report type
-     * @param startDate1 start date
-     * @param endDate1 end date
+     * 
+     * @param view
+     *            view
+     * @param loginAccount1
+     *            login account
+     * @param accountNumber1
+     *            account number
+     * @param reportType1
+     *            report type
+     * @param startDate1
+     *            start date
+     * @param endDate1
+     *            end date
      */
     public ReportPresenter(ReportView view, String loginAccount1,
-                           String accountNumber1, String reportType1,
-                           String startDate1, String endDate1) {
+            String accountNumber1, String reportType1, String startDate1,
+            String endDate1) {
         this.v = view;
         this.loginAccount = loginAccount1;
         this.accountNumber = accountNumber1;
@@ -131,6 +136,7 @@ public class ReportPresenter {
 
     /**
      * on menu item click listener.
+     * 
      * @return listener
      */
     public OnMenuItemClickListener getOnMenuItemClickListener() {
@@ -139,8 +145,10 @@ public class ReportPresenter {
 
     /**
      * request report.
+     * 
      * @return report
-     * @throws GetReportException error getting report
+     * @throws GetReportException
+     *             error getting report
      */
     @SuppressWarnings("unchecked")
     private int requestReport() throws GetReportException {
@@ -152,7 +160,7 @@ public class ReportPresenter {
         String encodedEndDate = Util.encodeString(endDate);
 
         HttpPost request = new HttpPost("http://" + Util.LOCALHOST
-                + ":8888/getreport");
+                + "/getreport");
         JSONObject jsonObj = new JSONObject();
         jsonObj.put("userAccount", encodedLoginAcc);
         jsonObj.put("accountNumber", encodedAccNumber);
@@ -227,6 +235,7 @@ public class ReportPresenter {
 
     /**
      * get report.
+     * 
      * @return list of report
      */
     public final List<ReportEntry> getReport() {

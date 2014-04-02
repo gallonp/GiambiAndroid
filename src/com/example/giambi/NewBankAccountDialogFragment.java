@@ -46,7 +46,9 @@ public class NewBankAccountDialogFragment extends DialogFragment {
 
     /**
      * on create.
-     * @param savedInstanceState default arg
+     * 
+     * @param savedInstanceState
+     *            default arg
      * @return dialog
      */
     @Override
@@ -88,7 +90,9 @@ public class NewBankAccountDialogFragment extends DialogFragment {
 
     /**
      * update result.
-     * @param inputText input text
+     * 
+     * @param inputText
+     *            input text
      */
     public final void updateResult(String[] inputText) {
         if (Util.isNumeric(inputText[2])) {

@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  * Presenter for account activity.
- *
+ * 
  * @author cwl
  */
 public class AccountPresenter {
@@ -39,7 +39,9 @@ public class AccountPresenter {
 
     /**
      * Constructor.
-     * @param view the view for the account
+     * 
+     * @param view
+     *            the view for the account
      */
     public AccountPresenter(final AccountView view) {
         this.v = view;
@@ -55,6 +57,7 @@ public class AccountPresenter {
 
     /**
      * The clock listener for on menu item.
+     * 
      * @return a listener class
      */
     public final OnMenuItemClickListener getOnMenuItemClickListener() {
@@ -63,10 +66,11 @@ public class AccountPresenter {
 
     /**
      * THis is a get accounts method.
-     * @param loginAccName the login name needed
+     * 
+     * @param loginAccName
+     *            the login name needed
      */
-    public final void getAccounts(
-            final String loginAccName) {
+    public final void getAccounts(final String loginAccName) {
         try {
             int result = BankAccount.getAccounts(loginAccName, bankAccounts);
             if (result == a) {
@@ -84,13 +88,11 @@ public class AccountPresenter {
     /**
      * Listener for listView item click.
      */
-    private OnItemClickListener onListItemClickListener
-    = new OnItemClickListener() {
+    private OnItemClickListener onListItemClickListener = new OnItemClickListener() {
 
         @Override
-        public void onItemClick(final AdapterView<?> parent,
-                final View view, final int position,
-                                final long id) {
+        public void onItemClick(final AdapterView<?> parent, final View view,
+                final int position, final long id) {
             // get the current clicked account number
 
             v.startTransactionPage(bankAccounts.get(position).getAccountNum());
@@ -100,8 +102,7 @@ public class AccountPresenter {
     /**
      * Listener for Menu Item click.
      */
-    private OnMenuItemClickListener onMenuItemClickListener =
-            new OnMenuItemClickListener() {
+    private OnMenuItemClickListener onMenuItemClickListener = new OnMenuItemClickListener() {
 
         @Override
         public boolean onMenuItemClick(final MenuItem item) {

@@ -133,7 +133,7 @@ public class ReportActivity extends Activity implements ReportView {
 
     /**
      * Get username from preference.
-     *
+     * 
      * @return current username
      */
     private String getUsernameFromPreference() {
@@ -147,9 +147,10 @@ public class ReportActivity extends Activity implements ReportView {
      */
     private void getBundleInfo() {
         Bundle b = this.getIntent().getExtras();
-        if (b.getString("AccountNumber") == null || b.getString("ReportType")
-         == null || b.getString("StartDate") == null || b.getString(
-                "EndDate") == null) {
+        if (b.getString("AccountNumber") == null
+                || b.getString("ReportType") == null
+                || b.getString("StartDate") == null
+                || b.getString("EndDate") == null) {
             this.finish();
         } else {
             this.accountNumber = b.getString("AccountNumber");
@@ -183,7 +184,7 @@ public class ReportActivity extends Activity implements ReportView {
 
     /**
      * Adapter for ListView.
-     *
+     * 
      * @author cwl
      */
     public class MyAdapter extends BaseAdapter {
@@ -195,7 +196,9 @@ public class ReportActivity extends Activity implements ReportView {
 
         /**
          * construcot.
-         * @param context context
+         * 
+         * @param context
+         *            context
          */
         public MyAdapter(Context context) {
             this.mInflater = LayoutInflater.from(context);
@@ -224,7 +227,7 @@ public class ReportActivity extends Activity implements ReportView {
 
         @Override
         public final View getView(int position, View convertView,
-                             ViewGroup parent) {
+                ViewGroup parent) {
 
             ViewHolder holder;
             if (convertView == null) {

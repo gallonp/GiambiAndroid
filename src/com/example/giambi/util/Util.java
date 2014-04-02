@@ -33,7 +33,7 @@ public class Util {
     public static final int INVALID_ACCOUNT_NUMBER = 8;
     public static final int INVALID_BALANCE = 9;
 
-    public static final String LOCALHOST = "10.0.3.2";
+    public static final String LOCALHOST = "10.0.2.2:8888";
 
     private static final Pattern rfc2822 = Pattern
             .compile("^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$");
@@ -154,8 +154,7 @@ public class Util {
     }
 
     public static Date stringToDate(String dateString) {
-        SimpleDateFormat formatter = new SimpleDateFormat(
-                "EEE MMM dd HH:mm:ss z yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         try {
             Date date = formatter.parse(dateString);
             return date;
@@ -166,9 +165,25 @@ public class Util {
         }
     }
 
+    @SuppressWarnings("deprecation")
     public static String dateToString(Calendar date) {
-        SimpleDateFormat formatter = new SimpleDateFormat(
-                "EEE MMM dd HH:mm:ss z yyyy");
-        return formatter.format(date.getTime());
+        // SimpleDateFormat formatter = new SimpleDateFormat(
+        // "EEE MMM dd HH:mm:ss z yyyy");
+        String month;
+        String day;
+        if ((1 + date.getTime().getMonth()) < 10) {
+            month = "0" + (1 + date.getTime().getMonth());
+        } else {
+            month = "" + (1 + date.getTime().getMonth());
+        }
+        if (date.getTime().getDate() < 10) {
+            day = "0" + date.getTime().getDate();
+        } else {
+            day = "" + date.getTime().getDate();
+        }
+
+        String dateString = month + "/" + day + "/"
+                + (date.getTime().getYear() + 1900);
+        return dateString;
     }
 }

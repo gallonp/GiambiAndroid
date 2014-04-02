@@ -61,8 +61,7 @@ public class AccountActivity extends Activity implements AccountView {
     /**
      * list data.
      */
-    private List<Map<String, String>> listData =
-            new LinkedList<Map<String, String>>();
+    private List<Map<String, String>> listData = new LinkedList<Map<String, String>>();
     /**
      * dialog fragment.
      */
@@ -142,17 +141,16 @@ public class AccountActivity extends Activity implements AccountView {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         Bundle bundle = new Bundle();
         switch (errorCode) {
-            case Util.INVALID_ACCOUNT_NUMBER:
-                bundle.putString("message",
-                        getString(R.string
-                                .dialog_message_invalid_account_number));
-                break;
-            case Util.INVALID_BALANCE:
-                bundle.putString("message",
-                        getString(R.string.dialog_message_invalid_balance));
-                break;
-            default:
-                break;
+        case Util.INVALID_ACCOUNT_NUMBER:
+            bundle.putString("message",
+                    getString(R.string.dialog_message_invalid_account_number));
+            break;
+        case Util.INVALID_BALANCE:
+            bundle.putString("message",
+                    getString(R.string.dialog_message_invalid_balance));
+            break;
+        default:
+            break;
         }
         DialogFragment dialog1 = new InvalidUsernameOrPasswordDialogFragment();
         dialog1.setArguments(bundle);
@@ -161,7 +159,9 @@ public class AccountActivity extends Activity implements AccountView {
 
     /**
      * Flush list view adapter.
-     * @param bankAccounts bank accounts
+     * 
+     * @param bankAccounts
+     *            bank accounts
      */
     @Override
     public final void setAccountList(List<BankAccount> bankAccounts) {
@@ -171,7 +171,7 @@ public class AccountActivity extends Activity implements AccountView {
 
     /**
      * Get username from preference.
-     *
+     * 
      * @return current username
      */
     private String getUsernameFromPreference() {
@@ -183,11 +183,14 @@ public class AccountActivity extends Activity implements AccountView {
 
     /**
      * map data to list.
-     * @param bankAccounts bank accounts
-     * @param list list data
+     * 
+     * @param bankAccounts
+     *            bank accounts
+     * @param list
+     *            list data
      */
     private void mapBankAccountData(List<BankAccount> bankAccounts,
-                                    List<Map<String, String>> list) {
+            List<Map<String, String>> list) {
         // Update back-end BankAccount array
 
         // Clear ListView data list
@@ -241,7 +244,7 @@ public class AccountActivity extends Activity implements AccountView {
 
     /**
      * Adapter for ListView.
-     *
+     * 
      * @author cwl
      */
     public class MyAdapter extends BaseAdapter {
@@ -252,8 +255,10 @@ public class AccountActivity extends Activity implements AccountView {
         private LayoutInflater mInflater;
 
         /**
-         *constructor.
-         * @param context context
+         * constructor.
+         * 
+         * @param context
+         *            context
          */
         public MyAdapter(Context context) {
             // listData = v.getListData();
@@ -277,7 +282,7 @@ public class AccountActivity extends Activity implements AccountView {
 
         @Override
         public final View getView(int position, View convertView,
-                             ViewGroup parent) {
+                ViewGroup parent) {
 
             ViewHolder holder = null;
             if (convertView == null) {

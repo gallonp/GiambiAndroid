@@ -3,7 +3,11 @@ package com.example.giambi.activity;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,8 +19,7 @@ import com.example.giambi.util.Util;
 import com.example.giambi.view.RegisterView;
 
 /**
- * @author zhangjialiang
- * Render register page
+ * @author zhangjialiang Render register page
  */
 public class RegisterActivity extends Activity implements RegisterView {
     TextView username;
@@ -74,38 +77,54 @@ public class RegisterActivity extends Activity implements RegisterView {
         dialog.setArguments(bundle);
         dialog.show(ft, "dialog");
         switch (usernameErrorCode) {
-            case Util.USERNAME_EMPTY:
+        case Util.USERNAME_EMPTY:
+            bundle.putString("message",
+                    getString(R.string.dialog_message_username_empty));
+            break;
+        case Util.USERNAME_LENGTH:
+            bundle.putString("message",
+                    getString(R.string.dialog_message_username_length));
+            break;
+        case Util.USERNAME_NOT_EMAIL:
+            bundle.putString("message",
+                    getString(R.string.dialog_message_username_not_email));
+            break;
+        default:
+            switch (passwordErrorCode) {
+            case Util.PASSWORD_EMPTY:
                 bundle.putString("message",
-                        getString(R.string.dialog_message_username_empty));
+                        getString(R.string.dialog_message_password_empty));
                 break;
-            case Util.USERNAME_LENGTH:
+            case Util.PASSWORD_LENGTH:
                 bundle.putString("message",
-                        getString(R.string.dialog_message_username_length));
+                        getString(R.string.dialog_message_password_length));
                 break;
-            case Util.USERNAME_NOT_EMAIL:
+            case Util.PASSWORD_EASY:
                 bundle.putString("message",
-                        getString(R.string.dialog_message_username_not_email));
+                        getString(R.string.dialog_message_password_easy));
                 break;
-            default:
-                switch (passwordErrorCode) {
-                    case Util.PASSWORD_EMPTY:
-                        bundle.putString("message",
-                                getString(R.string.dialog_message_password_empty));
-                        break;
-                    case Util.PASSWORD_LENGTH:
-                        bundle.putString("message",
-                                getString(R.string.dialog_message_password_length));
-                        break;
-                    case Util.PASSWORD_EASY:
-                        bundle.putString("message",
-                                getString(R.string.dialog_message_password_easy));
-                        break;
-                    case Util.PASSWORD_NOT_MATCH:
-                        bundle.putString("message",
-                                getString(R.string.dialog_message_password_not_match));
-                        break;
-                }
+            case Util.PASSWORD_NOT_MATCH:
+                bundle.putString("message",
+                        getString(R.string.dialog_message_password_not_match));
+                break;
+            }
         }
 
+    }
+
+    @Override
+    public void startOverview(LoginAccount account) {
+        SharedPreferences prefs = this.getSharedPreferences("com.example.app",
+                Context.MODE_PRIVATE);
+        String name = prefs.getString("USERNAME_GIAMBI", null);
+        if (name != null) {
+            prefs.edit().remove("USERNAME_GIAMBI").commit();
+        }
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("USERNAME_GIAMBI", account.getUsername());
+        editor.commit();
+        Intent i = new Intent(this, AccountActivity.class);
+        Log.v(ACCOUNT_SERVICE, "Intent initialize complete.");
+        startActivity(i);
     }
 }

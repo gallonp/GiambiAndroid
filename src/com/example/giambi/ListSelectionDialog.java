@@ -51,7 +51,7 @@ public class ListSelectionDialog extends DialogFragment {
         listView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
+                    int position, long id) {
                 v.setCategories(list.get(position));
                 that.dismiss();
             }

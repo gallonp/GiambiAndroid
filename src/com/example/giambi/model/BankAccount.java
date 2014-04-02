@@ -19,7 +19,7 @@ import java.util.Map;
 
 /**
  * Bank account class for each login account.
- *
+ * 
  * @author cwl
  */
 public final class BankAccount {
@@ -27,8 +27,8 @@ public final class BankAccount {
     /**
      * fields.
      */
-    private static final String[] FIELDS = {"bankAccountName",
-            "bankAccountNumber", "bankName", "balance"};
+    private static final String[] FIELDS = { "bankAccountName",
+            "bankAccountNumber", "bankName", "balance" };
 
     /**
      * alias.
@@ -53,14 +53,20 @@ public final class BankAccount {
 
     /**
      * constructor.
-     * @param loginAcc1 login account
-     * @param alias1 alias
-     * @param bankName1 bank name
-     * @param accountNum1 account number
-     * @param balance1 balance
+     * 
+     * @param loginAcc1
+     *            login account
+     * @param alias1
+     *            alias
+     * @param bankName1
+     *            bank name
+     * @param accountNum1
+     *            account number
+     * @param balance1
+     *            balance
      */
     public BankAccount(String loginAcc1, String alias1, String bankName1,
-                       String accountNum1, String balance1) {
+            String accountNum1, String balance1) {
         this.loginAcc = loginAcc1;
         setAlias(alias1);
         setBankName(bankName1);
@@ -71,8 +77,10 @@ public final class BankAccount {
 
     /**
      * add to server.
+     * 
      * @return content
-     * @throws CreateAccountException error createing account
+     * @throws CreateAccountException
+     *             error createing account
      */
     @SuppressWarnings("unchecked")
     public String addToServer() throws CreateAccountException {
@@ -82,7 +90,7 @@ public final class BankAccount {
         String encodedBalance = Util.encodeString(balance.toString());
         String encodedAccNum = Util.encodeString(accountNum);
         HttpPost request = new HttpPost("http://" + Util.LOCALHOST
-                + ":8888/createaccount");
+                + "/createaccount");
         JSONObject jsonObj = new JSONObject();
         jsonObj.put("userAccount", encodedLoginAcc);
         jsonObj.put("bankAccountName", encodedAlias);
@@ -108,21 +116,24 @@ public final class BankAccount {
 
     /**
      * Get Bank Accounts from server.
-     *
-     * @param loginAcc login account
-     * @param list list of accounts
+     * 
+     * @param loginAcc
+     *            login account
+     * @param list
+     *            list of accounts
      * @return -2 if cookie expired; -1 if an exception exists; 0 if complete
-     * normally
-     * @throws GetAccountException error getting accounts
+     *         normally
+     * @throws GetAccountException
+     *             error getting accounts
      */
-    @SuppressWarnings({"unchecked", "unused" })
+    @SuppressWarnings({ "unchecked", "unused" })
     public static int getAccounts(String loginAcc, List<BankAccount> list)
             throws GetAccountException {
         final int err2 = -2;
         String encodedLoginAcc = Util.encodeString(loginAcc);
 
         HttpPost request = new HttpPost("http://" + Util.LOCALHOST
-                + ":8888/getaccount");
+                + "/getaccount");
         JSONObject jsonObj = new JSONObject();
         jsonObj.put("userAccount", encodedLoginAcc);
 
@@ -179,7 +190,9 @@ public final class BankAccount {
 
     /**
      * delete account.
-     * @param list list of accounts
+     * 
+     * @param list
+     *            list of accounts
      * @return true
      */
     public boolean del(List<BankAccount> list) {
@@ -189,6 +202,7 @@ public final class BankAccount {
 
     /**
      * get alias.
+     * 
      * @return alias
      */
     public String getAlias() {
@@ -197,7 +211,9 @@ public final class BankAccount {
 
     /**
      * set alias.
-     * @param alias1 alias
+     * 
+     * @param alias1
+     *            alias
      */
     public void setAlias(String alias1) {
         this.alias = alias1;
@@ -205,6 +221,7 @@ public final class BankAccount {
 
     /**
      * get balance.
+     * 
      * @return balance
      */
     public BigDecimal getBalance() {
@@ -213,7 +230,9 @@ public final class BankAccount {
 
     /**
      * set balance.
-     * @param balance1 balance
+     * 
+     * @param balance1
+     *            balance
      */
     public void setBalance(BigDecimal balance1) {
         this.balance = balance1;
@@ -221,6 +240,7 @@ public final class BankAccount {
 
     /**
      * get bank name.
+     * 
      * @return bank name
      */
     public String getBankName() {
@@ -229,7 +249,9 @@ public final class BankAccount {
 
     /**
      * set bank name.
-     * @param bankName1 bank name
+     * 
+     * @param bankName1
+     *            bank name
      */
     public void setBankName(String bankName1) {
         this.bankName = bankName1;
@@ -237,6 +259,7 @@ public final class BankAccount {
 
     /**
      * get account number.
+     * 
      * @return account number
      */
     public String getAccountNum() {
@@ -245,7 +268,9 @@ public final class BankAccount {
 
     /**
      * set account number.
-     * @param accountNum1 account number
+     * 
+     * @param accountNum1
+     *            account number
      */
     public void setAccountNum(String accountNum1) {
         this.accountNum = accountNum1;

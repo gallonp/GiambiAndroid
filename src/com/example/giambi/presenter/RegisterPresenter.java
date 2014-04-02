@@ -28,7 +28,11 @@ public class RegisterPresenter {
                     // check two passwords;
                     if (v.getPassword1().equals(v.getPassword2())) {
                         authResult = account.register();
-                        v.setResonpseText(authResult);
+                        if (authResult.contains("Success")) {
+                            v.startOverview(account);
+                        } else {
+                            v.setResonpseText(authResult);
+                        }
                     } else {
                         v.setDialogMessage(0, Util.PASSWORD_NOT_MATCH);
                     }

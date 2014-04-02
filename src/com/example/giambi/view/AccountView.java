@@ -16,13 +16,16 @@ public interface AccountView {
 
     /**
      * get username.
+     * 
      * @return username
      */
     String getUsername();
 
     /**
      * add on list item click listener.
-     * @param onListItemClickListener onListItemClickListener
+     * 
+     * @param onListItemClickListener
+     *            onListItemClickListener
      */
     void addOnListItemClick(OnItemClickListener onListItemClickListener);
 
@@ -33,24 +36,31 @@ public interface AccountView {
 
     /**
      * set account list.
-     * @param bankAccounts bank accounts
+     * 
+     * @param bankAccounts
+     *            bank accounts
      */
     void setAccountList(List<BankAccount> bankAccounts);
 
     /**
      * set dialog message.
-     * @param errorCode error code
+     * 
+     * @param errorCode
+     *            error code
      */
     void setDialogMessage(int errorCode);
 
     /**
      * start transaction.
-     * @param accountNumber account number
+     * 
+     * @param accountNumber
+     *            account number
      */
     void startTransactionPage(String accountNumber);
 
     /**
      * get presenter.
+     * 
      * @return presenter
      */
     AccountPresenter getPresenter();

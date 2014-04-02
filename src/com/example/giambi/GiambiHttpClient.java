@@ -23,12 +23,14 @@ public class GiambiHttpClient {
     public static CookieStore cookieStore = httpClient.getCookieStore();
 
     /**
-     * @author zhangjialiang
-     * AsynReader to put http request to worker thread
+     * @author zhangjialiang AsynReader to put http request to worker thread
      */
-    public static class AsynReader extends AsyncTask<HttpRequest, Void, HttpResponse> {
+    public static class AsynReader extends
+            AsyncTask<HttpRequest, Void, HttpResponse> {
 
-        /* (non-Javadoc)
+        /*
+         * (non-Javadoc)
+         * 
          * @see android.os.AsyncTask#doInBackground(Params[])
          */
         @Override
@@ -36,17 +38,17 @@ public class GiambiHttpClient {
             HttpRequest req = requests[0];
             HttpResponse resp;
             try {
-//                for (Header header : req.getAllHeaders()) {
-//                    Log.v("Headers", header.getName() + "," + header.getValue());
-//                }
-//                for (Cookie cookie : cookieStore.getCookies()) {
-//                    req.addHeader(cookie.getName(), cookie.getValue());
-//                    Log.v("cookie", cookie.getName() + "=" + cookie.getValue());
-//                }
-//                for (Header header : req.getAllHeaders()) {
-//                    Log.v("Headers after cookies added", header.getName() + ","
-//                            + header.getValue());
-//                }
+                // for (Header header : req.getAllHeaders()) {
+                // Log.v("Headers", header.getName() + "," + header.getValue());
+                // }
+                // for (Cookie cookie : cookieStore.getCookies()) {
+                // req.addHeader(cookie.getName(), cookie.getValue());
+                // Log.v("cookie", cookie.getName() + "=" + cookie.getValue());
+                // }
+                // for (Header header : req.getAllHeaders()) {
+                // Log.v("Headers after cookies added", header.getName() + ","
+                // + header.getValue());
+                // }
                 resp = httpClient.execute((HttpUriRequest) req);
                 Log.v("asynReader", "asynTaskComplete");
 
@@ -63,6 +65,7 @@ public class GiambiHttpClient {
 
     /**
      * use asynReader to get httpResponse
+     * 
      * @param request
      * @return httpResponse
      */

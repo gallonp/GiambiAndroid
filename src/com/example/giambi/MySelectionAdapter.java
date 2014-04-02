@@ -12,8 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 /**
- * @author zhangjialiang
- * A simple text ListView adapter.
+ * @author zhangjialiang A simple text ListView adapter.
  * @param <T>
  */
 public class MySelectionAdapter<T> extends ArrayAdapter<T> {
@@ -23,9 +22,13 @@ public class MySelectionAdapter<T> extends ArrayAdapter<T> {
 
     /**
      * Constructer to link necessary resources.
-     * @param context application context
-     * @param resource resource
-     * @param data list data
+     * 
+     * @param context
+     *            application context
+     * @param resource
+     *            resource
+     * @param data
+     *            list data
      */
     public MySelectionAdapter(Context context, int resource, List<T> data) {
         super(context, resource, data);
@@ -43,7 +46,6 @@ public class MySelectionAdapter<T> extends ArrayAdapter<T> {
         return data.get(position);
     }
 
-
     @Override
     public long getItemId(int position) {
         Log.v("getItemId", Integer.toString(position));
@@ -52,8 +54,7 @@ public class MySelectionAdapter<T> extends ArrayAdapter<T> {
     }
 
     /**
-     * @author zhangjialiang
-     * inner class to improve field search speed
+     * @author zhangjialiang inner class to improve field search speed
      */
     static class ViewHolder {
         public TextView textView;
@@ -79,7 +80,6 @@ public class MySelectionAdapter<T> extends ArrayAdapter<T> {
             return rowView;
         }
         holder.textView.setText(obj.toString());
-
 
         return rowView;
     }

@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.TextView;
+
 import com.example.giambi.util.Util;
 
 import java.util.Calendar;
@@ -20,24 +22,6 @@ import java.util.Calendar;
  */
 @SuppressLint("ValidFragment")
 public class DatePickerDialogFragment extends DialogFragment {
-
-    /**
-     * DateListener interface.
-     */
-    public interface DateListener {
-        /**
-         * set dates.
-         * @param date1 start date
-         * @param date2 end date
-         */
-        void setDate(String date1, String date2);
-
-        /**
-         * start report.
-         * @param type report type
-         */
-        void startReport(String type);
-    }
 
     /**
      * first picker.
@@ -50,7 +34,7 @@ public class DatePickerDialogFragment extends DialogFragment {
     /**
      * listener.
      */
-    private  DateListener dateListener;
+    private DateListener dateListener;
     /**
      * start date.
      */
@@ -62,7 +46,9 @@ public class DatePickerDialogFragment extends DialogFragment {
 
     /**
      * Constructor.
-     * @param activity caller
+     * 
+     * @param activity
+     *            caller
      */
     public DatePickerDialogFragment(Activity activity) {
         try {
@@ -74,39 +60,48 @@ public class DatePickerDialogFragment extends DialogFragment {
 
     /**
      * Create dialog.
-     * @param savedInstanceState default arg
+     * 
+     * @param savedInstanceState
+     *            default arg
      * @return dialog
      */
     @Override
     public final Dialog onCreateDialog(Bundle savedInstanceState) {
-
+        Bundle b = this.getArguments();
+        boolean hiddeSecondDate = b.getBoolean("hiddeSecondDate");
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.date_pick, null);
         startDate = Calendar.getInstance();
         endDate = Calendar.getInstance();
         builder.setTitle("Choose date...").setView(view);
-
         datePicker1 = (DatePicker) view.findViewById(R.id.datePicker1);
         datePicker2 = (DatePicker) view.findViewById(R.id.datePicker2);
-
+        if (hiddeSecondDate) {
+            TextView secondDate = (TextView) view
+                    .findViewById(R.id.date_textView2);
+            secondDate.setVisibility(View.GONE);
+            datePicker2.setVisibility(View.GONE);
+        }
         builder.setPositiveButton(R.string.dialog_OK,
                 new DialogInterface.OnClickListener() {
 
                     /**
-                     * This method will be invoked when a button in the
-                     * dialog is clicked.
-                     *
-                     * @param dialog The dialog that received the click.
-                     * @param which  The button that was clicked
+                     * This method will be invoked when a button in the dialog
+                     * is clicked.
+                     * 
+                     * @param dialog
+                     *            The dialog that received the click.
+                     * @param which
+                     *            The button that was clicked
                      */
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         final int h = 23;
                         final int ms = 59;
-                        startDate.set(datePicker1.getYear(), datePicker1.
-                                getMonth(),
-                                        datePicker1.getDayOfMonth(), 0, 0, 0);
+                        startDate.set(datePicker1.getYear(),
+                                datePicker1.getMonth(),
+                                datePicker1.getDayOfMonth(), 0, 0, 0);
                         endDate.set(datePicker2.getYear(),
                                 datePicker2.getMonth(),
                                 datePicker2.getDayOfMonth(), h, ms, ms);
@@ -122,17 +117,18 @@ public class DatePickerDialogFragment extends DialogFragment {
                     /**
                      * This method will be invoked when a button in the dialog
                      * is clicked.
-                     *
-                     * @param dialog The dialog that received the click.
-                     * @param which  The button that was clicked
+                     * 
+                     * @param dialog
+                     *            The dialog that received the click.
+                     * @param which
+                     *            The button that was clicked
                      */
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dismiss();
-                        //do something when cancelled
+                        // do something when cancelled
                     }
-                }
-        );
+                });
 
         // Create the AlertDialog object and return it
         return builder.create();
