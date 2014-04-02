@@ -68,7 +68,10 @@ public class DatePickerDialogFragment extends DialogFragment {
     @Override
     public final Dialog onCreateDialog(Bundle savedInstanceState) {
         Bundle b = this.getArguments();
-        boolean hiddeSecondDate = b.getBoolean("hiddeSecondDate");
+        boolean hiddeSecondDate = false;
+        if (b != null) {
+            hiddeSecondDate = b.getBoolean("hiddeSecondDate");
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.date_pick, null);
