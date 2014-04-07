@@ -98,7 +98,7 @@ public class NewBankAccountDialogFragment extends DialogFragment {
         if (Util.isNumeric(inputText[2])) {
             try {
                 new BigDecimal(inputText[3]);
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
                 this.dismiss();
                 v.setDialogMessage(Util.INVALID_BALANCE);
                 Log.i("onAddBankAccount", e.getMessage());

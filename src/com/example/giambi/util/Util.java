@@ -33,7 +33,7 @@ public class Util {
     public static final int INVALID_ACCOUNT_NUMBER = 8;
     public static final int INVALID_BALANCE = 9;
 
-    public static final String LOCALHOST = "10.0.2.2:8888";
+    public static final String LOCALHOST = "giambi-server-2340.appspot.com";
 
     private static final Pattern rfc2822 = Pattern
             .compile("^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$");

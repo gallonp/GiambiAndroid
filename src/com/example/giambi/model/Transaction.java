@@ -18,6 +18,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Transaction Data Access Obj.
+ * @author zhangjialiang
+ *
+ */
 @SuppressWarnings("serial")
 public class Transaction implements Serializable {
 

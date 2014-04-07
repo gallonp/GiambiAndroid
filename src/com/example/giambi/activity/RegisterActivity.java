@@ -66,7 +66,11 @@ public class RegisterActivity extends Activity implements RegisterView {
 
     @Override
     public void setResonpseText(String response) {
-        this.resultText.setText(response);
+        if (response.contains("Succeed")||response.contains("succeed")) {
+            this.resultText.setText("Register Succeeded");
+        } else {
+            this.resultText.setText("Register Failed");
+        }
     }
 
     @Override
@@ -77,37 +81,37 @@ public class RegisterActivity extends Activity implements RegisterView {
         dialog.setArguments(bundle);
         dialog.show(ft, "dialog");
         switch (usernameErrorCode) {
-        case Util.USERNAME_EMPTY:
-            bundle.putString("message",
-                    getString(R.string.dialog_message_username_empty));
-            break;
-        case Util.USERNAME_LENGTH:
-            bundle.putString("message",
-                    getString(R.string.dialog_message_username_length));
-            break;
-        case Util.USERNAME_NOT_EMAIL:
-            bundle.putString("message",
-                    getString(R.string.dialog_message_username_not_email));
-            break;
-        default:
-            switch (passwordErrorCode) {
-            case Util.PASSWORD_EMPTY:
+            case Util.USERNAME_EMPTY:
                 bundle.putString("message",
-                        getString(R.string.dialog_message_password_empty));
+                        getString(R.string.dialog_message_username_empty));
                 break;
-            case Util.PASSWORD_LENGTH:
+            case Util.USERNAME_LENGTH:
                 bundle.putString("message",
-                        getString(R.string.dialog_message_password_length));
+                        getString(R.string.dialog_message_username_length));
                 break;
-            case Util.PASSWORD_EASY:
+            case Util.USERNAME_NOT_EMAIL:
                 bundle.putString("message",
-                        getString(R.string.dialog_message_password_easy));
+                        getString(R.string.dialog_message_username_not_email));
                 break;
-            case Util.PASSWORD_NOT_MATCH:
-                bundle.putString("message",
-                        getString(R.string.dialog_message_password_not_match));
-                break;
-            }
+            default:
+                switch (passwordErrorCode) {
+                    case Util.PASSWORD_EMPTY:
+                        bundle.putString("message",
+                                getString(R.string.dialog_message_password_empty));
+                        break;
+                    case Util.PASSWORD_LENGTH:
+                        bundle.putString("message",
+                                getString(R.string.dialog_message_password_length));
+                        break;
+                    case Util.PASSWORD_EASY:
+                        bundle.putString("message",
+                                getString(R.string.dialog_message_password_easy));
+                        break;
+                    case Util.PASSWORD_NOT_MATCH:
+                        bundle.putString("message",
+                                getString(R.string.dialog_message_password_not_match));
+                        break;
+                }
         }
 
     }

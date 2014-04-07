@@ -27,8 +27,7 @@ public final class BankAccount {
     /**
      * fields.
      */
-    private static final String[] FIELDS = { "bankAccountName",
-            "bankAccountNumber", "bankName", "balance" };
+    private static final String[] FIELDS = {"bankAccountName", "bankAccountNumber", "bankName", "balance"};
 
     /**
      * alias.

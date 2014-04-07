@@ -38,8 +38,7 @@ public class ReportPresenter {
     /**
      * fields.
      */
-    private static final String[] NORMAL_FIELDS = { "category", "amount",
-            "startDate", "endDate" };
+    private static final String[] NORMAL_FIELDS = {"category", "amount", "startDate", "endDate"};
     /**
      * report view.
      */
@@ -170,7 +169,6 @@ public class ReportPresenter {
         request.setEntity(Util.jsonToEntity(jsonObj));
 
         HttpResponse response = GiambiHttpClient.getResponse(request);
-        String responseCookie = "";
         String content;
 
         try {

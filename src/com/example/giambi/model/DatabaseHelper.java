@@ -6,8 +6,19 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
+/**
+ * @author HaoliDu
+ *
+ */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
+    /**
+     * @param context context
+     * @param name name
+     * @param factory factory
+     * @param version version
+     * @param errorHandler errorHandler
+     */
     public DatabaseHelper(Context context, String name, CursorFactory factory,
             int version, DatabaseErrorHandler errorHandler) {
         super(context, name, factory, version, errorHandler);
