@@ -66,7 +66,7 @@ public class RegisterActivity extends Activity implements RegisterView {
 
     @Override
     public void setResonpseText(String response) {
-        if (response.contains("Succeed")||response.contains("succeed")) {
+        if (response.contains("Succeed") || response.contains("succeed")) {
             this.resultText.setText("Register Succeeded");
         } else {
             this.resultText.setText("Register Failed");
