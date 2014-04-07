@@ -199,7 +199,7 @@ public class TransactionActivity extends Activity implements TransactionView {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         this.updateTransactions();
-        this.accountNumber = data.getExtras().getString("AccountNumber");
+        //this.accountNumber = data.getExtras().getString("AccountNumber");
     }
 
 }
