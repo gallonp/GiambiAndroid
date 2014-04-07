@@ -146,7 +146,7 @@ public class TransactionActivity extends Activity implements TransactionView,
     }
 
     /**
-     * 
+     * Sets account number from bundle.
      * @param b
      *            savedInstanceBundle
      */
@@ -232,10 +232,7 @@ public class TransactionActivity extends Activity implements TransactionView,
      */
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         this.updateTransactions();
-<<<<<<< HEAD
         //this.accountNumber = data.getExtras().getString("AccountNumber");
-=======
->>>>>>> FETCH_HEAD
     }
 
     @Override

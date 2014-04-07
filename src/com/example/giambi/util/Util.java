@@ -1,16 +1,10 @@
 package com.example.giambi.util;
 
-import android.content.Context;
-import android.util.Log;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import com.example.giambi.model.LoginAccount;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.simple.JSONObject;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,6 +14,23 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.simple.JSONObject;
+
+import android.content.Context;
+import android.util.Log;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+
+import com.example.giambi.model.LoginAccount;
+
+/**
+ * Util class. Assistance methods.
+ * @author haolidu
+ *
+ */
 public class Util {
     public static final int USERNAME_EMPTY = 1;
     public static final int USERNAME_LENGTH = 2;
@@ -33,11 +44,7 @@ public class Util {
     public static final int INVALID_ACCOUNT_NUMBER = 8;
     public static final int INVALID_BALANCE = 9;
 
-<<<<<<< HEAD
-    public static final String LOCALHOST = "10.0.3.2";
-=======
     public static final String LOCALHOST = "giambi-server-2340.appspot.com";
->>>>>>> FETCH_HEAD
 
     private static final Pattern rfc2822 = Pattern
             .compile("^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$");
@@ -55,7 +62,6 @@ public class Util {
                 response.append(inputLine);
             }
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             Log.e("HttpReader", e.toString());
         }
         try {
@@ -68,6 +74,7 @@ public class Util {
     }
 
     /**
+     * check username
      * @param username
      * @return
      */
@@ -83,6 +90,7 @@ public class Util {
     }
 
     /**
+     * Checks for password information
      * @param password
      * @return
      */
@@ -104,6 +112,7 @@ public class Util {
     }
 
     /**
+     * Checks for login information.
      * @param loginAccount
      * @return
      */
@@ -117,6 +126,11 @@ public class Util {
         return (checkUserName(username) == 0) && (checkPassword(password) == 0);
     }
 
+    /**
+     * ime switch
+     * @param 
+     * @param isFocus
+     */
     public static void imeSwitch(View v, boolean isFocus) {
         InputMethodManager imm = (InputMethodManager) v.getContext()
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -127,11 +141,21 @@ public class Util {
         }
     }
 
+    /**
+     * Checks if the pattern is consisted of numbers.
+     * @param str
+     * @return
+     */
     public static boolean isNumeric(String str) {
         Pattern pattern = Pattern.compile("[0-9]*");
         return pattern.matcher(str).matches();
     }
 
+    /**
+     * Encodes json object for URL
+     * @param obj Jsonobject
+     * @return
+     */
     public static UrlEncodedFormEntity jsonToEntity(JSONObject obj) {
         List<NameValuePair> postParams = new ArrayList<NameValuePair>();
         postParams.add(new BasicNameValuePair("json", obj.toString()));
@@ -146,6 +170,11 @@ public class Util {
         return entity;
     }
 
+    /**
+     * Encodes string for encryption. 
+     * @param str
+     * @return
+     */
     public static String encodeString(String str) {
         String encodedString = "";
         try {
@@ -157,6 +186,11 @@ public class Util {
         return encodedString;
     }
 
+    /**
+     * Create a date object from String.
+     * @param dateString
+     * @return
+     */
     public static Date stringToDate(String dateString) {
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         try {
@@ -169,6 +203,11 @@ public class Util {
         }
     }
 
+    /**
+     * Creates a string representation of a date object.
+     * @param date
+     * @return
+     */
     @SuppressWarnings("deprecation")
     public static String dateToString(Calendar date) {
         // SimpleDateFormat formatter = new SimpleDateFormat(
