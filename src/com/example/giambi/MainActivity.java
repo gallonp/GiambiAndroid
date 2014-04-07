@@ -11,6 +11,10 @@ import android.widget.Button;
 import com.example.giambi.activity.LoginActivity;
 import com.example.giambi.activity.RegisterActivity;
 
+/**
+ * @author WenglingChen
+ *
+ */
 public class MainActivity extends Activity {
 
     @Override
@@ -52,6 +56,9 @@ public class MainActivity extends Activity {
 
     };
 
+    /**
+     * 
+     */
     protected void jumpToLogin() {
         Intent intent = new Intent();
         intent.setClass(this, LoginActivity.class);
@@ -59,6 +66,9 @@ public class MainActivity extends Activity {
         overridePendingTransition(R.anim.in_from_right, R.anim.zoom_out);
     }
 
+    /**
+     * 
+     */
     protected void jumpToRegister() {
 
         Intent intent = new Intent();

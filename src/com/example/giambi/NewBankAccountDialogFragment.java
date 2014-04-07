@@ -11,34 +11,50 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import com.example.giambi.model.BankAccount;
+import com.example.giambi.presenter.AccountPresenter;
 import com.example.giambi.util.CreateAccountException;
-import com.example.giambi.util.GetAccountException;
 import com.example.giambi.util.Util;
 import com.example.giambi.view.AccountView;
 
 import java.math.BigDecimal;
-import java.util.LinkedList;
-import java.util.List;
 
+/**
+ * New BankAccount DialogFragment.
+ */
 public class NewBankAccountDialogFragment extends DialogFragment {
 
-    private EditText[] inputBoxs = new EditText[4];
+    /**
+     * num of boxes.
+     */
+    private final int num = 4;
+    /**
+     * input box.
+     */
+    private EditText[] inputBoxs = new EditText[num];
+    /**
+     * button.
+     */
     private Button addButton;
+    /**
+     * listview.
+     */
     private AccountView v;
-
-    // private AccountView v = (AccountView) getView();
-
-    public NewBankAccountDialogFragment() {
-    }
+    /**
+     * presenter.
+     */
+    private AccountPresenter p;
 
     /**
-     * Creates the dialog.
+     * on create.
+     * 
+     * @param savedInstanceState
+     *            default arg
+     * @return dialog
      */
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public final Dialog onCreateDialog(Bundle savedInstanceState) {
         v = (AccountView) this.getActivity();
-        // v = (AccountView)
-        // this.getActivity().getWindow().getDecorView().findViewById(android.R.id.content);
+        p = v.getPresenter();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.new_account_dialog, null);
@@ -55,21 +71,15 @@ public class NewBankAccountDialogFragment extends DialogFragment {
         return builder.create();
     }
 
-    // @Override
-    // public View onCreateView(LayoutInflater inflater, ViewGroup container,
-    // Bundle savedInstanceState) {
-    // View view = inflater.inflate(R.layout.new_account_dialog, container,
-    // false);
-    //
-    // return view;
-    // }
-
+    /**
+     * on click listener.
+     */
     private OnClickListener onClickListener = new View.OnClickListener() {
 
         @Override
-        public void onClick(View v) {
-            String[] params = new String[4];
-            for (int i = 0; i < 4; ++i) {
+        public void onClick(View v1) {
+            String[] params = new String[num];
+            for (int i = 0; i < num; ++i) {
                 params[i] = inputBoxs[i].getText().toString();
             }
 
@@ -78,11 +88,17 @@ public class NewBankAccountDialogFragment extends DialogFragment {
 
     };
 
-    public void updateResult(String[] inputText) {
+    /**
+     * update result.
+     * 
+     * @param inputText
+     *            input text
+     */
+    public final void updateResult(String[] inputText) {
         if (Util.isNumeric(inputText[2])) {
             try {
                 new BigDecimal(inputText[3]);
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
                 this.dismiss();
                 v.setDialogMessage(Util.INVALID_BALANCE);
                 Log.i("onAddBankAccount", e.getMessage());
@@ -93,11 +109,6 @@ public class NewBankAccountDialogFragment extends DialogFragment {
             v.setDialogMessage(Util.INVALID_ACCOUNT_NUMBER);
             return;
         }
-        System.out.println(((Boolean) (v.getUsername() == null)).toString()
-                + ((Boolean) (inputText[0] == null)).toString()
-                + ((Boolean) (inputText[1] == null)).toString()
-                + ((Boolean) (inputText[2] == null)).toString()
-                + ((Boolean) (inputText[3] == null)).toString());
         BankAccount newAcc = new BankAccount(v.getUsername(), inputText[0],
                 inputText[1], inputText[2], inputText[3]);
         try {
@@ -105,13 +116,7 @@ public class NewBankAccountDialogFragment extends DialogFragment {
         } catch (CreateAccountException e) {
             Log.i("onAddBankAccount", e.getMessage());
         }
-        List<BankAccount> bankAccounts = new LinkedList<BankAccount>();
-        try {
-            BankAccount.getAccounts(v.getUsername(), bankAccounts);
-        } catch (GetAccountException e) {
-            Log.v("GetAccountException", e.getMessage());
-        }
+        p.getAccounts(v.getUsername());
         this.dismiss();
-        v.setAccountList(bankAccounts);
     }
 }

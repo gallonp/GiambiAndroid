@@ -7,7 +7,7 @@ import com.example.giambi.model.Transaction;
 
 public interface TransactionDetailsView {
 
-    void AddOnClickListener(OnClickListener clickerListener);
+    void addOnClickListener(OnClickListener clickerListener);
 
     Transaction getCurrentTransactionData();
 

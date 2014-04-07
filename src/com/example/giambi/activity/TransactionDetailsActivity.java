@@ -2,6 +2,7 @@ package com.example.giambi.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
@@ -11,32 +12,33 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+
+import com.example.giambi.DateListener;
+import com.example.giambi.DatePickerDialogFragment;
 import com.example.giambi.ListSelectionDialog;
-import com.example.giambi.MySelectionAdapter;
 import com.example.giambi.R;
 import com.example.giambi.model.Transaction;
 import com.example.giambi.presenter.TransactionDetailsPresenter;
 import com.example.giambi.util.Util;
 import com.example.giambi.view.TransactionDetailsView;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
-@SuppressWarnings("unused")
+/**
+ * @author zhangjialiang Render transaction detail page to either create or
+ *         update a transaction
+ */
 public class TransactionDetailsActivity extends Activity implements
-        TransactionDetailsView {
+        TransactionDetailsView, DateListener {
 
-    private Transaction transaction = null;
-    private List<String> categories = new ArrayList<String>();
-    private List<String> merchants = new ArrayList<String>();
+    TransactionDetailsActivity that = this;
 
-    private String username = "";
     private String addOrEdit = "";
 
     private String accountNumber = "";
@@ -55,16 +57,11 @@ public class TransactionDetailsActivity extends Activity implements
     private EditText merchantField;
     private Button addAndSaveButton;
 
+    private DialogFragment dialog;
+
     private ActionBar actionBar;
 
-    private ListView categoryListView;
-    private ListView merchantListView;
-
     private TransactionDetailsPresenter transactionDetailsPresenter;
-
-    public TransactionDetailsActivity() {
-
-    }
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,26 +80,37 @@ public class TransactionDetailsActivity extends Activity implements
         dateField = (EditText) this.findViewById(R.id.transactionDate);
         addAndSaveButton = (Button) this
                 .findViewById(R.id.addTransactionButton);
-        merchantListView = (ListView) this.findViewById(R.id.merchantListView);
-        categoryListView = (ListView) this.findViewById(R.id.categoryListView);
-
-        merchantListView.setAdapter(new MySelectionAdapter<String>(this,
-                R.layout.select_item_row, this.merchants));
-        categoryListView.setAdapter(new MySelectionAdapter<String>(this,
-                R.layout.select_item_row, this.categories));
-
         populateFields();
         transactionDetailsPresenter = new TransactionDetailsPresenter(this);
-        this.categoryField.setOnClickListener(new OnClickListener() {
+        this.categoryField
+                .setOnFocusChangeListener(new OnFocusChangeListener() {
+
+                    @Override
+                    public void onFocusChange(View arg0, boolean hasFocus) {
+                        if (hasFocus) {
+                            FragmentTransaction ft = getFragmentManager()
+                                    .beginTransaction();
+                            ListSelectionDialog dialog = new ListSelectionDialog();
+                            dialog.show(ft, "listDialog");
+                        }
+                    }
+
+                });
+
+        this.dateField.setOnFocusChangeListener(new OnFocusChangeListener() {
 
             @Override
-            public void onClick(View arg0) {
-                FragmentTransaction ft = getFragmentManager()
-                        .beginTransaction();
-                ListSelectionDialog dialog = new ListSelectionDialog();
-                dialog.show(ft, "listDialog");
+            public void onFocusChange(View arg0, boolean hasFocus) {
+                if (hasFocus) {
+                    FragmentTransaction ft = getFragmentManager()
+                            .beginTransaction();
+                    dialog = new DatePickerDialogFragment(that);
+                    Bundle b = new Bundle();
+                    b.putBoolean("hiddeSecondDate", true);
+                    dialog.setArguments(b);
+                    dialog.show(ft, "dialog");
+                }
             }
-
         });
     }
 
@@ -115,15 +123,9 @@ public class TransactionDetailsActivity extends Activity implements
         this.setResult(RESULT_OK, intent);
     }
 
-    // @Override
-    // public void setCategories(List<String> categories){
-    // this.categories = categories;
-    // @SuppressWarnings("unchecked")
-    // MySelectionAdapter<String> a = ((MySelectionAdapter<String>)
-    // this.categoryListView.getAdapter());
-    // // a.data = categories;
-    // }
-
+    /**
+     * populate the fields with transaction details.
+     */
     private void populateFields() {
         Bundle b = this.getIntent().getExtras();
         addOrEdit = b.getString("AddOrEdit");
@@ -154,6 +156,9 @@ public class TransactionDetailsActivity extends Activity implements
 
     }
 
+    /**
+     * syncUIData with class varibales.
+     */
     private void syncUIData() {
         accountNumber = this.accountNumberField.getText().toString();
         transactionName = this.transactionNameField.getText().toString();
@@ -175,15 +180,16 @@ public class TransactionDetailsActivity extends Activity implements
                 Double.parseDouble(this.amount), username);
         // Need to check transaction name, amount are not null
         Log.v("got Date from UI:", this.date);
-        Date date = Util.stringToDate(this.date);
-        if (date == null) {
-            date = Calendar.getInstance().getTime();
-        }
+        // Date tranDate = Util.stringToDate(this.date);
+        // if (tranDate == null) {
+        // tranDate = Calendar.getInstance().getTime();
+        // }
 
         if (this.keyId != null && !this.keyId.equals("")) {
             newTransaction.id = Long.parseLong(this.keyId);
         }
-        newTransaction.addExtraInfo(category, date, merchant, accountNumber);
+        newTransaction.addExtraInfo(category, this.date, merchant,
+                accountNumber);
 
         // populate the fields of newTransaction with the data in the dialog
         // newTransaction
@@ -191,40 +197,71 @@ public class TransactionDetailsActivity extends Activity implements
     }
 
     @Override
-    public void AddOnClickListener(OnClickListener clickerListener) {
+    public void addOnClickListener(OnClickListener clickerListener) {
         this.addAndSaveButton.setOnClickListener(clickerListener);
     }
 
+    public void showReportDialog() {
+        Log.i("DialogFragment", "show new dialog fragment");
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        dialog = new DatePickerDialogFragment(this);
+
+        dialog.show(ft, "dialog");
+    }
+
+    @Override
     public String getUsernameFromPreference() {
         SharedPreferences prefs = this.getSharedPreferences("com.example.app",
                 Context.MODE_PRIVATE);
         return prefs.getString("USERNAME_GIAMBI", null);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+     * transaction menu.
+     */
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
-            case android.R.id.home:
-                Intent i = new Intent(this, TransactionActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("AccountNumber", this.accountNumber);
-                i.putExtras(bundle);
-                startActivity(i);
-                this.finish();
-                break;
+        case android.R.id.home:
+            Intent i = new Intent(this, TransactionActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("AccountNumber", this.accountNumber);
+            i.putExtras(bundle);
+            startActivity(i);
+            this.finish();
+            break;
         }
         return true;
     }
 
     @Override
     public void addOnItemClickListener(OnItemClickListener listener,
-                                       ListView list) {
+            ListView list) {
         list.setOnItemClickListener(listener);
     }
 
     @Override
     public void setCategories(String category) {
         this.categoryField.setText(category);
+    }
+
+    @Override
+    public void setDate(String date1, String date2) {
+        this.dateField.setText(date1);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.example.giambi.DateListener#startReport(java.lang.String)
+     * Slightly changed the implementation to dimiss dialogue and get the date.
+     */
+    @Override
+    public void startReport(String type) {
+        this.dialog.dismiss();
     }
 
 }

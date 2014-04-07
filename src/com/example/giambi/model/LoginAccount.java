@@ -12,29 +12,46 @@ import org.json.simple.JSONObject;
 
 import java.io.IOException;
 
+/**
+ * LoginAccount Data Access Obj
+ * @author zhangjialiang
+ *
+ */
 public class LoginAccount {
 
     private String username;
     private String password;
 
+    /**
+     * Default creator.
+     * @param username username
+     * @param password password
+     */
     public LoginAccount(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
+    /**
+     * Parse Parcel into loginAccount.
+     * @param source source Parcel
+     */
     public LoginAccount(Parcel source) {
         this.username = source.readString();
         this.password = source.readString();
     }
 
+    /**
+     * Register DAO.
+     * @return Register Result
+     * @throws RegisterException RegisterException
+     */
     @SuppressWarnings("unchecked")
     public String register() throws RegisterException {
         String encodedUsername = Util.encodeString(username);
         String encodedPassword = Util.encodeString(password);
-        // HttpPost request = new HttpPost(
-        // "http://giambi-server-2340.appspot.com/register");
         HttpPost request = new HttpPost("http://" + Util.LOCALHOST
-                + ":8888/register");
+                + "/register");
         JSONObject jsonObj = new JSONObject();
         jsonObj.put("username", encodedUsername);
         jsonObj.put("password", encodedPassword);
@@ -52,37 +69,28 @@ public class LoginAccount {
             throw new RegisterException("Unknown Error");
         } else {
             return content;
-            // return true;
-            // throw new RegisterException(content);
         }
 
         // }
     }
 
-    @SuppressWarnings({"unchecked", "unused"})
+    /**
+     * authenticate user.
+     * @return authenticate Result
+     * @throws AuthenticateException AuthenticateException
+     */
+    @SuppressWarnings({"unchecked", "unused" })
     public String authenticate() throws AuthenticateException {
         String encodedUsername = Util.encodeString(username);
         String encodedPassword = Util.encodeString(password);
-        // HttpPost request = new HttpPost(
-        // "http://giambi-server-2340.appspot.com/login");
-        HttpPost request = new HttpPost("http://" + Util.LOCALHOST
-                + ":8888/login");
+        HttpPost request = new HttpPost("http://" + Util.LOCALHOST + "/login");
         JSONObject jsonObj = new JSONObject();
         jsonObj.put("username", encodedUsername);
         jsonObj.put("password", encodedPassword);
         request.setEntity(Util.jsonToEntity(jsonObj));
-        // JSONObject parsedObj = (JSONObject)
-        // JSONValue.parse(request.getParams().getParameter("json").toString());
-        // Log.v("request params",request.getParams().getParameter("json").toString());
-        // Log.v("json parsed obj",(String)parsedObj.get("username"));
-        // String content = "";
         HttpResponse response = GiambiHttpClient.getResponse(request);
-        String responseCookie = "";// response.getHeaders("Cookie")[0].getValue();
+        String responseCookie = ""; // response.getHeaders("Cookie")[0].getValue();
         String content = "";
-        // if (responseCookie != "") {
-        // this.cookie = responseCookie;
-        //
-        // } else {
         try {
             content = Util.HttpContentReader(response.getEntity().getContent());
         } catch (IllegalStateException e) {
@@ -97,10 +105,16 @@ public class LoginAccount {
         }
     }
 
+    /**
+     * @return username
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * @return password
+     */
     public String getPassword() {
         return password;
     }

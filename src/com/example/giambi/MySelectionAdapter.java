@@ -1,5 +1,8 @@
 package com.example.giambi;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,14 +11,25 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
+/**
+ * @author zhangjialiang A simple text ListView adapter.
+ * @param <T>
+ */
 public class MySelectionAdapter<T> extends ArrayAdapter<T> {
 
     public List<T> data = new ArrayList<T>();
     private Context context;
 
+    /**
+     * Constructer to link necessary resources.
+     * 
+     * @param context
+     *            application context
+     * @param resource
+     *            resource
+     * @param data
+     *            list data
+     */
     public MySelectionAdapter(Context context, int resource, List<T> data) {
         super(context, resource, data);
         this.data = data;
@@ -32,10 +46,6 @@ public class MySelectionAdapter<T> extends ArrayAdapter<T> {
         return data.get(position);
     }
 
-    public void select(int position) {
-
-    }
-
     @Override
     public long getItemId(int position) {
         Log.v("getItemId", Integer.toString(position));
@@ -43,6 +53,9 @@ public class MySelectionAdapter<T> extends ArrayAdapter<T> {
         return obj.hashCode();
     }
 
+    /**
+     * @author zhangjialiang inner class to improve field search speed
+     */
     static class ViewHolder {
         public TextView textView;
     }
@@ -57,31 +70,16 @@ public class MySelectionAdapter<T> extends ArrayAdapter<T> {
             ViewHolder viewHolder = new ViewHolder();
             viewHolder.textView = (TextView) rowView
                     .findViewById(R.id.itemTextView);
-            // viewHolder.transactionName = (TextView) rowView
-            // .findViewById(R.id.transactionName);
-            // viewHolder.category = (TextView) rowView
-            // .findViewById(R.id.category);
-            // viewHolder.amount = (TextView) rowView.findViewById(R.id.amount);
             rowView.setTag(viewHolder);
         }
         ViewHolder holder = (ViewHolder) rowView.getTag();
-        // Transaction transaction = null;
         T obj = null;
         try {
             obj = data.get(position);
-            // transaction = transactionsInList.get(position);
         } catch (IndexOutOfBoundsException e) {
             return rowView;
         }
-        // Log.v("setTransactionsView", transaction.transactionName + ","
-        // + transaction.amount + "," + transaction.username);
-        // Log.v("Set category list",obj.toString());
         holder.textView.setText(obj.toString());
-        // set field from transaction
-        // holder.transactionName.setText(transaction.transactionName);
-        // holder.category.setText(transaction.category);
-        // holder.amount.setText(Currency.getInstance(Locale.US).getSymbol()
-        // + Double.toString(transaction.amount));
 
         return rowView;
     }

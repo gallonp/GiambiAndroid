@@ -13,7 +13,7 @@ public class TransactionDetailsPresenter {
     public TransactionDetailsPresenter(TransactionDetailsView view) {
 
         this.v = view;
-        v.AddOnClickListener(onClickListener);
+        v.addOnClickListener(onClickListener);
         // Category category = new Category();
         // Log.v("category 1",category.categories.get(0));
         // v.setCategories(category.categories);
@@ -27,6 +27,7 @@ public class TransactionDetailsPresenter {
             Transaction newTransaction = v.getCurrentTransactionData();
             Transaction.persistTransaction(newTransaction);
             Log.v("newTransaction to persist", newTransaction.id + "");
+            v.getCurrentTransactionData();
             v.finish();
             // List<Transaction> transactions =
             // Transaction.getAccountTransactions(v.getUsernameFromPreference(),""

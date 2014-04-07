@@ -13,17 +13,34 @@ import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * @author zhangjialiang Adapter to render a single row of item with name and
+ *         value
+ */
 public class MyListAdapter extends ArrayAdapter<Transaction> {
 
+    /**
+     * Application context.
+     */
     private final Context context;
+
+    /**
+     * List to hold data.
+     */
     public List<Transaction> transactionsInList;
 
+    /**
+     * @param context
+     *            application context
+     * @param transactions
+     *            transactions to pass into adapter
+     */
     public MyListAdapter(Context context, List<Transaction> transactions) {
         super(context, R.layout.transaction_row, transactions);
         this.context = context;
         this.transactionsInList = transactions;
-        Log.v("MyAdapter constructor", "instantiation completed");
-        Log.v("transactions size", Integer.toString(transactions.size()));
+        // Log.v("MyAdapter constructor", "instantiation completed");
+        // Log.v("transactions size", Integer.toString(transactions.size()));
     }
 
     @Override
@@ -43,6 +60,9 @@ public class MyListAdapter extends ArrayAdapter<Transaction> {
         return transaction.getId();
     }
 
+    /**
+     * @author zhangjialiang inner class to speed up field search
+     */
     static class ViewHolder {
         public TextView transactionName;
         public TextView category;
@@ -72,14 +92,14 @@ public class MyListAdapter extends ArrayAdapter<Transaction> {
         } catch (IndexOutOfBoundsException e) {
             return rowView;
         }
-        Log.v("setTransactionsView", transaction.transactionName + ","
-                + transaction.amount + "," + transaction.username);
+        // Log.v("setTransactionsView", transaction.transactionName + ","
+        // + transaction.amount + "," + transaction.username);
 
         // set field from transaction
         holder.transactionName.setText(transaction.transactionName);
         holder.category.setText(transaction.category);
         holder.amount.setText(Currency.getInstance(Locale.US).getSymbol()
-                + Double.toString(transaction.amount));
+                + Double.toString(-transaction.amount));
 
         return rowView;
     }

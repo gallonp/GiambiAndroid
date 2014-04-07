@@ -18,7 +18,8 @@ public class CreateAccountException extends Exception {
     }
 
     /**
-     * @param detailMessage
+     * * this is created account exception
+     * @param detailMessage this is detailed message
      */
     public CreateAccountException(String detailMessage) {
         super(detailMessage);

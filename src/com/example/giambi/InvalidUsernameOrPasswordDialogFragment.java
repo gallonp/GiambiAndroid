@@ -16,7 +16,7 @@ import android.os.Bundle;
  * getString(R.string.dialog_message_password_empty)); DialogFragment dialog =
  * new InvalidUsernameOrPasswordDialogFragment(); dialog.setArguments(bundle);
  * dialog.show(ft, "dialog");
- *
+ * 
  * @author haolidu
  * @version 0.99
  */

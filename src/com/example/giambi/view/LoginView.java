@@ -8,7 +8,7 @@ public interface LoginView {
 
     String getPassword();
 
-    void AddClickListener(OnClickListener clickerListener);
+    void addClickListener(OnClickListener clickerListener);
 
     void setResonpseText(String response);
 

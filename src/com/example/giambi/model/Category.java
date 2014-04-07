@@ -3,10 +3,18 @@ package com.example.giambi.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Transaction categories.
+ * @author zhangjialiang
+ *
+ */
 public class Category {
 
     public List<String> categories = new ArrayList<String>();
 
+    /**
+     * make a new list of categories to populate fields. Deprecated.
+     */
     public Category() {
         categories.add(Category.bookSupplies);
         categories.add(Category.cashATM);

@@ -3,7 +3,11 @@ package com.example.giambi.activity;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,6 +18,9 @@ import com.example.giambi.presenter.RegisterPresenter;
 import com.example.giambi.util.Util;
 import com.example.giambi.view.RegisterView;
 
+/**
+ * @author zhangjialiang Render register page
+ */
 public class RegisterActivity extends Activity implements RegisterView {
     TextView username;
     TextView password1;
@@ -53,13 +60,17 @@ public class RegisterActivity extends Activity implements RegisterView {
     }
 
     @Override
-    public void AddClickListener(OnClickListener clickerListener) {
+    public void addClickListener(OnClickListener clickerListener) {
         this.registerBtn.setOnClickListener(clickerListener);
     }
 
     @Override
     public void setResonpseText(String response) {
-        this.resultText.setText(response);
+        if (response.contains("Succeed") || response.contains("succeed")) {
+            this.resultText.setText("Register Succeeded");
+        } else {
+            this.resultText.setText("Register Failed");
+        }
     }
 
     @Override
@@ -103,5 +114,21 @@ public class RegisterActivity extends Activity implements RegisterView {
                 }
         }
 
+    }
+
+    @Override
+    public void startOverview(LoginAccount account) {
+        SharedPreferences prefs = this.getSharedPreferences("com.example.app",
+                Context.MODE_PRIVATE);
+        String name = prefs.getString("USERNAME_GIAMBI", null);
+        if (name != null) {
+            prefs.edit().remove("USERNAME_GIAMBI").commit();
+        }
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("USERNAME_GIAMBI", account.getUsername());
+        editor.commit();
+        Intent i = new Intent(this, AccountActivity.class);
+        Log.v(ACCOUNT_SERVICE, "Intent initialize complete.");
+        startActivity(i);
     }
 }

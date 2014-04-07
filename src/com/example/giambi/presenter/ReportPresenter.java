@@ -30,31 +30,57 @@ import java.util.Map;
 
 /**
  * Presenter for account activity.
- *
+ * 
  * @author cwl
  */
 public class ReportPresenter {
 
-    private static final String[] NORMAL_FIELDS = {"category", "amount",
-            "startDate", "endDate"};
+    /**
+     * fields.
+     */
+    private static final String[] NORMAL_FIELDS = {"category", "amount", "startDate", "endDate"};
+    /**
+     * report view.
+     */
     private final ReportView v;
+    /**
+     * login account.
+     */
     private final String loginAccount;
+    /**
+     * account number.
+     */
     private final String accountNumber;
+    /**
+     * report type.
+     */
     private final String reportType;
+    /**
+     * start date.
+     */
+    private final String startDate;
+    /**
+     * end date.
+     */
+    private final String endDate;
+    /**
+     * list data.
+     */
     private List<ReportEntry> listData = new LinkedList<ReportEntry>();
     /**
-     * Listener for listView item click
+     * Listener for listView item click.
      */
     private OnItemClickListener onListItemClickListener = new OnItemClickListener() {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position,
-                                long id) {
+                long id) {
             // TODO
         }
     };
+
     /**
-     * Listener for Menu Item click
+     * Listener for Menu Item click.
      */
     private OnMenuItemClickListener onMenuItemClickListener = new OnMenuItemClickListener() {
 
@@ -78,38 +104,71 @@ public class ReportPresenter {
 
     /**
      * Constructor.
+     * 
+     * @param view
+     *            view
+     * @param loginAccount1
+     *            login account
+     * @param accountNumber1
+     *            account number
+     * @param reportType1
+     *            report type
+     * @param startDate1
+     *            start date
+     * @param endDate1
+     *            end date
      */
-    public ReportPresenter(ReportView view, String loginAccount,
-                           String accountNumber, String reportType) {
+    public ReportPresenter(ReportView view, String loginAccount1,
+            String accountNumber1, String reportType1, String startDate1,
+            String endDate1) {
         this.v = view;
-        this.loginAccount = loginAccount;
-        this.accountNumber = accountNumber;
-        this.reportType = reportType;
+        this.loginAccount = loginAccount1;
+        this.accountNumber = accountNumber1;
+        this.reportType = reportType1;
+        this.startDate = startDate1;
+        this.endDate = endDate1;
         // TODO get report
 
         v.addOnListItemClick(this.onListItemClickListener);
         Log.v("AccountPresenter", "Listeners set up complete.");
     }
 
+    /**
+     * on menu item click listener.
+     * 
+     * @return listener
+     */
     public OnMenuItemClickListener getOnMenuItemClickListener() {
         return this.onMenuItemClickListener;
     }
 
+    /**
+     * request report.
+     * 
+     * @return report
+     * @throws GetReportException
+     *             error getting report
+     */
     @SuppressWarnings("unchecked")
     private int requestReport() throws GetReportException {
+        final int error2 = -2;
+
         String encodedLoginAcc = Util.encodeString(loginAccount);
         String encodedAccNumber = Util.encodeString(accountNumber);
+        String encodedStartDate = Util.encodeString(startDate);
+        String encodedEndDate = Util.encodeString(endDate);
 
         HttpPost request = new HttpPost("http://" + Util.LOCALHOST
-                + ":8888/getreport");
+                + "/getreport");
         JSONObject jsonObj = new JSONObject();
         jsonObj.put("userAccount", encodedLoginAcc);
         jsonObj.put("accountNumber", encodedAccNumber);
+        jsonObj.put("startDate", encodedStartDate);
+        jsonObj.put("endDate", encodedEndDate);
 
         request.setEntity(Util.jsonToEntity(jsonObj));
 
         HttpResponse response = GiambiHttpClient.getResponse(request);
-        String responseCookie = "";// response.getHeaders("Cookie")[0].getValue();
         String content;
 
         try {
@@ -126,7 +185,7 @@ public class ReportPresenter {
             throw new GetReportException("Server return no content.");
         }
         if (content.equals("invalid cookie")) {
-            return -2;
+            return error2;
         }
 
         JSONParser jsonParser = new JSONParser();
@@ -138,18 +197,16 @@ public class ReportPresenter {
             return -1;
         }
 
-        // Add accounts to bankAccounts list
+        // Add entries to list
         listData.clear();
-        if (content.equals("No accounts."))
+        if (content.equals("No accounts.")) {
             return 0;
+        }
         if (jsonObj.size() != 0) {
 
             Map<String, String> reportInfo;
             String category;
             String amount;
-            String startDate;
-            String endDate;
-            String date;
             JSONArray jsonArr = (JSONArray) jsonObj.get("Data");
 
             for (Object aJsonArr : jsonArr) {
@@ -174,10 +231,16 @@ public class ReportPresenter {
         return -1;
     }
 
-    public List<ReportEntry> getReport() {
+    /**
+     * get report.
+     * 
+     * @return list of report
+     */
+    public final List<ReportEntry> getReport() {
+        final int error2 = -2;
         try {
             int result = this.requestReport();
-            if (result == -2) {
+            if (result == error2) {
                 Intent intent = new Intent();
                 intent.setClass((Context) v, LoginActivity.class);
                 ((Context) v).startActivity(intent);

@@ -23,6 +23,7 @@
     <string name="current_balance">Current Balance</string>
     <string name="add">Add</string>
     <string name="dialog_OK">OK</string>
+    <string name="dialog_cancel">Cancel</string>
     <string name="dialog_message_username_empty">Invalid username. Username can not be empty.</string>
     <string name="dialog_message_username_length">Invalid username. Username needs to be longer than 6 spaces.</string>
     <string name="dialog_message_username_not_email">Invalid username. Username needs to be a valid email.</string>
@@ -41,6 +42,8 @@
     <string name="date">Date</string>
     <string name="date_hint">DD/MM/YYYY</string>
     <string name="pick_one">Pick one...</string>
+    <string name="end_date">Choose End Date:</string>
+    <string name="start_date">Choose Start Date:</string>
     <string name="select">Select</string>
     
 </resources>

@@ -6,15 +6,26 @@ import com.example.giambi.model.Transaction;
 import java.util.List;
 
 public interface TransactionView {
-
+    
     void setTransactions(List<Transaction> transactions);
 
     void updateTransactions();
 
     void addOnItemClickListener(OnItemClickListener listener);
 
+    void showAccountNum();
+    
+    void showReportDialog();
+    /**
+     * gets username.
+     * @return the username
+     */
     String getUsernameFromPreference();
-
+    /**
+     * This shows transaction detail
+     * @param transaction this is it
+     */
     void showTransactionDetail(Transaction transaction);
 
+    void setDate(String date1, String date2);
 }

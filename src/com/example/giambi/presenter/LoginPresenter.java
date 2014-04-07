@@ -20,7 +20,7 @@ public class LoginPresenter {
 
     public LoginPresenter(LoginView view) {
         this.v = view;
-        view.AddClickListener(this.listener);
+        view.addClickListener(this.listener);
     }
 
     private OnClickListener listener = new OnClickListener() {
@@ -32,9 +32,9 @@ public class LoginPresenter {
             try {
                 if (Util.checkLogin(account)) {
                     authResult = account.authenticate();
-                    v.setResonpseText(authResult);
+                    // v.setResonpseText(authResult);
                     if (authResult.contains("Login succeeded!")) {
-                        v.SetUser(account.getUsername());
+                        // v.SetUser(account.getUsername());
                         v.startOverview(account);
                     } else {
                         Log.i("Login Error", authResult);

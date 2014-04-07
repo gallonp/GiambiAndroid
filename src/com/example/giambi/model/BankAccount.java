@@ -19,36 +19,68 @@ import java.util.Map;
 
 /**
  * Bank account class for each login account.
- *
+ * 
  * @author cwl
  */
 public final class BankAccount {
 
-    private static final String[] FIELDS = {"bankAccountName",
-            "bankAccountNumber", "bankName", "balance"};
+    /**
+     * fields.
+     */
+    private static final String[] FIELDS = {"bankAccountName", "bankAccountNumber", "bankName", "balance"};
 
+    /**
+     * alias.
+     */
     private String alias;
+    /**
+     * bank name.
+     */
     private String bankName;
+    /**
+     * balance.
+     */
     private BigDecimal balance;
+    /**
+     * account number.
+     */
     private String accountNum;
+    /**
+     * login account.
+     */
     private String loginAcc;
 
-    public BankAccount(String loginAcc, String alias, String bankName,
-                       String accountNum, String balance) {
-        this.loginAcc = loginAcc;
-        setAlias(alias);
-        setBankName(bankName);
-        setAccountNum(accountNum);
-        setAccountNum(accountNum);
-        setBalance(new BigDecimal(balance));
+    /**
+     * constructor.
+     * 
+     * @param loginAcc1
+     *            login account
+     * @param alias1
+     *            alias
+     * @param bankName1
+     *            bank name
+     * @param accountNum1
+     *            account number
+     * @param balance1
+     *            balance
+     */
+    public BankAccount(String loginAcc1, String alias1, String bankName1,
+            String accountNum1, String balance1) {
+        this.loginAcc = loginAcc1;
+        setAlias(alias1);
+        setBankName(bankName1);
+        setAccountNum(accountNum1);
+        setAccountNum(accountNum1);
+        setBalance(new BigDecimal(balance1));
     }
 
-    //
-    // public boolean add(List<BankAccount> list) {
-    // list.add(this);
-    // return true;
-    // }
-
+    /**
+     * add to server.
+     * 
+     * @return content
+     * @throws CreateAccountException
+     *             error createing account
+     */
     @SuppressWarnings("unchecked")
     public String addToServer() throws CreateAccountException {
         String encodedLoginAcc = Util.encodeString(loginAcc);
@@ -57,7 +89,7 @@ public final class BankAccount {
         String encodedBalance = Util.encodeString(balance.toString());
         String encodedAccNum = Util.encodeString(accountNum);
         HttpPost request = new HttpPost("http://" + Util.LOCALHOST
-                + ":8888/createaccount");
+                + "/createaccount");
         JSONObject jsonObj = new JSONObject();
         jsonObj.put("userAccount", encodedLoginAcc);
         jsonObj.put("bankAccountName", encodedAlias);
@@ -83,27 +115,31 @@ public final class BankAccount {
 
     /**
      * Get Bank Accounts from server.
-     *
+     * 
      * @param loginAcc
+     *            login account
      * @param list
+     *            list of accounts
      * @return -2 if cookie expired; -1 if an exception exists; 0 if complete
-     * normally
+     *         normally
      * @throws GetAccountException
+     *             error getting accounts
      */
-    @SuppressWarnings({"unchecked", "unused"})
+    @SuppressWarnings({ "unchecked", "unused" })
     public static int getAccounts(String loginAcc, List<BankAccount> list)
             throws GetAccountException {
+        final int err2 = -2;
         String encodedLoginAcc = Util.encodeString(loginAcc);
 
         HttpPost request = new HttpPost("http://" + Util.LOCALHOST
-                + ":8888/getaccount");
+                + "/getaccount");
         JSONObject jsonObj = new JSONObject();
         jsonObj.put("userAccount", encodedLoginAcc);
 
         request.setEntity(Util.jsonToEntity(jsonObj));
 
         HttpResponse response = GiambiHttpClient.getResponse(request);
-        String responseCookie = "";// response.getHeaders("Cookie")[0].getValue();
+        String responseCookie = "";
         String content = "";
 
         try {
@@ -119,7 +155,7 @@ public final class BankAccount {
         if (content == null) {
             throw new GetAccountException("Unknown Error");
         } else if (content == "invalid cookie") {
-            return -2;
+            return err2;
         }
         JSONArray jsonArr = null;
         JSONParser jsonParser = new JSONParser();
@@ -132,15 +168,18 @@ public final class BankAccount {
 
         // Add accounts to bankAccounts list
         list.clear();
-        if (content.equals("No accounts."))
+        if (content.equals("No accounts.")) {
             return 0;
+        }
+        final int num = 4;
         if (jsonArr.size() != 0) {
             for (int i = 0; i < jsonArr.size(); ++i) {
                 Map<String, String> accountInfo = (Map<String, String>) jsonArr
                         .get(i);
                 BankAccount newAccount = new BankAccount(loginAcc,
                         accountInfo.get(FIELDS[0]), accountInfo.get(FIELDS[2]),
-                        accountInfo.get(FIELDS[1]), accountInfo.get(FIELDS[3]));
+                        accountInfo.get(FIELDS[1]),
+                        accountInfo.get(FIELDS[num - 1]));
                 list.add(newAccount);
             }
             return 0;
@@ -148,40 +187,91 @@ public final class BankAccount {
         return -1;
     }
 
+    /**
+     * delete account.
+     * 
+     * @param list
+     *            list of accounts
+     * @return true
+     */
     public boolean del(List<BankAccount> list) {
         list.remove(this);
         return true;
     }
 
+    /**
+     * get alias.
+     * 
+     * @return alias
+     */
     public String getAlias() {
         return alias;
     }
 
-    public void setAlias(String alias) {
-        this.alias = alias;
+    /**
+     * set alias.
+     * 
+     * @param alias1
+     *            alias
+     */
+    public void setAlias(String alias1) {
+        this.alias = alias1;
     }
 
+    /**
+     * get balance.
+     * 
+     * @return balance
+     */
     public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(BigDecimal balance) {
-        this.balance = balance;
+    /**
+     * set balance.
+     * 
+     * @param balance1
+     *            balance
+     */
+    public void setBalance(BigDecimal balance1) {
+        this.balance = balance1;
     }
 
+    /**
+     * get bank name.
+     * 
+     * @return bank name
+     */
     public String getBankName() {
         return bankName;
     }
 
-    public void setBankName(String bankName) {
-        this.bankName = bankName;
+    /**
+     * set bank name.
+     * 
+     * @param bankName1
+     *            bank name
+     */
+    public void setBankName(String bankName1) {
+        this.bankName = bankName1;
     }
 
+    /**
+     * get account number.
+     * 
+     * @return account number
+     */
     public String getAccountNum() {
         return accountNum;
     }
 
-    public void setAccountNum(String accountNum) {
-        this.accountNum = accountNum;
+    /**
+     * set account number.
+     * 
+     * @param accountNum1
+     *            account number
+     */
+    public void setAccountNum(String accountNum1) {
+        this.accountNum = accountNum1;
     }
 }
