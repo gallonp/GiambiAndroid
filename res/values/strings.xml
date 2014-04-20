@@ -21,6 +21,7 @@
     <string name="bank_name">Bank Name</string>
     <string name="account_number">Account Number</string>
     <string name="current_balance">Current Balance</string>
+    <string name="tax_rate">Tax Rate</string>
     <string name="add">Add</string>
     <string name="dialog_OK">OK</string>
     <string name="dialog_cancel">Cancel</string>
@@ -38,7 +39,7 @@
     <string name="transaction_category">Category</string>
     <string name="merchant">Merchant</string>
     <string name="transaction">transaction</string>
-    <string name="report">report</string>
+    <string name="report">Spending report</string>
     <string name="date">Date</string>
     <string name="date_hint">DD/MM/YYYY</string>
     <string name="pick_one">Pick one...</string>

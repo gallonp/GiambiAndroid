@@ -13,7 +13,7 @@ public interface TransactionView {
 
     void addOnItemClickListener(OnItemClickListener listener);
 
-    void showAccountNum();
+    String getAccountNum();
     
     void showReportDialog();
     /**

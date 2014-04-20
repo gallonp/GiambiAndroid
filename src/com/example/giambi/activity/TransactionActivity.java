@@ -63,7 +63,7 @@ public class TransactionActivity extends Activity implements TransactionView,
             setAccountNumber(savedInstanceState);
         }
         this.actionBar = this.getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+//        actionBar.setDisplayHomeAsUpEnabled(true);
         this.myAdapter = new MyListAdapter(this, transactions);
         this.transactionList = (ListView) findViewById(R.id.transactionListView);
         this.transactionList.setAdapter(this.myAdapter);
@@ -105,7 +105,7 @@ public class TransactionActivity extends Activity implements TransactionView,
             showReportDialog();
             return true;
         case R.id.trans_logout:
-            showAccountNum();
+            getAccountNum();
             return true;
         case R.id.trans_search:
             return true;
@@ -115,8 +115,9 @@ public class TransactionActivity extends Activity implements TransactionView,
     }
 
     @Override
-    public void showAccountNum() {
+    public String getAccountNum() {
         System.out.println(this.accountNumber);
+        return this.accountNumber;
     }
 
     /**
