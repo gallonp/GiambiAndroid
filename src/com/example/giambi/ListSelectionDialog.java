@@ -28,9 +28,6 @@ public class ListSelectionDialog extends DialogFragment {
         list = data;
     }
 
-    // public void setDataList(List<String> list){
-    // this.list = list;
-    // }
     private TransactionDetailsView v;
     private DialogFragment that;
 

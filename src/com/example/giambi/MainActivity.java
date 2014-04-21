@@ -57,7 +57,7 @@ public class MainActivity extends Activity {
     };
 
     /**
-     * 
+     * Starts new activity for login.
      */
     protected void jumpToLogin() {
         Intent intent = new Intent();
@@ -67,7 +67,7 @@ public class MainActivity extends Activity {
     }
 
     /**
-     * 
+     * Starts new Activity for register.
      */
     protected void jumpToRegister() {
 

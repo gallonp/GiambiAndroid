@@ -18,11 +18,15 @@ public class LoginPresenter {
     private LoginView v;
     private LoginAccount account;
 
+    /**
+     * Presenter for Login activity.
+     */
     public LoginPresenter(LoginView view) {
         this.v = view;
         view.addClickListener(this.listener);
     }
 
+    
     private OnClickListener listener = new OnClickListener() {
 
         @Override
