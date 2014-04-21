@@ -57,11 +57,7 @@ public class MainActivity extends Activity {
     };
 
     /**
-<<<<<<< HEAD
      * Starts new activity for login.
-=======
-     *
->>>>>>> FETCH_HEAD
      */
     protected void jumpToLogin() {
         Intent intent = new Intent();
@@ -71,11 +67,7 @@ public class MainActivity extends Activity {
     }
 
     /**
-<<<<<<< HEAD
      * Starts new Activity for register.
-=======
-     *
->>>>>>> FETCH_HEAD
      */
     protected void jumpToRegister() {
 
