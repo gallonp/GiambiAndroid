@@ -176,6 +176,9 @@ public class TransactionDetailsActivity extends Activity implements
 
         String username = this.getUsernameFromPreference();
         Log.v("username passed to transaction", username);
+        if (this.category.equals("Deposit")) {
+            this.amount = "-" + this.amount;
+        }
         Transaction newTransaction = new Transaction(this.transactionName,
                 Double.parseDouble(this.amount), username);
         // Need to check transaction name, amount are not null

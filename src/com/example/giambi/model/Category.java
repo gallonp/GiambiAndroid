@@ -16,6 +16,7 @@ public class Category {
      * make a new list of categories to populate fields. Deprecated.
      */
     public Category() {
+        categories.add(Category.deposit);
         categories.add(Category.bookSupplies);
         categories.add(Category.cashATM);
         categories.add(Category.clothing);
@@ -34,6 +35,7 @@ public class Category {
     }
 
     public static final String uncategorized = "Uncategorized";
+    public static final String deposit = "Deposit";
     public static final String rentalCarTaxi = "Rental Car & Taxi";
     public static final String groceries = "Groceries";
     public static final String shopping = "shopping";

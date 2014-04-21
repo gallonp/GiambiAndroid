@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.giambi"
-    android:versionCode="1"
-    android:versionName="1.0" >
+          package="com.example.giambi"
+          android:versionCode="1"
+          android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="14"
-        android:targetSdkVersion="19" />
+            android:minSdkVersion="14"
+            android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppBaseTheme" >
+            android:allowBackup="true"
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/app_name"
+            android:theme="@style/AppBaseTheme" >
         <activity
-            android:name="com.example.giambi.MainActivity"
-            android:label="@string/app_name" >
+                android:name="com.example.giambi.MainActivity"
+                android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,45 +25,45 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.giambi.activity.LoginActivity"
-            android:label="@string/title_activity_login"
-            android:theme="@style/AppFullscreenTheme"
-            android:parentActivityName="com.example.giambi.MainActivity" >
+                android:name="com.example.giambi.activity.LoginActivity"
+                android:label="@string/title_activity_login"
+                android:theme="@style/AppFullscreenTheme"
+                android:parentActivityName="com.example.giambi.MainActivity" >
             <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.giambi.MainActivity" />
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="com.example.giambi.MainActivity" />
         </activity>
         <activity
-            android:name="com.example.giambi.activity.RegisterActivity"
-            android:label="@string/register"
-            android:parentActivityName="com.example.giambi.MainActivity" >
+                android:name="com.example.giambi.activity.RegisterActivity"
+                android:label="@string/register"
+                android:parentActivityName="com.example.giambi.MainActivity" >
             <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.giambi.MainActivity" />
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="com.example.giambi.MainActivity" />
         </activity>
         <activity
-            android:name="com.example.giambi.activity.AccountActivity"
-            android:label="@string/account"
-            android:parentActivityName="com.example.giambi.activity.RegisterActivity" >
+                android:name="com.example.giambi.activity.AccountActivity"
+                android:label="@string/account"
+                android:parentActivityName="com.example.giambi.activity.RegisterActivity" >
             <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.giambi.LoginActivity" />
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="com.example.giambi.LoginActivity" />
         </activity>
         <activity
-            android:name="com.example.giambi.activity.TransactionActivity"
-            android:label="@string/transaction"
-            android:parentActivityName="com.example.giambi.activity.AccountActivity" >
+                android:name="com.example.giambi.activity.TransactionActivity"
+                android:label="@string/transaction"
+                android:parentActivityName="com.example.giambi.activity.AccountActivity" >
             <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.giambi.AccountActivity" />
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="com.example.giambi.AccountActivity" />
         </activity>
         <activity
-            android:name="com.example.giambi.activity.TransactionDetailsActivity"
-            android:label="@string/transaction"
-            android:parentActivityName="com.example.giambi.activity.TransactionActivity" >
+                android:name="com.example.giambi.activity.TransactionDetailsActivity"
+                android:label="@string/transaction"
+                android:parentActivityName="com.example.giambi.activity.TransactionActivity" >
             <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.giambi.TransactionActivity" />
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="com.example.giambi.TransactionActivity" />
         </activity>
         <activity
                 android:name="com.example.giambi.activity.ReportActivity"
@@ -73,8 +73,8 @@
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="com.example.giambi.TransactionActivity" />
         </activity>
-        
-        
+
+
     </application>
 
 </manifest>
