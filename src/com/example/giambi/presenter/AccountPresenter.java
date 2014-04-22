@@ -1,5 +1,8 @@
 package com.example.giambi.presenter;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -9,13 +12,11 @@ import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+
 import com.example.giambi.activity.LoginActivity;
 import com.example.giambi.model.BankAccount;
 import com.example.giambi.util.GetAccountException;
 import com.example.giambi.view.AccountView;
-
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Presenter for account activity.

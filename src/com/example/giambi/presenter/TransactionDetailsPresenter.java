@@ -3,6 +3,7 @@ package com.example.giambi.presenter;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+
 import com.example.giambi.model.Transaction;
 import com.example.giambi.view.TransactionDetailsView;
 

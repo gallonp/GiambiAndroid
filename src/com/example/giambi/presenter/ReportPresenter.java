@@ -1,5 +1,18 @@
 package com.example.giambi.presenter;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -9,24 +22,13 @@ import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+
 import com.example.giambi.GiambiHttpClient;
 import com.example.giambi.activity.LoginActivity;
 import com.example.giambi.model.ReportEntry;
 import com.example.giambi.util.GetReportException;
 import com.example.giambi.util.Util;
 import com.example.giambi.view.ReportView;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Presenter for account activity.

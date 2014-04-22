@@ -1,9 +1,10 @@
 package com.example.giambi.view;
 
-import android.widget.AdapterView.OnItemClickListener;
-import com.example.giambi.model.Transaction;
-
 import java.util.List;
+
+import android.widget.AdapterView.OnItemClickListener;
+
+import com.example.giambi.model.Transaction;
 
 public interface TransactionView {
     

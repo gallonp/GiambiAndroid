@@ -1,5 +1,7 @@
 package com.example.giambi;
 
+import java.util.Calendar;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -14,8 +16,6 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.example.giambi.util.Util;
-
-import java.util.Calendar;
 
 /**
  * DatePicker Dialog Fragment.

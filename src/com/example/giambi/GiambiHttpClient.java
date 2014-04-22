@@ -1,18 +1,17 @@
 package com.example.giambi;
 
-import android.os.AsyncTask;
-import android.util.Log;
-import org.apache.http.Header;
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
+
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import java.io.IOException;
-import java.util.concurrent.ExecutionException;
+import android.os.AsyncTask;
+import android.util.Log;
 
 /**
  * @author zhangjialiang Helper client to handle all http connections

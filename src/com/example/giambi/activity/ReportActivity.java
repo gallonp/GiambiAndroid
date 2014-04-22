@@ -1,35 +1,36 @@
 package com.example.giambi.activity;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-import com.example.giambi.R;
-import com.example.giambi.model.ReportEntry;
-import com.example.giambi.presenter.ReportPresenter;
-import com.example.giambi.view.ReportView;
-
 import java.text.NumberFormat;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
+import android.app.ActionBar;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.example.giambi.R;
+import com.example.giambi.model.ReportEntry;
+import com.example.giambi.presenter.ReportPresenter;
+import com.example.giambi.view.ReportView;
+
 /**
  * report activity.
  */
-public class ReportActivity extends Activity implements ReportView {
+public class ReportActivity extends NavigationDrawerActivity implements ReportView {
 
     /**
      * list view.
@@ -80,7 +81,6 @@ public class ReportActivity extends Activity implements ReportView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.account_page);
         loginAccName = getUsernameFromPreference();
         getBundleInfo();
 
@@ -131,6 +131,13 @@ public class ReportActivity extends Activity implements ReportView {
         listView.setOnItemClickListener(l);
     }
 
+    @Override
+    protected void setupView() {
+        setContentView(R.layout.account_page);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.account_page_layout);
+        mDrawerList = (ListView) findViewById(R.id.nav_bar_account);
+    }
+    
     /**
      * Get username from preference.
      * 

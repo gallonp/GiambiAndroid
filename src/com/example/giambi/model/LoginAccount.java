@@ -1,16 +1,18 @@
 package com.example.giambi.model;
 
-import android.os.Parcel;
-import android.util.Log;
-import com.example.giambi.GiambiHttpClient;
-import com.example.giambi.util.AuthenticateException;
-import com.example.giambi.util.RegisterException;
-import com.example.giambi.util.Util;
+import java.io.IOException;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.json.simple.JSONObject;
 
-import java.io.IOException;
+import android.os.Parcel;
+import android.util.Log;
+
+import com.example.giambi.GiambiHttpClient;
+import com.example.giambi.util.AuthenticateException;
+import com.example.giambi.util.RegisterException;
+import com.example.giambi.util.Util;
 
 /**
  * LoginAccount Data Access Obj

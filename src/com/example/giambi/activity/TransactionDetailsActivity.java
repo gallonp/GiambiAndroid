@@ -24,11 +24,7 @@ import com.example.giambi.ListSelectionDialog;
 import com.example.giambi.R;
 import com.example.giambi.model.Transaction;
 import com.example.giambi.presenter.TransactionDetailsPresenter;
-import com.example.giambi.util.Util;
 import com.example.giambi.view.TransactionDetailsView;
-
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  * @author zhangjialiang Render transaction detail page to either create or

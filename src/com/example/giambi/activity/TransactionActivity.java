@@ -1,13 +1,15 @@
 package com.example.giambi.activity;
 
-import android.app.ActionBar;
-import android.app.Activity;
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.DialogFragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,60 +25,46 @@ import com.example.giambi.model.Transaction;
 import com.example.giambi.presenter.TransactionPresenter;
 import com.example.giambi.view.TransactionView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author zhangjialiang Render transaction list page
  */
-public class TransactionActivity extends Activity implements TransactionView,
-        DateListener {
+public class TransactionActivity extends NavigationDrawerActivity implements
+        TransactionView, DateListener {
 
     private MyListAdapter myAdapter;
 
     private List<Transaction> transactions = new ArrayList<Transaction>();
     // All transactions must belong to a unique accountNumber of a certain user
     private String accountNumber = "";
-
     private String username = "";
-
     private String startDate = "";
-
     private String endDate = "";
-
     private TransactionPresenter transactionPresenter;
-
-    private ActionBar actionBar;
-
     private DialogFragment dialog;
-
     private ListView transactionList;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.transaction_page);
-        this.username = this.getUsernameFromPreference();
-        if (savedInstanceState == null) {
-            setAccountNumber(getIntent().getExtras());
-        } else {
-            setAccountNumber(savedInstanceState);
-        }
-        this.actionBar = this.getActionBar();
-//        actionBar.setDisplayHomeAsUpEnabled(true);
-        this.myAdapter = new MyListAdapter(this, transactions);
-        this.transactionList = (ListView) findViewById(R.id.transactionListView);
-        this.transactionList.setAdapter(this.myAdapter);
-
-        this.transactionPresenter = new TransactionPresenter(this,
-                this.accountNumber);
-
+    public void addOnItemClickListener(OnItemClickListener listener) {
+        this.transactionList.setOnItemClickListener(listener);
     }
 
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putString("AccountNumber", this.accountNumber);
+    public String getAccountNum() {
+        System.out.println(this.accountNumber);
+        return this.accountNumber;
+    }
+
+    /**
+     * Get username from preference.
+     * 
+     * @return current username
+     */
+
+    public String getUsernameFromPreference() {
+        SharedPreferences prefs = this.getSharedPreferences("com.example.app",
+                Context.MODE_PRIVATE);
+        String usrname = prefs.getString("USERNAME_GIAMBI", null);
+        return usrname;
     }
 
     @Override
@@ -88,7 +76,6 @@ public class TransactionActivity extends Activity implements TransactionView,
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle presses on the action bar items
         switch (item.getItemId()) {
         case R.id.trans_refresh:
             updateTransactions();
@@ -115,71 +102,15 @@ public class TransactionActivity extends Activity implements TransactionView,
     }
 
     @Override
-    public String getAccountNum() {
-        System.out.println(this.accountNumber);
-        return this.accountNumber;
-    }
-
-    /**
-     * Start a new report activity.
-     * 
-     * @param type
-     *            report type
-     */
-    public void startReport(String type) {
-        Intent i = new Intent(this, ReportActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString("AccountNumber", this.accountNumber);
-        bundle.putString("ReportType", type);
-        bundle.putString("StartDate", startDate);
-        bundle.putString("EndDate", endDate);
-        i.putExtras(bundle);
-        startActivity(i);
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putString("AccountNumber", this.accountNumber);
     }
 
     @Override
-    public void showReportDialog() {
-        Log.i("DialogFragment", "show new dialog fragment");
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        dialog = new DatePickerDialogFragment(this);
-        dialog.setArguments(null);
-        dialog.show(ft, "dialog");
-    }
-
-    /**
-     * Sets account number from bundle.
-     * @param b
-     *            savedInstanceBundle
-     */
-    private void setAccountNumber(Bundle b) {
-        String accNumber = "";
-        if (b != null) {
-            try {
-                long value = Long.parseLong(b.getString("AccountNumber"));
-                accNumber = Long.toString(value);
-            } catch (NumberFormatException e) {
-                Log.v("TransactionActivity", "Error in parsing AccountNumber");
-            }
-            if (accNumber.isEmpty()) {
-                // some ways to handle no account number
-                this.finish();
-            } else {
-                this.accountNumber = accNumber;
-            }
-        }
-    }
-
-    /**
-     * Get username from preference.
-     * 
-     * @return current username
-     */
-
-    public String getUsernameFromPreference() {
-        SharedPreferences prefs = this.getSharedPreferences("com.example.app",
-                Context.MODE_PRIVATE);
-        String usrname = prefs.getString("USERNAME_GIAMBI", null);
-        return usrname;
+    public void setDate(String date1, String date2) {
+        this.startDate = date1;
+        this.endDate = date2;
     }
 
     @Override
@@ -189,13 +120,12 @@ public class TransactionActivity extends Activity implements TransactionView,
     }
 
     @Override
-    public void updateTransactions() {
-        this.transactionPresenter.updateTransactions();
-    }
-
-    @Override
-    public void addOnItemClickListener(OnItemClickListener listener) {
-        this.transactionList.setOnItemClickListener(listener);
+    public void showReportDialog() {
+        Log.i("DialogFragment", "show new dialog fragment");
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        dialog = new DatePickerDialogFragment(this);
+        dialog.setArguments(null);
+        dialog.show(ft, "dialog");
     }
 
     @Override
@@ -224,6 +154,28 @@ public class TransactionActivity extends Activity implements TransactionView,
         }
     }
 
+    /**
+     * Start a new report activity.
+     * 
+     * @param type
+     *            report type
+     */
+    public void startReport(String type) {
+        Intent i = new Intent(this, ReportActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("AccountNumber", this.accountNumber);
+        bundle.putString("ReportType", type);
+        bundle.putString("StartDate", startDate);
+        bundle.putString("EndDate", endDate);
+        i.putExtras(bundle);
+        startActivity(i);
+    }
+
+    @Override
+    public void updateTransactions() {
+        this.transactionPresenter.updateTransactions();
+    }
+
     /*
      * (non-Javadoc) should update the transaction list after the return from
      * transaction detail page
@@ -233,12 +185,54 @@ public class TransactionActivity extends Activity implements TransactionView,
      */
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         this.updateTransactions();
-        //this.accountNumber = data.getExtras().getString("AccountNumber");
+        // this.accountNumber = data.getExtras().getString("AccountNumber");
     }
 
     @Override
-    public void setDate(String date1, String date2) {
-        this.startDate = date1;
-        this.endDate = date2;
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.username = this.getUsernameFromPreference();
+        if (savedInstanceState == null) {
+            setAccountNumber(getIntent().getExtras());
+        } else {
+            setAccountNumber(savedInstanceState);
+        }
+        this.myAdapter = new MyListAdapter(this, transactions);
+        this.transactionList = (ListView) findViewById(R.id.transactionListView);
+        this.transactionList.setAdapter(this.myAdapter);
+
+        this.transactionPresenter = new TransactionPresenter(this,
+                this.accountNumber);
+    }
+
+    @Override
+    protected void setupView() {
+        setContentView(R.layout.transaction_page);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.transactionLayout);
+        mDrawerList = (ListView) findViewById(R.id.nav_bar_transaction);
+    }
+
+    /**
+     * Sets account number from bundle.
+     * 
+     * @param b
+     *            savedInstanceBundle
+     */
+    private void setAccountNumber(Bundle b) {
+        String accNumber = "";
+        if (b != null) {
+            try {
+                long value = Long.parseLong(b.getString("AccountNumber"));
+                accNumber = Long.toString(value);
+            } catch (NumberFormatException e) {
+                Log.v("TransactionActivity", "Error in parsing AccountNumber");
+            }
+            if (accNumber.isEmpty()) {
+                // some ways to handle no account number
+                this.finish();
+            } else {
+                this.accountNumber = accNumber;
+            }
+        }
     }
 }

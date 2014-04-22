@@ -1,5 +1,8 @@
 package com.example.giambi;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -10,11 +13,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+
 import com.example.giambi.model.Category;
 import com.example.giambi.view.TransactionDetailsView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ListSelectionDialog extends DialogFragment {
 

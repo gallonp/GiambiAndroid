@@ -1,13 +1,14 @@
 package com.example.giambi.presenter;
 
+import java.util.List;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+
 import com.example.giambi.model.Transaction;
 import com.example.giambi.view.TransactionView;
-
-import java.util.List;
 
 public class TransactionPresenter {
 

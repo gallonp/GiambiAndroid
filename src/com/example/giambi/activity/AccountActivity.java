@@ -1,32 +1,5 @@
 package com.example.giambi.activity;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.DialogFragment;
-import android.app.FragmentTransaction;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-import com.example.giambi.InvalidUsernameOrPasswordDialogFragment;
-import com.example.giambi.NewBankAccountDialogFragment;
-import com.example.giambi.R;
-import com.example.giambi.model.BankAccount;
-import com.example.giambi.presenter.AccountPresenter;
-import com.example.giambi.util.Util;
-import com.example.giambi.view.AccountView;
-
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -36,6 +9,34 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.DialogFragment;
+import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.example.giambi.InvalidUsernameOrPasswordDialogFragment;
+import com.example.giambi.NewBankAccountDialogFragment;
+import com.example.giambi.R;
+import com.example.giambi.model.BankAccount;
+import com.example.giambi.presenter.AccountPresenter;
+import com.example.giambi.util.Util;
+import com.example.giambi.view.AccountView;
 
 /**
  * account activity.

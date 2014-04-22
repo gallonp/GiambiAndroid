@@ -1,5 +1,7 @@
 package com.example.giambi;
 
+import java.math.BigDecimal;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -10,13 +12,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+
 import com.example.giambi.model.BankAccount;
 import com.example.giambi.presenter.AccountPresenter;
 import com.example.giambi.util.CreateAccountException;
 import com.example.giambi.util.Util;
 import com.example.giambi.view.AccountView;
-
-import java.math.BigDecimal;
 
 /**
  * New BankAccount DialogFragment.

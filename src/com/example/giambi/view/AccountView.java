@@ -3,11 +3,12 @@
  */
 package com.example.giambi.view;
 
+import java.util.List;
+
 import android.widget.AdapterView.OnItemClickListener;
+
 import com.example.giambi.model.BankAccount;
 import com.example.giambi.presenter.AccountPresenter;
-
-import java.util.List;
 
 /**
  * @author cwl

@@ -3,6 +3,7 @@ package com.example.giambi.view;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+
 import com.example.giambi.model.Transaction;
 
 public interface TransactionDetailsView {

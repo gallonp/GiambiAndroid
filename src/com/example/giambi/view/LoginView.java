@@ -1,6 +1,7 @@
 package com.example.giambi.view;
 
 import android.view.View.OnClickListener;
+
 import com.example.giambi.model.LoginAccount;
 
 public interface LoginView {
