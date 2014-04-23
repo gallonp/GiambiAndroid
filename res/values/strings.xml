@@ -48,6 +48,11 @@
     <string name="select">Select</string>
     <string-array name="drawer_titles">
         <item >Account</item>
+        <item>Create New Account</item>
+        <item>Transaction</item>
+        <item>Create New Transaction</item>
+        <item>Report</item>
+        <item>Register</item>
         <item >Log out</item>
        
     </string-array>

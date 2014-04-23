@@ -1,14 +1,15 @@
 package com.example.giambi.activity;
 
-import com.example.giambi.R;
-
-import android.app.ActionBar;
 import android.app.Activity;
+import android.app.DialogFragment;
+import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +17,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.example.giambi.DatePickerDialogFragment;
+import com.example.giambi.MainActivity;
+import com.example.giambi.NewBankAccountDialogFragment;
+import com.example.giambi.R;
 
 public abstract class NavigationDrawerActivity extends Activity {
 
@@ -51,7 +57,7 @@ public abstract class NavigationDrawerActivity extends Activity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Setsup the view here.
+        // Sets up the view here.
         setupView();
         mTitle = mDrawerTitle = getTitle();
         drawerTitles = getResources().getStringArray(R.array.drawer_titles);
@@ -66,8 +72,7 @@ public abstract class NavigationDrawerActivity extends Activity {
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         // enable ActionBar app icon to behave as action to toggle nav drawer
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         // ActionBarDrawerToggle ties together the the proper interactions
         // between the sliding drawer and the action bar app icon
         mDrawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
@@ -100,8 +105,41 @@ public abstract class NavigationDrawerActivity extends Activity {
      * Sets the content view. call setcontentView here.
      */
     protected abstract void setupView();
-    
+
     protected void selectItem(int position) {
+        if (mDrawerLayout.isDrawerOpen(mDrawerList)){
+            mDrawerLayout.closeDrawer(mDrawerList);
+        }
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        switch (position){
+        case 0:
+            Intent intent = new Intent(this, AccountActivity.class);
+            startActivity(intent);
+        case 1:
+            Log.i("DialogFragment", "show new dialog fragment");
+            DialogFragment dialog = new NewBankAccountDialogFragment();
+            dialog.show(ft, "dialog");
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
+        case 4:
+            Log.i("DialogFragment", "show new dialog fragment");
+            DialogFragment dialog4 = new DatePickerDialogFragment(this);
+            dialog4.setArguments(null);
+            dialog4.show(ft, "dialog");
+            break;
+        case 5:
+            Intent intent5 = new Intent();
+            intent5.setClass(this, RegisterActivity.class);
+            startActivity(intent5);
+            break;
+        case 6:
+            Intent intent6 = new Intent(this, MainActivity.class);
+            startActivity(intent6);
+            break;
+        }
         Toast.makeText(this, "Selected " + position, Toast.LENGTH_SHORT).show();
     }
 
@@ -126,7 +164,7 @@ public abstract class NavigationDrawerActivity extends Activity {
             selectItem(position);
         }
     }
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items

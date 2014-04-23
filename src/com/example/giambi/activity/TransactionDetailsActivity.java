@@ -1,13 +1,12 @@
 package com.example.giambi.activity;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,7 +29,7 @@ import com.example.giambi.view.TransactionDetailsView;
  * @author zhangjialiang Render transaction detail page to either create or
  *         update a transaction
  */
-public class TransactionDetailsActivity extends Activity implements
+public class TransactionDetailsActivity extends NavigationDrawerActivity implements
         TransactionDetailsView, DateListener {
 
     TransactionDetailsActivity that = this;
@@ -55,16 +54,10 @@ public class TransactionDetailsActivity extends Activity implements
 
     private DialogFragment dialog;
 
-    private ActionBar actionBar;
-
     private TransactionDetailsPresenter transactionDetailsPresenter;
 
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        this.setContentView(R.layout.transaction_details);
-        this.actionBar = this.getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-
+        super.onCreate(savedInstanceState); 
         transactionNameField = (EditText) this
                 .findViewById(R.id.transactionName);
         amountField = (EditText) this.findViewById(R.id.transactionAmount);
@@ -261,6 +254,13 @@ public class TransactionDetailsActivity extends Activity implements
     @Override
     public void startReport(String type) {
         this.dialog.dismiss();
+    }
+
+    @Override
+    protected void setupView() {
+        setContentView(R.layout.transaction_details);   
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.transaction_details_layout);
+        mDrawerList = (ListView) findViewById(R.id.nav_bar_transaction_details);
     }
 
 }

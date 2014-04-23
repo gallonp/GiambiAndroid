@@ -1,128 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
+    android:layout_height="match_parent"
+    android:id = "@+id/transaction_details_layout"
     android:layout_margin="10dp"
     android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:text="@string/transaction_name"
-            android:textAppearance="?android:attr/textAppearanceMedium"/>
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:text="@string/transaction_name"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <EditText
-            android:id="@+id/transactionName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="android:editTextStyle"
-            android:ems="10" >
+    <EditText
+        android:id="@+id/transactionName"
+        style="android:editTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10" >
 
-            <requestFocus />
-        </EditText>
+        <requestFocus />
+    </EditText>
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/transaction_amount"
-            android:textAppearance="?android:attr/textAppearanceMedium"/>
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/transaction_amount"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <EditText
-            android:id="@+id/transactionAmount"
-            style="android:editTextStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="numberDecimal"
-            />
+    <EditText
+        android:id="@+id/transactionAmount"
+        style="android:editTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="numberDecimal" />
 
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/date"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/date"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <EditText
-            android:id="@+id/transactionDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/date_hint"
-            android:inputType="date" />
+    <EditText
+        android:id="@+id/transactionDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/date_hint"
+        android:inputType="date" />
 
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/account_number"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/account_number"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <EditText
-            android:id="@+id/AccountNumberTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="number" />
+    <EditText
+        android:id="@+id/AccountNumberTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number" />
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/transaction_category"
-            android:textAppearance="?android:attr/textAppearanceMedium"/>
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/transaction_category"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <ListView
-            android:id="@+id/categoryListView"
-            android:layout_width="match_parent"
-            android:layout_height="29dp"
-            android:visibility="gone" >
+    <ListView
+        android:id="@+id/categoryListView"
+        android:layout_width="match_parent"
+        android:layout_height="29dp"
+        android:visibility="gone" >
+    </ListView>
 
-        </ListView>
+    <EditText
+        android:id="@+id/transactionCategoryEditTextView"
+        style="android:editTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:text="@string/pick_one" >
+    </EditText>
 
-        <EditText
-            android:id="@+id/transactionCategoryEditTextView"
-            style="android:editTextStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:text="@string/pick_one" >
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/merchant"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        </EditText>
+    <ListView
+        android:id="@+id/merchantListView"
+        android:layout_width="match_parent"
+        android:layout_height="36dp" >
+    </ListView>
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/merchant"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+    <EditText
+        android:id="@+id/merchantEditTextView"
+        style="android:editTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10" >
+    </EditText>
 
-        <ListView
-            android:id="@+id/merchantListView"
-            android:layout_width="match_parent"
-            android:layout_height="36dp" >
-        </ListView>
+    <Button
+        android:id="@+id/addTransactionButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_blue_dark"
+        android:text="@string/add"
+        android:textColor="@android:color/white"
+        android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/merchantEditTextView"
-            style="android:editTextStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10" >
+    <ListView
+        android:id="@+id/nav_bar_transaction_details"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="#111"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="1dp" />
 
-        </EditText>
-
-        <Button
-            android:id="@+id/addTransactionButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/holo_blue_dark"
-            android:text="@string/add"
-            android:textColor="@android:color/white"
-            android:textStyle="bold" />
-        
-    </LinearLayout>
-    
+</android.support.v4.widget.DrawerLayout>

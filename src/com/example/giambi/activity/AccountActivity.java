@@ -18,6 +18,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -41,7 +42,7 @@ import com.example.giambi.view.AccountView;
 /**
  * account activity.
  */
-public class AccountActivity extends Activity implements AccountView {
+public class AccountActivity extends NavigationDrawerActivity implements AccountView {
 
     /**
      * list view.
@@ -80,7 +81,6 @@ public class AccountActivity extends Activity implements AccountView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.account_page);
         loginAccName = getUsernameFromPreference();
         listView = (ListView) this.findViewById(R.id.account_list);
         actionBar = this.getActionBar();
@@ -328,6 +328,13 @@ public class AccountActivity extends Activity implements AccountView {
     @Override
     public final AccountPresenter getPresenter() {
         return this.accountPresenter;
+    }
+
+    @Override
+    protected void setupView() {
+        setContentView(R.layout.account_page);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.account_page_layout);
+        mDrawerList = (ListView) findViewById(R.id.nav_bar_account);
     }
 
 }

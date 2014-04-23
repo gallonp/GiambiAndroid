@@ -87,6 +87,9 @@ public class ReportActivity extends NavigationDrawerActivity implements ReportVi
         listView = (ListView) this.findViewById(R.id.account_list);
         actionBar = this.getActionBar();
         adapter = new MyAdapter(this);
+        if (adapter == null){
+            Log.d("", "adapter is null");
+        }
         listView.setAdapter(adapter);
         currencyFormat.setMinimumFractionDigits(2);
         reportPresenter = new ReportPresenter(this, loginAccName,
