@@ -1,6 +1,5 @@
 package com.example.giambi;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,11 +26,6 @@ public class MainActivity extends Activity {
         Button register = (Button) this.findViewById(R.id.welcome_Register);
         login.setOnClickListener(buttonClickHandler);
         register.setOnClickListener(buttonClickHandler);
-
-        ActionBar actionBar = this.getActionBar();
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP,
-                ActionBar.DISPLAY_HOME_AS_UP);
-
     }
 
     @Override

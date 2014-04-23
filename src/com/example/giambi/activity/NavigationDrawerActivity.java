@@ -23,14 +23,19 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.giambi.AccountListDialog;
+import com.example.giambi.AccountListDialog.AccountDialogListener;
 import com.example.giambi.DatePickerDialogFragment;
+import com.example.giambi.IfCreateNewAccountDialog;
+import com.example.giambi.IfCreateNewAccountDialog.DialogListener;
 import com.example.giambi.MainActivity;
 import com.example.giambi.NewBankAccountDialogFragment;
 import com.example.giambi.R;
 import com.example.giambi.model.BankAccount;
 import com.example.giambi.util.GetAccountException;
 
-public abstract class NavigationDrawerActivity extends Activity {
+public abstract class NavigationDrawerActivity extends Activity implements
+        DialogListener, AccountDialogListener {
 
     protected DrawerLayout mDrawerLayout;
     protected ListView mDrawerList;
@@ -39,6 +44,9 @@ public abstract class NavigationDrawerActivity extends Activity {
     protected CharSequence mDrawerTitle;
     protected CharSequence mTitle;
     protected String[] drawerTitles;
+
+    private ArrayAdapter<String> mArrayAdapter;
+    private List<BankAccount> accounts;
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -109,11 +117,11 @@ public abstract class NavigationDrawerActivity extends Activity {
     protected abstract void setupView();
 
     protected void selectItem(int position) {
-        if (mDrawerLayout.isDrawerOpen(mDrawerList)){
+        if (mDrawerLayout.isDrawerOpen(mDrawerList)) {
             mDrawerLayout.closeDrawer(mDrawerList);
         }
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        switch (position){
+        switch (position) {
         case 0:
             Intent intent = new Intent(this, AccountActivity.class);
             startActivity(intent);
@@ -124,33 +132,44 @@ public abstract class NavigationDrawerActivity extends Activity {
             dialog.show(ft, "dialog");
             break;
         case 2:
-            SharedPreferences prefs = this.getSharedPreferences("com.example.app",
-                    Context.MODE_PRIVATE);
+            SharedPreferences prefs = this.getSharedPreferences(
+                    "com.example.app", Context.MODE_PRIVATE);
             String username = prefs.getString("USERNAME_GIAMBI", null);
-            List<BankAccount> accounts = new ArrayList<BankAccount>();
+            accounts = new ArrayList<BankAccount>();
             try {
                 BankAccount.getAccounts(username, accounts);
             } catch (GetAccountException e) {
                 e.printStackTrace();
                 Toast.makeText(this, "Connection Error", Toast.LENGTH_SHORT);
             }
-            if (!accounts.isEmpty()){
+            if (accounts.isEmpty()) {
+                DialogFragment dialog2 = new IfCreateNewAccountDialog();
+                dialog2.show(getFragmentManager(), "dialog");
+            } else if (accounts.size() == 1) {
+                accountSelected(0);
+            } else {
+                mArrayAdapter = new ArrayAdapter<String>(this,
+                        android.R.layout.simple_list_item_1);
+                for (BankAccount b : accounts) {
+                    mArrayAdapter.add(b.getBankName() + ":\n"
+                            + b.getAccountNum());
+                }
+                DialogFragment dialog21 = new AccountListDialog();
+                dialog21.show(getFragmentManager(), "dialog");
             }
             break;
         case 3:
-            break;
-        case 4:
             Log.i("DialogFragment", "show new dialog fragment");
             DialogFragment dialog4 = new DatePickerDialogFragment(this);
             dialog4.setArguments(null);
             dialog4.show(ft, "dialog");
             break;
-        case 5:
+        case 4:
             Intent intent5 = new Intent();
             intent5.setClass(this, RegisterActivity.class);
             startActivity(intent5);
             break;
-        case 6:
+        case 5:
             Intent intent6 = new Intent(this, MainActivity.class);
             Toast.makeText(this, "Logged out.", Toast.LENGTH_SHORT).show();
             startActivity(intent6);
@@ -187,5 +206,24 @@ public abstract class NavigationDrawerActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void positiveChoice() {
+        selectItem(1);
+    }
+
+    @Override
+    public ArrayAdapter<String> getArrayAdapter() {
+        return mArrayAdapter;
+    }
+
+    @Override
+    public void accountSelected(int i) {
+        Intent intent = new Intent(this, TransactionActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("AccountNumber", accounts.get(i).getAccountNum());
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 }
