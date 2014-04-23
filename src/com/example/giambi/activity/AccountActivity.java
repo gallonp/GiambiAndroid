@@ -11,7 +11,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.FragmentTransaction;
 import android.content.Context;

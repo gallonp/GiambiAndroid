@@ -1,9 +1,14 @@
 package com.example.giambi.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -22,6 +27,8 @@ import com.example.giambi.DatePickerDialogFragment;
 import com.example.giambi.MainActivity;
 import com.example.giambi.NewBankAccountDialogFragment;
 import com.example.giambi.R;
+import com.example.giambi.model.BankAccount;
+import com.example.giambi.util.GetAccountException;
 
 public abstract class NavigationDrawerActivity extends Activity {
 
@@ -94,11 +101,6 @@ public abstract class NavigationDrawerActivity extends Activity {
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-        if (savedInstanceState == null) {
-            selectItem(0);
-        }
-
     }
 
     /**
@@ -115,12 +117,25 @@ public abstract class NavigationDrawerActivity extends Activity {
         case 0:
             Intent intent = new Intent(this, AccountActivity.class);
             startActivity(intent);
+            break;
         case 1:
             Log.i("DialogFragment", "show new dialog fragment");
             DialogFragment dialog = new NewBankAccountDialogFragment();
             dialog.show(ft, "dialog");
             break;
         case 2:
+            SharedPreferences prefs = this.getSharedPreferences("com.example.app",
+                    Context.MODE_PRIVATE);
+            String username = prefs.getString("USERNAME_GIAMBI", null);
+            List<BankAccount> accounts = new ArrayList<BankAccount>();
+            try {
+                BankAccount.getAccounts(username, accounts);
+            } catch (GetAccountException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Connection Error", Toast.LENGTH_SHORT);
+            }
+            if (!accounts.isEmpty()){
+            }
             break;
         case 3:
             break;
@@ -137,10 +152,10 @@ public abstract class NavigationDrawerActivity extends Activity {
             break;
         case 6:
             Intent intent6 = new Intent(this, MainActivity.class);
+            Toast.makeText(this, "Logged out.", Toast.LENGTH_SHORT).show();
             startActivity(intent6);
             break;
         }
-        Toast.makeText(this, "Selected " + position, Toast.LENGTH_SHORT).show();
     }
 
     /**
